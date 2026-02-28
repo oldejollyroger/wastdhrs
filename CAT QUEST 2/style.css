@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;900&display=swap');
+
+:root {
+    --ps-blue: #00439c; --ps-light: #00bcff; --bg: #05070a;
+    --card: #11141b; --border: #232a35; --text: #ffffff;
+    --gold: #f1c40f; --silver: #bdc3c7; --bronze: #cd7f32;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+}
+
+.hero {
+    height: 350px;
+    background: linear-gradient(to bottom, rgba(5,7,10,0.8), var(--bg)), 
+                url('https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/914710/library_hero.jpg') center/cover;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+.hero h1 { font-size: 5rem; font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: -2px; }
+
+.main-layout {
+    max-width: 1400px;
+    margin: -60px auto 100px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 1fr 350px;
+    gap: 30px;
+}
+
+/* ROADMAP */
+.roadmap {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+/* TROPHY CARDS */
+.trophy-list { display: flex; flex-direction: column; gap: 15px; }
+
+.trophy-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 84px 1fr auto;
+    align-items: center;
+    gap: 20px;
+    transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.trophy-card:hover { border-color: var(--ps-light); transform: translateX(8px); }
+.trophy-card.completed { border-left: 5px solid var(--ps-light); opacity: 0.5; filter: grayscale(0.8); }
+
+.trophy-img { width: 84px; height: 84px; border-radius: 12px; }
+
+.trophy-info h3 { margin: 0; font-size: 1.3rem; }
+.trophy-info p { margin: 5px 0; color: #94a3b8; font-size: 0.95rem; }
+
+.guide-tag {
+    background: rgba(0, 188, 255, 0.1);
+    color: var(--ps-light);
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-top: 10px;
+}
+
+.check-circle {
+    width: 32px; height: 32px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+}
+
+.check-circle.active { background: var(--ps-light); border-color: var(--ps-light); color: var(--bg); font-weight: 900; }
+
+/* SIDEBAR */
+.sidebar { position: sticky; top: 20px; }
+.stats-box { background: var(--card); border: 1px solid var(--ps-blue); border-radius: 20px; padding: 25px; }
