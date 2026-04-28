@@ -1,0 +1,7 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/juegos/:slug", "destination": "/juego.html" }
+  ]
+}

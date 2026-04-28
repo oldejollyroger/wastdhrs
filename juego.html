@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PLATINO — Tarnished's Journey</title>
+<title>WASTDHRS — Tarnished's Journey</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -946,7 +946,109 @@
   @media (max-width: 640px) {
     nav, .action-bar, main, .hero { padding-left: 20px; padding-right: 20px; }
     .hero-stats { grid-template-columns: 1fr 1fr; }
+  }  /* ============== DYNAMIC MEDIA (RAWG) ============== */
+  .video-player {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+    border: 1px solid var(--line);
   }
+  .video-player video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .video-player-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.7));
+    display: flex;
+    align-items: flex-end;
+    padding: 18px 22px;
+    pointer-events: none;
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  .screenshots-grid .shot {
+    aspect-ratio: 16 / 9;
+    background: var(--bg-elev-2);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .screenshots-grid .shot:hover {
+    transform: translateY(-2px);
+    border-color: var(--accent);
+  }
+  .screenshots-grid .shot img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .screenshots-grid .shot.featured {
+    grid-column: span 3;
+    aspect-ratio: 21 / 9;
+  }
+
+  /* Hero cover when image loaded */
+  .hero[data-has-cover="true"] {
+    background-image: var(--hero-cover-img);
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: overlay;
+  }
+  .hero[data-has-cover="true"]::before {
+    background: linear-gradient(180deg, rgba(10,10,11,0.65), rgba(10,10,11,0.95));
+    z-index: 1;
+  }
+
+  .skeleton {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--bg-elev-2), var(--line), var(--bg-elev-2));
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+    border-radius: 4px;
+    color: transparent;
+  }
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .api-error {
+    background: rgba(255, 61, 46, 0.08);
+    border: 1px solid rgba(255, 61, 46, 0.3);
+    color: var(--danger);
+    padding: 16px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 20px 0;
+  }
+  .api-error strong { display: block; margin-bottom: 4px; }
+  @media (max-width: 700px) {
+    .screenshots-grid { grid-template-columns: repeat(2, 1fr); }
+    .screenshots-grid .shot.featured { grid-column: span 2; }
+  }
+
 </style>
 </head>
 <body>
@@ -954,8 +1056,8 @@
 <!-- ============== NAV ============== -->
 <nav>
   <div class="logo">
-    <span class="logo-mark">P</span>
-    <span>PLATINO</span>
+    <span class="logo-mark">W</span>
+    <span>WASTDHRS</span>
   </div>
   <ul class="nav-links">
     <li><a href="index.html">Inicio</a></li>
@@ -998,9 +1100,9 @@
   </svg>
 
   <div class="hero-content">
-    <div class="breadcrumb">JUEGOS &nbsp;/&nbsp; ROL · ACCIÓN &nbsp;/&nbsp; <span>ELDEN RING</span></div>
-    <h1 class="hero-title">Elden<br>Ring<em>°</em></h1>
-    <div class="hero-meta">
+    <div class="breadcrumb">JUEGOS &nbsp;/&nbsp; <span id="game-breadcrumb-genre">ROL · ACCIÓN</span> &nbsp;/&nbsp; <span id="game-breadcrumb-name">ELDEN RING</span></div>
+    <h1 class="hero-title" id="game-title">Elden<br>Ring<em>°</em></h1>
+    <div class="hero-meta" id="game-meta">
       <span class="meta-pill solid">25 FEB 2022</span>
       <span class="meta-pill">FromSoftware</span>
       <span class="meta-pill">Bandai Namco</span>
@@ -1014,14 +1116,14 @@
     <div class="hero-stats">
       <div class="stat">
         <div class="stat-label">⟶ Rating verificado</div>
-        <div class="stat-value accent">9.4<small>/10</small></div>
+        <div class="stat-value accent" id="game-rating">9.4<small>/10</small></div>
       </div>
       <div class="stat">
-        <div class="stat-label">⟶ Jugadores activos</div>
-        <div class="stat-value">142K</div>
+        <div class="stat-label">⟶ Metacritic</div>
+        <div class="stat-value" id="game-metacritic">96</div>
       </div>
       <div class="stat">
-        <div class="stat-label">⟶ Platinos en PLATINO</div>
+        <div class="stat-label">⟶ Platinos en WASTDHRS</div>
         <div class="stat-value">8.2K</div>
       </div>
       <div class="stat">
@@ -1056,20 +1158,24 @@
     <section class="section">
       <div class="section-head">
         <h2 class="section-title"><span class="section-title-num">001</span>Sobre el juego</h2>
-        <span class="source-tag">Fuente: IGDB · sincronizado hace 2h</span>
+        <span class="source-tag" id="game-source">Fuente: RAWG · cargando...</span>
       </div>
-      <p class="about-text">
-        Elden Ring es un <strong>RPG de acción de mundo abierto</strong> desarrollado por FromSoftware bajo la dirección de Hidetaka Miyazaki, con worldbuilding del autor George R. R. Martin. El jugador asume el papel de un Sinluz, un exiliado convocado de vuelta a las Tierras Intermedias para reparar el Anillo de Elden y convertirse en el Lord Elden.
-      </p>
-      <p class="about-text">
-        Combina la fórmula de los Souls (combate metódico, dificultad exigente, lore enigmático) con un mundo abierto vasto, mazmorras opcionales, montura propia y un sistema de invocaciones de espíritus. Ganador del Game of the Year en The Game Awards 2022.
-      </p>
+      <div id="game-description">
+        <p class="about-text">
+          Elden Ring es un <strong>RPG de acción de mundo abierto</strong> desarrollado por FromSoftware bajo la dirección de Hidetaka Miyazaki, con worldbuilding del autor George R. R. Martin. El jugador asume el papel de un Sinluz, un exiliado convocado de vuelta a las Tierras Intermedias para reparar el Anillo de Elden y convertirse en el Lord Elden.
+        </p>
+        <p class="about-text">
+          Combina la fórmula de los Souls (combate metódico, dificultad exigente, lore enigmático) con un mundo abierto vasto, mazmorras opcionales, montura propia y un sistema de invocaciones de espíritus. Ganador del Game of the Year en The Game Awards 2022.
+        </p>
+      </div>
 
-      <div class="trailer">
-        <div class="trailer-play"></div>
-        <div class="trailer-info">
-          <strong>Tráiler de lanzamiento</strong>
-          <span>OFICIAL · 02:34 · YouTube</span>
+      <div id="game-media">
+        <div class="trailer">
+          <div class="trailer-play"></div>
+          <div class="trailer-info">
+            <strong>Tráiler de lanzamiento</strong>
+            <span>OFICIAL · 02:34 · YouTube</span>
+          </div>
         </div>
       </div>
     </section>
@@ -1280,7 +1386,7 @@
 </main>
 
 <footer>
-  <div class="footer-mark">PLATINO°</div>
+  <div class="footer-mark">WASTDHRS°</div>
   <p>De jugadores · para jugadores · desde 2026</p>
 </footer>
 
@@ -1292,6 +1398,204 @@
       tab.classList.add('active');
     });
   });
+</script>
+<script>
+(async function loadGame() {
+  // 1. Leer slug de URL: ?slug=elden-ring · default: elden-ring
+  const params = new URLSearchParams(window.location.search);
+  const slug = params.get('slug') || 'elden-ring';
+
+  const $title = document.getElementById('game-title');
+  const $breadcrumbName = document.getElementById('game-breadcrumb-name');
+  const $breadcrumbGenre = document.getElementById('game-breadcrumb-genre');
+  const $meta = document.getElementById('game-meta');
+  const $rating = document.getElementById('game-rating');
+  const $metacritic = document.getElementById('game-metacritic');
+  const $description = document.getElementById('game-description');
+  const $media = document.getElementById('game-media');
+  const $source = document.getElementById('game-source');
+  const $hero = document.querySelector('.hero');
+
+  // Set source to "loading"
+  if ($source) $source.textContent = 'Fuente: RAWG · cargando...';
+
+  try {
+    const res = await fetch(`/api/games/${encodeURIComponent(slug)}`);
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `Error ${res.status}`);
+    }
+
+    const game = await res.json();
+
+    // ----- TITLE -----
+    document.title = `WASTDHRS — ${game.name}`;
+    if ($title) {
+      // Si el nombre es corto, lo dejamos en una sola línea
+      const words = game.name.split(' ');
+      if (words.length === 1) {
+        $title.innerHTML = `${escapeHtml(game.name)}<em>°</em>`;
+      } else if (words.length === 2) {
+        $title.innerHTML = `${escapeHtml(words[0])}<br>${escapeHtml(words[1])}<em>°</em>`;
+      } else {
+        // 3+ palabras: split en mitad
+        const half = Math.ceil(words.length / 2);
+        $title.innerHTML = `${escapeHtml(words.slice(0, half).join(' '))}<br>${escapeHtml(words.slice(half).join(' '))}<em>°</em>`;
+      }
+    }
+
+    // ----- BREADCRUMB -----
+    if ($breadcrumbName) $breadcrumbName.textContent = game.name.toUpperCase();
+    if ($breadcrumbGenre && game.genres.length > 0) {
+      $breadcrumbGenre.textContent = game.genres.slice(0, 2).join(' · ').toUpperCase();
+    }
+
+    // ----- META PILLS -----
+    if ($meta) {
+      const releaseStr = game.released
+        ? new Date(game.released).toLocaleDateString('es-ES', { day: '2-digit', month: 'short', year: 'numeric' }).toUpperCase()
+        : 'TBA';
+
+      const devs = game.developers.slice(0, 1);
+      const pubs = game.publishers.slice(0, 1);
+      const platformsCondensed = condensePlatforms(game.platforms.map(p => p.name));
+
+      let html = `<span class="meta-pill solid">${escapeHtml(releaseStr)}</span>`;
+      devs.forEach(d => html += `<span class="meta-pill">${escapeHtml(d)}</span>`);
+      pubs.forEach(p => {
+        if (!devs.includes(p)) html += `<span class="meta-pill">${escapeHtml(p)}</span>`;
+      });
+      if (platformsCondensed.length > 0) {
+        html += `<span class="meta-divider"></span>`;
+        platformsCondensed.slice(0, 5).forEach(p => html += `<span class="meta-pill">${escapeHtml(p)}</span>`);
+      }
+      $meta.innerHTML = html;
+    }
+
+    // ----- STATS -----
+    if ($rating && game.rating) {
+      const r = (game.rating * 2).toFixed(1); // RAWG usa 0-5, lo escalamos a 0-10
+      $rating.innerHTML = `${r}<small>/10</small>`;
+    }
+    if ($metacritic) {
+      $metacritic.textContent = game.metacritic || '—';
+    }
+
+    // ----- DESCRIPTION -----
+    if ($description && game.description) {
+      const paragraphs = game.description
+        .split('\n\n')
+        .filter(p => p.trim().length > 30)
+        .slice(0, 3);
+      $description.innerHTML = paragraphs
+        .map(p => `<p class="about-text">${escapeHtml(p)}</p>`)
+        .join('');
+    }
+
+    // ----- MEDIA: TRAILER + SCREENSHOTS -----
+    if ($media) {
+      let mediaHtml = '';
+
+      // Trailer si existe
+      if (game.movies && game.movies.length > 0 && game.movies[0].video) {
+        const trailer = game.movies[0];
+        mediaHtml += `
+          <div class="video-player">
+            <video controls preload="metadata" poster="${escapeAttr(trailer.preview || '')}">
+              <source src="${escapeAttr(trailer.video)}" type="video/mp4">
+              Tu navegador no soporta vídeo HTML5.
+            </video>
+            <div class="video-player-overlay">
+              ⟶ ${escapeHtml(trailer.name || 'Tráiler oficial')}
+            </div>
+          </div>
+        `;
+      }
+
+      // Screenshots (si hay)
+      if (game.screenshots && game.screenshots.length > 0) {
+        const shots = game.screenshots.slice(0, 6);
+        mediaHtml += '<div class="screenshots-grid">';
+        shots.forEach((s, idx) => {
+          const featured = idx === 0 && shots.length > 3 && !game.movies?.length ? 'featured' : '';
+          mediaHtml += `
+            <div class="shot ${featured}">
+              <img loading="lazy" src="${escapeAttr(s.image)}" alt="Screenshot ${idx + 1}" />
+            </div>
+          `;
+        });
+        mediaHtml += '</div>';
+      }
+
+      if (!mediaHtml) {
+        mediaHtml = '<p style="color:var(--text-mute);font-size:13px;">No hay material multimedia disponible para este juego.</p>';
+      }
+      $media.innerHTML = mediaHtml;
+    }
+
+    // ----- HERO COVER as background -----
+    if ($hero && game.cover) {
+      $hero.style.setProperty('--hero-cover-img', `url("${game.cover}")`);
+      $hero.dataset.hasCover = 'true';
+    }
+
+    // ----- SOURCE TAG -----
+    if ($source) {
+      const updated = new Date().toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+      $source.textContent = `Fuente: RAWG · sincronizado a las ${updated}`;
+    }
+
+  } catch (err) {
+    console.error('[WASTDHRS] Error cargando juego:', err);
+    if ($source) $source.textContent = 'Fuente: RAWG · error de carga';
+    if ($description) {
+      $description.innerHTML = `
+        <div class="api-error">
+          <strong>No se pudo cargar el juego "${escapeHtml(slug)}"</strong>
+          ${escapeHtml(err.message || 'Error desconocido.')} Comprueba que la API key de RAWG está configurada en Vercel (variable RAWG_API_KEY) y que el slug del juego es correcto.
+        </div>
+      `;
+    }
+  }
+
+  // ----- HELPERS -----
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s).replace(/[&<>"']/g, c => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    })[c]);
+  }
+  function escapeAttr(s) { return escapeHtml(s); }
+
+  // Condensa nombres largos de plataformas: "PlayStation 5" → "PS5"
+  function condensePlatforms(arr) {
+    const map = {
+      'PlayStation 5': 'PS5',
+      'PlayStation 4': 'PS4',
+      'PlayStation 3': 'PS3',
+      'Xbox Series S/X': 'Xbox Series',
+      'Xbox One': 'Xbox One',
+      'Xbox 360': 'Xbox 360',
+      'Nintendo Switch': 'Switch',
+      'PC': 'PC',
+      'macOS': 'Mac',
+      'Linux': 'Linux',
+      'iOS': 'iOS',
+      'Android': 'Android',
+    };
+    const seen = new Set();
+    const out = [];
+    arr.forEach(p => {
+      const condensed = map[p] || p;
+      if (!seen.has(condensed)) {
+        seen.add(condensed);
+        out.push(condensed);
+      }
+    });
+    return out;
+  }
+})();
 </script>
 </body>
 </html>

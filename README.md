@@ -1,74 +1,61 @@
-# PLATINO°
+# Wastdhrs°
 
-> Web social para gamers donde **solo opina quien ha jugado de verdad**.
+> *Wasted on purpose.* Web social para gamers donde **solo opina quien ha invertido las horas**.
 
-Mockups visuales del producto. Cuatro páginas conectadas que muestran el flujo principal: home/feed, perfil de juego, perfil de usuario y sistema de temporadas/recompensas.
+Mockups visuales del producto con datos reales de juegos vía RAWG.
 
-## El concepto
+## Configurar la API key (IMPORTANTE)
 
-Anti-review-bombing. Los logros del jugador se verifican vía PSN/Steam/Xbox y desbloquean qué puede opinar de qué juego:
+El catálogo de juegos viene de [RAWG.io](https://rawg.io). La key NUNCA va en el código.
 
-- **Comentar** un juego → necesitas mínimo 1 logro en él.
-- **Reseñar** un juego → necesitas haberlo terminado o platinado.
-- **Aportar a guías** → cualquier usuario verificado.
+1. **Sacar la key**: ve a [rawg.io/apidocs](https://rawg.io/apidocs) y crea cuenta gratis. Te dan una key tipo `a1b2c3...`
+2. **Añadirla en Vercel**:
+   - Vercel Dashboard → tu proyecto → **Settings → Environment Variables**
+   - Name: `RAWG_API_KEY`
+   - Value: tu key
+   - Aplicar a Production, Preview y Development
+3. **Redeploy**: Deployments → último deploy → ⋯ → Redeploy
 
-Esto elimina las reseñas de gente que no ha tocado el juego.
+## Endpoints disponibles
 
-## Sistema de progresión
-
-**Puntos PROEZA (PP)** — moneda interna, nunca comprable, solo se gana jugando o aportando:
-
-| Acción | PP |
+| Ruta | Devuelve |
 |---|---|
-| Logro común | +50 |
-| Logro raro (<10%) | +200 |
-| Logro ultra raro (<5%) | +500 |
-| Platino estándar | +2.000 |
-| Platino raro (<10%) | +3.000 |
-| Reseña verificada | +150 |
-| Comentario útil | +20 |
-| Edición aceptada en guía | +300 |
-| Tu guía → "Guía del mes" | +5.000 |
+| `/api/games/search?q=elden` | Hasta 12 resultados de búsqueda |
+| `/api/games/trending` | Top 10 juegos más añadidos (últimos 90 días) |
+| `/api/games/[slug]` | Detalle completo + screenshots + trailers |
 
-**7 rangos permanentes** (no se pierden): Iniciado → Novato → Cazador → Veterano → Maestro → Leyenda → Mito.
+Caché en CDN (1h búsqueda, 24h detalle) para no quemar la cuota gratis (20K req/mes).
 
-**Temporadas de 3 meses** añaden un título temático sobre el rango (la actual: "Sinluz" / Las Tierras Sombrías). Con camino de 5 hitos, retos semanales y recompensas cosméticas (player cards animadas, marcos de avatar, insignias exclusivas).
+## Páginas
 
-**Reputación de contribución** 0–100 calculada por la comunidad. Mide calidad de reseñas, utilidad, diversidad, frecuencia. Visible en tu perfil.
-
-## Estructura
-
-```
-├── index.html       # Home / feed social
-├── juego.html       # Perfil de un juego (Elden Ring de ejemplo)
-├── perfil.html      # Perfil de usuario (joancalibur)
-└── temporada.html   # Sistema de temporadas / rangos / recompensas
-```
-
-Solo HTML+CSS, sin build. Abrir `index.html` en el navegador y navegar.
-
-## Stack propuesto para producción
-
-- **Next.js** + **PostgreSQL** + **Prisma** + **Redis** (caché de IGDB)
-- **Auth**: Clerk o Auth.js con vinculación de cuentas PSN/Steam/Xbox
-- **Catálogo de juegos**: IGDB API como fuente principal, RAWG como respaldo
-- **Verificación de logros**:
-  - Steam Web API (oficial)
-  - PSN vía librería `psn-api` con tokens NPSSO
-  - Xbox vía Microsoft Graph / OpenXBL
-  - Nintendo Switch: screenshots verificados manualmente (no hay API pública)
-- **Búsqueda**: empezar con Postgres FTS, escalar a Meilisearch
+- `/` — feed de actividad + trending real + buscador con autocomplete
+- `/juego.html?slug=elden-ring` — perfil del juego cargado dinámicamente
+- `/perfil.html` — perfil del usuario (joancalibur, datos mockup)
+- `/temporada.html` — sistema de temporadas, rangos, recompensas, leaderboard
 
 ## Estado
 
-Mockups visuales. No hay backend, no hay datos reales — todos los datos visibles (joancalibur, paula_wields, los retos, los rankings) son fixtures para validar el diseño.
+- ✅ Maquetación de las 4 páginas
+- ✅ Sistema de progresión: 7 rangos + temporadas + retos + insignias + leaderboard
+- ✅ Sistema de contribuciones: reputación, comentarios premiados, guías destacadas
+- ✅ Catálogo real de juegos vía RAWG
+- ⏳ Backend de logros (PSN/Steam/Xbox)
+- ⏳ Auth, base de datos, comentarios persistentes
 
-## Identidad visual
+## Stack futuro
 
-- **Negro** `#0A0A0B` de fondo, **lima eléctrico** `#DFFF1F` como acento principal (no el morado/azul de PSN).
-- **Anton** para titulares editoriales, **Manrope** para UI, **JetBrains Mono** para etiquetas/números.
-- Estilo revista, asimétrico, números de sección "001/002/003", overlay de grain SVG.
+- **Next.js** (migrar HTMLs a páginas / App Router)
+- **PostgreSQL** + **Prisma** + **Redis** (caché de catálogo)
+- **Auth**: Clerk o Auth.js con vinculación PSN/Steam/Xbox
+- **Catálogo**: migrar a IGDB y cachear en BD propia
+- **Logros**: Steam Web API · `psn-api` · Microsoft Graph/OpenXBL · Switch manual
+
+## Identidad
+
+- Fondo negro `#0A0A0B`, acento lima eléctrico `#DFFF1F`.
+- **Anton** para titulares, **Manrope** para UI, **JetBrains Mono** para etiquetas.
+- Estilo revista: asimétrico, números de sección "001/002/003", grain SVG overlay.
 
 ---
 
-Diseño 2026 · de jugadores · para jugadores.
+*Wastdhrs° · de jugadores · para jugadores · 2026*

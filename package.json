@@ -1,0 +1,9 @@
+{
+  "name": "wastdhrs",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Wastdhrs° — wasted on purpose. Web social para gamers.",
+  "engines": {
+    "node": ">=20.x"
+  }
+}

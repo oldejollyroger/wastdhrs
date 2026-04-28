@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PLATINO — Inicio</title>
+<title>WASTDHRS — Inicio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
@@ -757,6 +757,94 @@
     .quick-nav { grid-template-columns: 1fr; }
     .featured-banner { padding: 24px; }
     .fb-title { font-size: 26px; }
+  }  /* SEARCH AUTOCOMPLETE */
+  .search-wrap {
+    position: relative;
+  }
+  .search-results {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 360px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    max-height: 480px;
+    overflow-y: auto;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+    display: none;
+    z-index: 200;
+  }
+  .search-results.visible { display: block; }
+  .search-result {
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 12px;
+    padding: 12px;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid var(--line-soft);
+    color: inherit;
+    text-decoration: none;
+    transition: background 0.1s;
+  }
+  .search-result:last-child { border-bottom: none; }
+  .search-result:hover { background: var(--bg-elev-2); }
+  .search-result-cover {
+    width: 56px; height: 42px;
+    background: var(--bg-elev-2);
+    border-radius: 4px;
+    background-size: cover;
+    background-position: center;
+  }
+  .search-result-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 2px;
+    color: var(--text);
+  }
+  .search-result-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .search-empty,
+  .search-loading {
+    padding: 18px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-mute);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* Trending dynamic states */
+  .tg-cover-img {
+    background-size: cover !important;
+    background-position: center !important;
+  }
+  .trending-loading {
+    padding: 20px 0;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-mute);
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .featured-banner-cover {
+    background-size: cover !important;
+    background-position: center !important;
+    background-blend-mode: overlay !important;
+  }
+
+  @media (max-width: 700px) {
+    .search-results { width: calc(100vw - 40px); right: -10px; }
   }
 </style>
 </head>
@@ -765,8 +853,8 @@
 <!-- ============== NAV ============== -->
 <nav>
   <div class="logo">
-    <span class="logo-mark">P</span>
-    <span>PLATINO</span>
+    <span class="logo-mark">W</span>
+    <span>WASTDHRS</span>
   </div>
   <ul class="nav-links">
     <li><a href="index.html" class="active">Inicio</a></li>
@@ -776,7 +864,10 @@
     <li><a href="#">Comunidad</a></li>
   </ul>
   <div class="nav-right">
-    <input class="search-box" type="text" placeholder="Buscar..." />
+    <div class="search-wrap">
+      <input class="search-box" id="search-input" type="text" placeholder="Buscar juegos..." autocomplete="off" />
+      <div class="search-results" id="search-results"></div>
+    </div>
     <div class="nav-icon" title="Mensajes">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
       <span class="dot"></span>
@@ -843,10 +934,10 @@
         <a href="#" class="section-link">Ver más →</a>
       </div>
 
-      <a href="juego.html" class="featured-banner" style="display:block;text-decoration:none;color:inherit;">
-        <span class="fb-tag">⟶ HOY · LANZAMIENTO ESPERADO</span>
-        <h3 class="fb-title">Hollow Knight: Silksong ya está disponible</h3>
-        <p class="fb-text">Tras ocho años de espera, Team Cherry lanza la secuela. Vincula Steam o tu PSN para sincronizar tus logros desde el día 1 y ser de los primeros en escribir una reseña verificada.</p>
+      <a href="juego.html" class="featured-banner" id="featured-banner" style="display:block;text-decoration:none;color:inherit;">
+        <span class="fb-tag" id="featured-tag">⟶ DESTACADO HOY</span>
+        <h3 class="fb-title" id="featured-title">Cargando recomendación destacada...</h3>
+        <p class="fb-text" id="featured-text">Sincronizando con la base de datos de juegos. Conecta tus cuentas de PSN, Steam o Xbox para ver recomendaciones personalizadas según los logros que ya tienes.</p>
         <span class="fb-cta">Ver perfil del juego →</span>
       </a>
     </div>
@@ -887,7 +978,7 @@
         <div class="feed-avatar system">P°</div>
         <div>
           <div class="feed-meta">
-            <span class="feed-name">PLATINO Editorial</span>
+            <span class="feed-name">WASTDHRS Editorial</span>
             <span class="feed-rank" style="background:var(--accent);color:var(--bg);">SISTEMA</span>
             <span class="feed-time">HACE 3 H</span>
           </div>
@@ -1004,45 +1095,8 @@
     <!-- TRENDING GAMES -->
     <div class="side-card">
       <h3>Top de la semana <small>EN ESPAÑA</small></h3>
-      <div class="trending-game">
-        <div class="tg-rank">01</div>
-        <div class="tg-cover silksong"></div>
-        <div>
-          <div class="tg-name">Hollow Knight: Silksong</div>
-          <div class="tg-meta"><span class="up">▲ NUEVO</span> · 142K jugando</div>
-        </div>
-      </div>
-      <div class="trending-game">
-        <div class="tg-rank">02</div>
-        <div class="tg-cover stellar"></div>
-        <div>
-          <div class="tg-name">Stellar Blade</div>
-          <div class="tg-meta"><span class="up">▲ 1</span> · 89K jugando</div>
-        </div>
-      </div>
-      <div class="trending-game">
-        <div class="tg-rank">03</div>
-        <div class="tg-cover elden"></div>
-        <div>
-          <div class="tg-name">Elden Ring + DLC</div>
-          <div class="tg-meta"><span class="down">▼ 2</span> · 67K jugando</div>
-        </div>
-      </div>
-      <div class="trending-game">
-        <div class="tg-rank">04</div>
-        <div class="tg-cover crow"></div>
-        <div>
-          <div class="tg-name">Crow Country</div>
-          <div class="tg-meta"><span class="up">▲ 5</span> · 12K jugando</div>
-        </div>
-      </div>
-      <div class="trending-game">
-        <div class="tg-rank">05</div>
-        <div class="tg-cover hades"></div>
-        <div>
-          <div class="tg-name">Hades II</div>
-          <div class="tg-meta">— · 38K jugando</div>
-        </div>
+      <div id="trending-list">
+        <div class="trending-loading">⟶ cargando trending...</div>
       </div>
     </div>
 
@@ -1075,8 +1129,164 @@
 </main>
 
 <footer>
-  <div class="footer-mark">PLATINO°</div>
+  <div class="footer-mark">WASTDHRS°</div>
   <p>De jugadores · para jugadores · desde 2026</p>
 </footer>
+<script>
+// ===================== INDEX.HTML — datos en vivo =====================
+
+(async function loadTrending() {
+  const $list = document.getElementById('trending-list');
+  const $banner = document.getElementById('featured-banner');
+  const $featuredTitle = document.getElementById('featured-title');
+  const $featuredText = document.getElementById('featured-text');
+  const $featuredTag = document.getElementById('featured-tag');
+
+  try {
+    const res = await fetch('/api/games/trending');
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    const games = data.results || [];
+
+    // Trending list (top 5 sin contar el primero, que va al banner)
+    const top = games.slice(0, 5);
+    $list.innerHTML = top.map((g, i) => {
+      const rank = String(i + 1).padStart(2, '0');
+      const trend = i === 0 ? '<span class="up">▲ NUEVO</span>' :
+                    i < 3 ? `<span class="up">▲ ${i}</span>` :
+                    `<span class="down">▼ ${i - 1}</span>`;
+      const cover = g.cover ? `style="background-image:url('${escapeAttr(g.cover)}')"` : '';
+      const platforms = g.platforms.slice(0, 3).join(' · ') || '—';
+      return `
+        <a class="trending-game" href="juego.html?slug=${encodeURIComponent(g.slug)}" style="text-decoration:none;color:inherit;">
+          <div class="tg-rank">${rank}</div>
+          <div class="tg-cover tg-cover-img" ${cover}></div>
+          <div>
+            <div class="tg-name">${escapeHtml(g.name)}</div>
+            <div class="tg-meta">${trend} · ${escapeHtml(platforms)}</div>
+          </div>
+        </a>
+      `;
+    }).join('');
+
+    // Featured banner = primer juego del trending
+    const featured = games[0];
+    if (featured && $banner) {
+      $banner.href = `juego.html?slug=${encodeURIComponent(featured.slug)}`;
+      $featuredTitle.textContent = featured.name;
+      const releaseDate = featured.released
+        ? new Date(featured.released).toLocaleDateString('es-ES', { day: '2-digit', month: 'long', year: 'numeric' })
+        : 'sin fecha';
+      const platforms = featured.platforms.join(', ') || 'múltiples plataformas';
+      const genres = featured.genres.slice(0, 2).join(' · ') || 'videojuego';
+      $featuredText.textContent = `${genres}. Lanzamiento ${releaseDate} en ${platforms}. Vincula tu PSN o Steam y desbloquea reseñas verificadas en cuanto consigas tu primer logro.`;
+      $featuredTag.textContent = '⟶ TRENDING AHORA · #1';
+
+      // Cover como background del banner
+      if (featured.cover) {
+        $banner.classList.add('featured-banner-cover');
+        $banner.style.backgroundImage = `
+          radial-gradient(circle at 30% 50%, rgba(74, 107, 42, 0.4), transparent 55%),
+          radial-gradient(circle at 70% 50%, rgba(42, 74, 26, 0.6), transparent 60%),
+          linear-gradient(135deg, rgba(10,21,5,0.85), rgba(6,10,3,0.95)),
+          url('${featured.cover}')
+        `;
+      }
+    }
+  } catch (err) {
+    console.error('[WASTDHRS] trending error:', err);
+    if ($list) {
+      $list.innerHTML = '<div class="trending-loading" style="color:var(--danger);">⚠ No se pudo cargar. ¿Configuraste RAWG_API_KEY en Vercel?</div>';
+    }
+  }
+})();
+
+// ===================== SEARCH AUTOCOMPLETE =====================
+
+(function setupSearch() {
+  const $input = document.getElementById('search-input');
+  const $results = document.getElementById('search-results');
+  if (!$input || !$results) return;
+
+  let debounceTimer = null;
+  let lastQuery = '';
+
+  $input.addEventListener('input', () => {
+    const q = $input.value.trim();
+
+    clearTimeout(debounceTimer);
+
+    if (q.length < 2) {
+      $results.classList.remove('visible');
+      $results.innerHTML = '';
+      return;
+    }
+
+    if (q === lastQuery) return;
+
+    $results.classList.add('visible');
+    $results.innerHTML = '<div class="search-loading">⟶ buscando...</div>';
+
+    debounceTimer = setTimeout(async () => {
+      lastQuery = q;
+      try {
+        const res = await fetch(`/api/games/search?q=${encodeURIComponent(q)}&page_size=8`);
+        if (!res.ok) throw new Error('Error de búsqueda');
+        const data = await res.json();
+        const games = data.results || [];
+
+        if (games.length === 0) {
+          $results.innerHTML = '<div class="search-empty">⟶ sin resultados</div>';
+          return;
+        }
+
+        $results.innerHTML = games.map(g => {
+          const cover = g.cover ? `style="background-image:url('${escapeAttr(g.cover)}')"` : '';
+          const year = g.released ? new Date(g.released).getFullYear() : 'TBA';
+          const platforms = g.platforms.slice(0, 2).join(' · ');
+          return `
+            <a class="search-result" href="juego.html?slug=${encodeURIComponent(g.slug)}">
+              <div class="search-result-cover" ${cover}></div>
+              <div>
+                <div class="search-result-name">${escapeHtml(g.name)}</div>
+                <div class="search-result-meta">${year} · ${escapeHtml(platforms || '—')}</div>
+              </div>
+            </a>
+          `;
+        }).join('');
+      } catch (err) {
+        $results.innerHTML = '<div class="search-empty" style="color:var(--danger);">⚠ error de conexión</div>';
+      }
+    }, 300); // debounce 300ms
+  });
+
+  // Close on click outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) {
+      $results.classList.remove('visible');
+    }
+  });
+
+  // Enter → primera coincidencia
+  $input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') {
+      const first = $results.querySelector('.search-result');
+      if (first) window.location.href = first.href;
+    } else if (e.key === 'Escape') {
+      $results.classList.remove('visible');
+      $input.blur();
+    }
+  });
+})();
+
+// ===================== HELPERS =====================
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+  })[c]);
+}
+function escapeAttr(s) { return escapeHtml(s); }
+</script>
 </body>
 </html>
