@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLATINO — Perfil de joancalibur</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --bg-elev: #131316;
+    --bg-elev-2: #1C1C20;
+    --line: #2A2A30;
+    --line-soft: #1F1F24;
+    --text: #F5F2EB;
+    --text-dim: #8A8A92;
+    --text-mute: #5A5A62;
+    --accent: #DFFF1F;
+    --accent-dim: #A8C415;
+    --danger: #FF3D2E;
+    --gold: #FFB800;
+    --silver: #C0C5CE;
+    --bronze: #CD7F32;
+    --platinum: linear-gradient(135deg, #E8F4FF 0%, #B8D4F0 50%, #7FA8C9 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    font-feature-settings: "ss01", "ss02";
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    z-index: 999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .display { font-family: 'Anton', sans-serif; letter-spacing: -0.01em; }
+
+  /* ============== NAV ============== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background: rgba(10, 10, 11, 0.72);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: var(--bg);
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    transform: rotate(-6deg);
+    border-radius: 4px;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a.active { color: var(--text); }
+  .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .search-box {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 8px 16px 8px 36px;
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    width: 240px;
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238A8A92' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 14px center;
+  }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+  .nav-icon {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    color: var(--text-dim);
+    position: relative;
+    transition: all 0.15s;
+  }
+  .nav-icon:hover { color: var(--text); border-color: var(--text); }
+  .nav-icon .dot {
+    position: absolute;
+    top: 8px; right: 8px;
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    border: 2px solid var(--bg);
+  }
+  .avatar-nav {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF3D2E 0%, #DFFF1F 100%);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--line);
+    cursor: pointer;
+  }
+
+  /* ============== BANNER + HERO ============== */
+  .banner {
+    position: relative;
+    height: 380px;
+    margin-top: 70px;
+    overflow: hidden;
+    /* Bloodborne-inspired atmospheric gradient */
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(255, 184, 0, 0.18), transparent 50%),
+      radial-gradient(ellipse at 80% 60%, rgba(255, 61, 46, 0.22), transparent 55%),
+      radial-gradient(ellipse at 50% 100%, #0A0A0B, transparent 60%),
+      linear-gradient(180deg, #2A0F1A 0%, #15080F 50%, #0A0A0B 100%);
+  }
+
+  .banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 80px, rgba(223, 255, 31, 0.02) 80px, rgba(223, 255, 31, 0.02) 81px),
+      repeating-linear-gradient(90deg, transparent, transparent 80px, rgba(223, 255, 31, 0.02) 80px, rgba(223, 255, 31, 0.02) 81px);
+  }
+
+  .banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, var(--bg) 100%);
+  }
+
+  .banner-meta {
+    position: absolute;
+    top: 24px; left: 40px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .banner-meta span { color: var(--accent); }
+
+  .banner-edit {
+    position: absolute;
+    top: 24px; right: 40px;
+    z-index: 2;
+    padding: 8px 14px;
+    background: rgba(10, 10, 11, 0.6);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .banner-edit:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* ============== HERO PROFILE ============== */
+  .hero {
+    max-width: 1400px;
+    margin: -130px auto 0;
+    padding: 0 40px 60px;
+    position: relative;
+    z-index: 5;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 40px;
+    align-items: end;
+  }
+
+  .hero-main {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 28px;
+    align-items: end;
+  }
+
+  .avatar-large {
+    width: 160px; height: 160px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #FF3D2E 0%, #FFB800 50%, #DFFF1F 100%);
+    border: 4px solid var(--bg);
+    box-shadow: 0 0 0 1px var(--line), 0 30px 60px rgba(0,0,0,0.6);
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-large::after {
+    content: 'JC';
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 64px;
+    color: rgba(0,0,0,0.7);
+    letter-spacing: 0.05em;
+  }
+  .avatar-status {
+    position: absolute;
+    bottom: 8px; right: 8px;
+    width: 22px; height: 22px;
+    background: var(--accent);
+    border: 3px solid var(--bg);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent);
+    z-index: 2;
+  }
+
+  .hero-info { padding-bottom: 8px; }
+
+  .username-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+
+  .username {
+    font-family: 'Anton', sans-serif;
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+  .username em {
+    font-style: normal;
+    color: var(--accent);
+    font-style: italic;
+    -webkit-text-stroke: 1.5px var(--accent);
+    -webkit-text-fill-color: transparent;
+  }
+
+  .badge-verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    align-self: center;
+  }
+  .badge-verified::before { content: '✓'; }
+
+  .real-name {
+    font-size: 18px;
+    color: var(--text-dim);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+  .real-name strong { color: var(--text); font-weight: 700; }
+
+  .bio {
+    font-size: 14px;
+    color: var(--text-dim);
+    max-width: 580px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .meta-row span::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+
+  /* PLAYER CARD - the unique signature element */
+  .player-card {
+    background:
+      linear-gradient(135deg, var(--bg-elev) 0%, #0F0F12 100%);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 1.6 / 1;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+  }
+
+  .player-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .player-card::after {
+    content: '';
+    position: absolute;
+    bottom: -50%;
+    right: -20%;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(223, 255, 31, 0.15), transparent 70%);
+    pointer-events: none;
+  }
+
+  .pc-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 18px 20px 0;
+    position: relative;
+    z-index: 2;
+  }
+
+  .pc-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.15em;
+    line-height: 1.4;
+  }
+  .pc-id strong { color: var(--accent); display: block; font-size: 11px; font-weight: 700; }
+
+  .pc-rank-badge {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    color: var(--bg);
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 14px;
+    border-radius: 4px;
+    transform: rotate(6deg);
+  }
+
+  .pc-rank {
+    padding: 14px 20px 6px;
+    position: relative;
+    z-index: 2;
+  }
+  .pc-rank-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .pc-rank-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
+    line-height: 0.9;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+  }
+  .pc-rank-name em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .pc-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 16px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .pc-stat {
+    border-right: 1px solid var(--line);
+    padding-right: 12px;
+  }
+  .pc-stat:last-child { border-right: none; padding-left: 12px; }
+  .pc-stat:nth-child(2) { padding-left: 12px; }
+  .pc-stat-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    line-height: 1;
+  }
+  .pc-stat-num.accent { color: var(--accent); }
+  .pc-stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--text-mute);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  .pc-foot {
+    position: absolute;
+    bottom: 14px;
+    left: 20px; right: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    z-index: 2;
+  }
+  .pc-signature {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--text-mute);
+    letter-spacing: 0.15em;
+  }
+  .pc-signature strong { color: var(--accent); display: block; font-size: 10px; font-weight: 700; margin-top: 2px; }
+
+  .pc-qr {
+    width: 36px; height: 36px;
+    background-image: repeating-conic-gradient(var(--accent) 0% 25%, transparent 0% 50%);
+    background-size: 6px 6px;
+    border: 2px solid var(--accent);
+    border-radius: 4px;
+    opacity: 0.7;
+  }
+
+  /* ============== ACTION BAR ============== */
+  .action-bar {
+    background: var(--bg-elev);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 0 40px;
+    position: sticky;
+    top: 70px;
+    z-index: 50;
+    backdrop-filter: blur(20px);
+    background: rgba(19, 19, 22, 0.88);
+  }
+  .action-tabs {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .tab {
+    padding: 18px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    position: relative;
+    font-family: inherit;
+    white-space: nowrap;
+    letter-spacing: 0.02em;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { color: var(--text); }
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+  }
+  .tab .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    margin-left: 6px;
+    opacity: 0.7;
+    color: var(--text-mute);
+  }
+  .tab.active .count { color: var(--accent); opacity: 1; }
+
+  /* ============== MAIN ============== */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+  }
+
+  .section { margin-bottom: 80px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 28px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 38px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: baseline;
+  }
+  .section-title-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-right: 14px;
+  }
+  .section-link {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-bottom: 1px solid var(--text-mute);
+    padding-bottom: 2px;
+  }
+  .section-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* GRID 2 columns */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 48px;
+  }
+
+  /* STATS PANEL */
+  .stats-panel {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 28px 0;
+    margin-bottom: 60px;
+  }
+  .stat-block {
+    padding: 0 24px;
+    border-right: 1px solid var(--line);
+  }
+  .stat-block:last-child { border-right: none; }
+  .stat-block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .stat-block-value {
+    font-family: 'Anton', sans-serif;
+    font-size: 44px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-block-value.accent { color: var(--accent); }
+  .stat-block-trend {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent-dim);
+    letter-spacing: 0.05em;
+  }
+  .stat-block-trend.neg { color: var(--text-mute); }
+
+  /* CURRENTLY PLAYING */
+  .playing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .playing-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.2s, border-color 0.2s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .playing-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+  .playing-cover {
+    aspect-ratio: 4 / 3;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .playing-cover.ring {
+    background:
+      radial-gradient(circle at 30% 40%, #FFB800 0%, transparent 50%),
+      radial-gradient(circle at 70% 60%, #FF3D2E 0%, transparent 60%),
+      linear-gradient(135deg, #1A0808, #0A0404);
+  }
+  .playing-cover.silk {
+    background:
+      radial-gradient(circle at 60% 30%, #4A6B2A 0%, transparent 55%),
+      radial-gradient(circle at 30% 70%, #2A4A1A 0%, transparent 65%),
+      linear-gradient(135deg, #0A1505, #060A03);
+  }
+  .playing-cover.stellar {
+    background:
+      radial-gradient(circle at 50% 30%, #FFB7C5 0%, transparent 50%),
+      radial-gradient(circle at 70% 70%, #6B4A8B 0%, transparent 60%),
+      linear-gradient(135deg, #1A0F2A, #08051A);
+  }
+  .playing-cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.6));
+  }
+  .playing-platform {
+    position: absolute;
+    top: 10px; left: 10px;
+    padding: 4px 8px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(10px);
+    color: var(--text);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    border-radius: 4px;
+    z-index: 2;
+  }
+  .playing-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 6px;
+  }
+  .playing-subtitle {
+    font-size: 12px;
+    color: var(--text-dim);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .progress-row strong { color: var(--accent); font-weight: 700; }
+  .progress-bar {
+    height: 4px;
+    background: var(--bg-elev-2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+  }
+  .progress-fill.gold { background: var(--gold); }
+
+  /* SHOWCASE - magazine grid */
+  .showcase {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    height: 520px;
+  }
+  .showcase-item {
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+    background-size: cover;
+    background-position: center;
+  }
+  .showcase-item:hover { transform: scale(1.01); }
+
+  .showcase-item:nth-child(1) {
+    grid-row: span 2;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(180, 0, 50, 0.5), transparent 55%),
+      radial-gradient(ellipse at 70% 70%, rgba(60, 0, 30, 0.8), transparent 60%),
+      linear-gradient(135deg, #2A0810 0%, #0A0408 100%);
+  }
+  .showcase-item:nth-child(2) {
+    background:
+      radial-gradient(ellipse at center, rgba(80, 100, 180, 0.4), transparent 60%),
+      linear-gradient(180deg, #0A0F1A, #050810);
+  }
+  .showcase-item:nth-child(3) {
+    background:
+      radial-gradient(ellipse at 40% 60%, #FFB800 0%, transparent 45%),
+      radial-gradient(ellipse at 70% 40%, #FF3D2E 0%, transparent 50%),
+      linear-gradient(135deg, #1A0F08, #08050A);
+  }
+  .showcase-item:nth-child(4) {
+    background:
+      radial-gradient(circle at 50% 50%, #FF6B35 0%, transparent 50%),
+      linear-gradient(135deg, #2A0F08, #0A0408);
+  }
+  .showcase-item:nth-child(5) {
+    background:
+      radial-gradient(ellipse at 30% 50%, #C4A484 0%, transparent 50%),
+      linear-gradient(180deg, #1F1810, #0F0A05);
+  }
+
+  .showcase-item::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.85));
+  }
+
+  .showcase-info {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 20px;
+    z-index: 2;
+  }
+  .showcase-item:nth-child(1) .showcase-info { padding: 28px; }
+
+  .showcase-pin {
+    position: absolute;
+    top: 14px; right: 14px;
+    width: 28px; height: 28px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 14px;
+    z-index: 3;
+  }
+  .showcase-trophy {
+    position: absolute;
+    top: 14px; left: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    z-index: 3;
+    background: var(--platinum);
+    color: #1A2840;
+  }
+  .showcase-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 24px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 4px;
+  }
+  .showcase-item:nth-child(1) .showcase-title { font-size: 44px; }
+
+  .showcase-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .showcase-item:nth-child(1) .showcase-meta { font-size: 12px; }
+
+  /* LISTS */
+  .lists-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .list-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+  .list-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .list-collage {
+    display: grid;
+    grid-template-columns: repeat(2, 36px);
+    grid-template-rows: repeat(2, 36px);
+    gap: 3px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+  .list-collage div {
+    border-radius: 4px;
+  }
+  .list-collage.list-1 div:nth-child(1) { background: linear-gradient(135deg, #2A0810, #0A0408); }
+  .list-collage.list-1 div:nth-child(2) { background: linear-gradient(135deg, #1A0F08, #08050A); }
+  .list-collage.list-1 div:nth-child(3) { background: linear-gradient(135deg, #08050A, #1A0F08); }
+  .list-collage.list-1 div:nth-child(4) { background: linear-gradient(135deg, #2A0810, #0A0408); }
+
+  .list-collage.list-2 div:nth-child(1) { background: linear-gradient(135deg, #DFFF1F, #5A8500); }
+  .list-collage.list-2 div:nth-child(2) { background: linear-gradient(135deg, #FF6B35, #2A0F08); }
+  .list-collage.list-2 div:nth-child(3) { background: linear-gradient(135deg, #6B4A8B, #1A0F2A); }
+  .list-collage.list-2 div:nth-child(4) { background: linear-gradient(135deg, #4A6B2A, #0A1505); }
+
+  .list-collage.list-3 div:nth-child(1) { background: linear-gradient(135deg, #C4A484, #1F1810); }
+  .list-collage.list-3 div:nth-child(2) { background: linear-gradient(135deg, #2A1810, #0A0408); }
+  .list-collage.list-3 div:nth-child(3) { background: linear-gradient(135deg, #1A0F2A, #08051A); }
+  .list-collage.list-3 div:nth-child(4) { background: linear-gradient(135deg, #FF3D2E, #2A0810); }
+
+  .list-collage.list-4 div:nth-child(1) { background: linear-gradient(135deg, #4A6B2A, #0A1505); }
+  .list-collage.list-4 div:nth-child(2) { background: linear-gradient(135deg, #FFB800, #6B4A0A); }
+  .list-collage.list-4 div:nth-child(3) { background: linear-gradient(135deg, #FFB7C5, #6B4A8B); }
+  .list-collage.list-4 div:nth-child(4) { background: linear-gradient(135deg, #FF6B35, #2A0F08); }
+
+  .list-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 6px;
+  }
+  .list-info-row {
+    display: flex;
+    gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .list-info-row strong { color: var(--accent); }
+  .list-info-row .private::before { content: '🔒 '; }
+
+  .list-card.add {
+    border-style: dashed;
+    border-color: var(--line);
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    grid-template-columns: 1fr;
+    gap: 0;
+    color: var(--text-mute);
+  }
+  .list-card.add:hover { color: var(--accent); border-color: var(--accent); }
+  .list-card.add .plus {
+    font-family: 'Anton', sans-serif;
+    font-size: 38px;
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .list-card.add p {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 600;
+  }
+
+  /* ACTIVITY FEED */
+  .activity {
+    position: relative;
+    padding-left: 24px;
+  }
+  .activity::before {
+    content: '';
+    position: absolute;
+    top: 8px; bottom: 8px; left: 7px;
+    width: 1px;
+    background: var(--line);
+  }
+  .activity-item {
+    position: relative;
+    padding: 16px 0 22px;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .activity-item:last-child { border-bottom: none; }
+  .activity-item::before {
+    content: '';
+    position: absolute;
+    left: -22px; top: 24px;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--text-mute);
+  }
+  .activity-item.highlight::before {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+  .activity-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .activity-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text-dim);
+    margin-bottom: 8px;
+  }
+  .activity-text strong { color: var(--text); font-weight: 700; }
+  .activity-text .game { color: var(--accent); font-weight: 600; }
+  .activity-attach {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin-top: 6px;
+  }
+  .activity-attach .mini-trophy {
+    width: 24px; height: 24px;
+    border-radius: 4px;
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 11px;
+  }
+  .activity-attach .mini-trophy.gold { background: linear-gradient(135deg, #FFD24A, #FF9500); color: #3A2200; }
+  .activity-attach .mini-trophy.platinum { background: var(--platinum); color: #1A2840; }
+  .activity-attach .mini-trophy.silver { background: linear-gradient(135deg, #E8EBF0, #9BA0AB); color: #2A2D33; }
+  .activity-attach span {
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .activity-attach span small {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  /* SIDEBAR */
+  aside { position: relative; }
+  .side-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+  .side-card h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .side-card h3 small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+  }
+
+  /* GENRE DNA - radar-style */
+  .dna {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .dna-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 36px;
+    gap: 12px;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .dna-row .label {
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .dna-row .bar-bg {
+    height: 6px;
+    background: var(--bg-elev-2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .dna-row .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+  }
+  .dna-row .bar-fill.dim { background: var(--text-mute); }
+  .dna-row .pct {
+    color: var(--accent);
+    text-align: right;
+    font-weight: 700;
+  }
+  .dna-row .pct.dim { color: var(--text-mute); font-weight: 400; }
+
+  /* CONNECTED ACCOUNTS */
+  .conn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .conn:last-child { border-bottom: none; }
+  .conn-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .conn-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .conn-icon.psn { background: #006FCD; color: #fff; }
+  .conn-icon.steam { background: #1B2838; color: #66C0F4; }
+  .conn-icon.xbox { background: #107C10; color: #fff; }
+  .conn-icon.nintendo { background: #2A2A30; color: var(--text-mute); border: 1px dashed var(--line); }
+  .conn-info p {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  .conn-info span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .conn-state {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .conn-state.off { color: var(--text-mute); cursor: pointer; }
+  .conn-state.off:hover { color: var(--accent); }
+
+  /* FRIENDS */
+  .friend {
+    display: grid;
+    grid-template-columns: 36px 1fr auto;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+    cursor: pointer;
+  }
+  .friend:last-child { border-bottom: none; padding-bottom: 0; }
+  .friend:hover .friend-name { color: var(--accent); }
+  .friend-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    position: relative;
+  }
+  .friend-avatar.v1 { background: linear-gradient(135deg, #FF3D2E, #FFB800); }
+  .friend-avatar.v2 { background: linear-gradient(135deg, #DFFF1F, #5A8500); }
+  .friend-avatar.v3 { background: linear-gradient(135deg, #C0C5CE, #4A4D55); }
+  .friend-avatar.v4 { background: linear-gradient(135deg, #6B4A8B, #1A0F2A); }
+  .friend-avatar.v5 { background: linear-gradient(135deg, #FFB7C5, #6B4A8B); }
+  .friend-avatar .online {
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border: 2px solid var(--bg-elev);
+    border-radius: 50%;
+  }
+  .friend-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 1px;
+    transition: color 0.15s;
+  }
+  .friend-status {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+  }
+  .friend-status.playing { color: var(--accent-dim); }
+  .friend-action {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 4px 8px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .friend-action:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* RECAP CARD */
+  .recap {
+    background:
+      linear-gradient(135deg, rgba(223, 255, 31, 0.08) 0%, transparent 60%),
+      var(--bg-elev);
+    border: 1px solid rgba(223, 255, 31, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  .recap::before {
+    content: '2025';
+    position: absolute;
+    top: -10px; right: -8px;
+    font-family: 'Anton', sans-serif;
+    font-size: 110px;
+    line-height: 0.85;
+    color: rgba(223, 255, 31, 0.06);
+    pointer-events: none;
+  }
+  .recap-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    margin-bottom: 12px;
+  }
+  .recap p {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+  .recap-btn {
+    width: 100%;
+    padding: 12px;
+    background: var(--accent);
+    color: var(--bg);
+    border: none;
+    border-radius: 8px;
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    transition: background 0.15s;
+  }
+  .recap-btn:hover { background: #EFFF4D; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 60px 40px 40px;
+    margin-top: 80px;
+    text-align: center;
+  }
+  .footer-mark {
+    font-family: 'Anton', sans-serif;
+    font-size: 120px;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--bg-elev);
+    margin-bottom: 20px;
+    user-select: none;
+  }
+  footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .hero { grid-template-columns: 1fr; }
+    .player-card { max-width: 360px; }
+    .stats-panel { grid-template-columns: repeat(3, 1fr); gap: 24px 0; }
+    .stat-block:nth-child(3) { border-right: none; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .showcase {
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 240px 200px 200px;
+      height: auto;
+    }
+    .showcase-item:nth-child(1) { grid-row: span 1; grid-column: span 2; }
+    .lists-grid { grid-template-columns: 1fr; }
+    .playing-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 700px) {
+    nav, .action-bar, main, .hero { padding-left: 20px; padding-right: 20px; }
+    .nav-links { display: none; }
+    .search-box { width: 140px; }
+    .hero-main { grid-template-columns: 1fr; gap: 16px; }
+    .username { font-size: 44px; }
+    .avatar-large { width: 110px; height: 110px; }
+    .avatar-large::after { font-size: 48px; }
+    .stats-panel { grid-template-columns: 1fr 1fr; }
+    .stat-block:nth-child(2n) { border-right: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav>
+  <div class="logo">
+    <span class="logo-mark">P</span>
+    <span>PLATINO</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="juego.html">Juegos</a></li>
+    <li><a href="perfil.html" class="active">Mi perfil</a></li>
+    <li><a href="temporada.html">Temporada</a></li>
+    <li><a href="#">Comunidad</a></li>
+  </ul>
+  <div class="nav-right">
+    <input class="search-box" type="text" placeholder="Buscar..." />
+    <div class="nav-icon" title="Mensajes">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="dot"></span>
+    </div>
+    <div class="nav-icon" title="Notificaciones">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+      <span class="dot"></span>
+    </div>
+    <div class="avatar-nav"></div>
+  </div>
+</nav>
+
+<!-- ============== BANNER ============== -->
+<section class="banner">
+  <div class="banner-meta">PERFIL · <span>JOANCALIBUR</span> · MIEMBRO DESDE MAR 2023</div>
+  <button class="banner-edit">✎ Editar banner</button>
+</section>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="hero-main">
+    <div class="avatar-large">
+      <div class="avatar-status"></div>
+    </div>
+    <div class="hero-info">
+      <div class="username-row">
+        <h1 class="username">joancalibur<em>°</em></h1>
+        <span class="badge-verified">Cuentas vinculadas</span>
+      </div>
+      <p class="real-name"><strong>Joan M.</strong> · Terrassa, ES · Sinluz Veterano · Temporada 03</p>
+      <p class="bio">
+        Souls-like degenerate. 47 platinos y subiendo. Curador de la lista <strong style="color:var(--accent);">"Joyas indies 2025"</strong>. Si quieres co-op para Malenia o discutir lore de Bloodborne, escríbeme.
+      </p>
+      <div class="meta-row">
+        <span>Nivel 87</span>
+        <span>4.231 horas</span>
+        <span>Tasa platino 26%</span>
+        <span>Top 4% global</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLAYER CARD - signature shareable element -->
+  <div class="player-card">
+    <div class="pc-head">
+      <div class="pc-id">
+        PLATINO ID<br>
+        <strong>#PL-0042-7913</strong>
+      </div>
+      <div class="pc-rank-badge">87</div>
+    </div>
+    <div class="pc-rank">
+      <div class="pc-rank-label">⟶ RANGO ACTUAL</div>
+      <div class="pc-rank-name">Sinluz<br><em>Veterano</em></div>
+    </div>
+    <div class="pc-stats">
+      <div class="pc-stat">
+        <div class="pc-stat-num accent">47</div>
+        <div class="pc-stat-label">Platinos</div>
+      </div>
+      <div class="pc-stat">
+        <div class="pc-stat-num">184</div>
+        <div class="pc-stat-label">Completados</div>
+      </div>
+      <div class="pc-stat">
+        <div class="pc-stat-num">6.9K</div>
+        <div class="pc-stat-label">Logros</div>
+      </div>
+    </div>
+    <div class="pc-foot">
+      <div class="pc-signature">
+        TEMPORADA 03 · 2026<br>
+        <strong>VÁLIDO HASTA 31.12.2026</strong>
+      </div>
+      <div class="pc-qr"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== TABS ============== -->
+<div class="action-bar">
+  <div class="action-tabs">
+    <button class="tab active">Resumen</button>
+    <button class="tab">Juegos<span class="count">184</span></button>
+    <button class="tab">Trofeos<span class="count">6.924</span></button>
+    <button class="tab">Listas<span class="count">12</span></button>
+    <button class="tab">Reseñas<span class="count">38</span></button>
+    <button class="tab">Guías<span class="count">7</span></button>
+    <button class="tab">Amigos<span class="count">142</span></button>
+    <button class="tab">Grupos<span class="count">6</span></button>
+  </div>
+</div>
+
+<!-- ============== MAIN ============== -->
+<main>
+
+  <!-- STATS PANEL -->
+  <div class="stats-panel">
+    <div class="stat-block">
+      <div class="stat-block-label">⟶ Platinos</div>
+      <div class="stat-block-value accent">47</div>
+      <div class="stat-block-trend">+3 este mes</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block-label">⟶ Completados</div>
+      <div class="stat-block-value">184</div>
+      <div class="stat-block-trend">+8 este mes</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block-label">⟶ Logros</div>
+      <div class="stat-block-value">6.924</div>
+      <div class="stat-block-trend">+147 este mes</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block-label">⟶ Horas jugadas</div>
+      <div class="stat-block-value">4.231</div>
+      <div class="stat-block-trend">~38h / sem</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block-label">⟶ Reseñas escritas</div>
+      <div class="stat-block-value">38</div>
+      <div class="stat-block-trend">2.847 votos útiles</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-block-label">⟶ Racha actual</div>
+      <div class="stat-block-value accent">21<small style="font-family:Manrope;font-size:18px;color:var(--text-dim);font-weight:600;">d</small></div>
+      <div class="stat-block-trend">Récord: 47 días</div>
+    </div>
+  </div>
+
+  <!-- CURRENTLY PLAYING -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">001</span>Jugando ahora</h2>
+      <a href="#" class="section-link">Ver historial →</a>
+    </div>
+    <div class="playing-grid">
+      <div class="playing-card">
+        <div class="playing-cover ring">
+          <span class="playing-platform">PS5</span>
+        </div>
+        <h3 class="playing-title">Elden Ring: Shadow of the Erdtree</h3>
+        <p class="playing-subtitle">FromSoftware · DLC</p>
+        <div class="progress-row">
+          <span>Progreso de logros</span>
+          <strong>65%</strong>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:65%"></div></div>
+      </div>
+
+      <div class="playing-card">
+        <div class="playing-cover silk">
+          <span class="playing-platform">Steam Deck</span>
+        </div>
+        <h3 class="playing-title">Hollow Knight: Silksong</h3>
+        <p class="playing-subtitle">Team Cherry</p>
+        <div class="progress-row">
+          <span>Progreso de logros</span>
+          <strong>12%</strong>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" style="width:12%"></div></div>
+      </div>
+
+      <div class="playing-card">
+        <div class="playing-cover stellar">
+          <span class="playing-platform">PS5</span>
+        </div>
+        <h3 class="playing-title">Stellar Blade</h3>
+        <p class="playing-subtitle">Shift Up · Casi platino</p>
+        <div class="progress-row">
+          <span>Progreso de logros</span>
+          <strong>88%</strong>
+        </div>
+        <div class="progress-bar"><div class="progress-fill gold" style="width:88%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SHOWCASE -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">002</span>Mis imprescindibles</h2>
+      <a href="#" class="section-link">Editar selección →</a>
+    </div>
+    <div class="showcase">
+      <div class="showcase-item">
+        <span class="showcase-pin">★</span>
+        <span class="showcase-trophy">PLATINO</span>
+        <div class="showcase-info">
+          <h3 class="showcase-title">Bloodborne</h3>
+          <p class="showcase-meta">2015 · FROMSOFTWARE · 312H · MI #1</p>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <span class="showcase-trophy">PLATINO</span>
+        <div class="showcase-info">
+          <h3 class="showcase-title">Hollow Knight</h3>
+          <p class="showcase-meta">2017 · TEAM CHERRY</p>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <span class="showcase-trophy">PLATINO</span>
+        <div class="showcase-info">
+          <h3 class="showcase-title">Elden Ring</h3>
+          <p class="showcase-meta">2022 · FROMSOFTWARE</p>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <span class="showcase-trophy">PLATINO</span>
+        <div class="showcase-info">
+          <h3 class="showcase-title">Hades</h3>
+          <p class="showcase-meta">2020 · SUPERGIANT</p>
+        </div>
+      </div>
+      <div class="showcase-item">
+        <span class="showcase-trophy">PLATINO</span>
+        <div class="showcase-info">
+          <h3 class="showcase-title">Disco Elysium</h3>
+          <p class="showcase-meta">2019 · ZA/UM</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LISTS -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">003</span>Mis listas</h2>
+      <a href="#" class="section-link">Ver las 12 listas →</a>
+    </div>
+    <div class="lists-grid">
+      <div class="list-card">
+        <div class="list-collage list-1"><div></div><div></div><div></div><div></div></div>
+        <div>
+          <h4 class="list-name">Souls-likes que vencieron a mis amigos</h4>
+          <div class="list-info-row">
+            <span><strong>12</strong> juegos</span>
+            <span>489 likes</span>
+            <span>Pública</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="list-card">
+        <div class="list-collage list-2"><div></div><div></div><div></div><div></div></div>
+        <div>
+          <h4 class="list-name">Joyas indies 2025</h4>
+          <div class="list-info-row">
+            <span><strong>8</strong> juegos</span>
+            <span>1.2K likes · destacada</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="list-card">
+        <div class="list-collage list-3"><div></div><div></div><div></div><div></div></div>
+        <div>
+          <h4 class="list-name">Por platinar antes de fin de año</h4>
+          <div class="list-info-row">
+            <span><strong>5</strong> juegos</span>
+            <span class="private">Privada</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="list-card">
+        <div class="list-collage list-4"><div></div><div></div><div></div><div></div></div>
+        <div>
+          <h4 class="list-name">Re-jugadas pendientes</h4>
+          <div class="list-info-row">
+            <span><strong>15</strong> juegos</span>
+            <span>67 likes</span>
+            <span>Pública</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="list-card add">
+        <div>
+          <div class="plus">+</div>
+          <p>Crear lista nueva</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACTIVITY + SIDEBAR -->
+  <div class="grid-2">
+    <section class="section" style="margin-bottom:0;">
+      <div class="section-head">
+        <h2 class="section-title"><span class="section-title-num">004</span>Actividad reciente</h2>
+        <a href="#" class="section-link">Ver todo →</a>
+      </div>
+
+      <div class="activity">
+        <div class="activity-item highlight">
+          <div class="activity-time">HOY · 14:32</div>
+          <p class="activity-text">Has desbloqueado <strong>Reina del Pleno Sol</strong> en <span class="game">Elden Ring</span>. Solo el <strong>8.7%</strong> de los jugadores lo tienen.</p>
+          <div class="activity-attach">
+            <div class="mini-trophy gold">G</div>
+            <span>Reina del Pleno Sol<small>Trofeo dorado · 8.7% raro</small></span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">AYER · 19:08</div>
+          <p class="activity-text">Has publicado una reseña verificada de <span class="game">Stellar Blade</span> con valoración <strong>8/10</strong>.</p>
+        </div>
+
+        <div class="activity-item highlight">
+          <div class="activity-time">HACE 3 DÍAS</div>
+          <p class="activity-text">Has conseguido el <strong>platino</strong> en <span class="game">Crow Country</span>. Es uno de tus platinos más raros.</p>
+          <div class="activity-attach">
+            <div class="mini-trophy platinum">★</div>
+            <span>Verdadera Pesadilla<small>Platino · 4.2% raro</small></span>
+          </div>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">HACE 4 DÍAS</div>
+          <p class="activity-text">Te has unido al grupo <strong>Souls Co-op España</strong> (412 miembros).</p>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">HACE 5 DÍAS</div>
+          <p class="activity-text">Has añadido <span class="game">Hollow Knight: Silksong</span> a tu lista <strong>Por platinar antes de fin de año</strong>.</p>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">HACE 1 SEMANA</div>
+          <p class="activity-text">Has contribuido a la guía colaborativa <strong>"Build mago intelecto puro"</strong> con 2 ediciones aceptadas.</p>
+        </div>
+
+        <div class="activity-item">
+          <div class="activity-time">HACE 1 SEMANA</div>
+          <p class="activity-text">Has desbloqueado <strong>El Maestro Espadachín</strong> en <span class="game">Sekiro</span>.</p>
+          <div class="activity-attach">
+            <div class="mini-trophy silver">S</div>
+            <span>El Maestro Espadachín<small>Trofeo plata · 14.8% raro</small></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <aside>
+      <!-- GENRE DNA -->
+      <div class="side-card">
+        <h3>Tu ADN gamer <small>últimos 12m</small></h3>
+        <div class="dna">
+          <div class="dna-row">
+            <span class="label">Soulslike</span>
+            <div class="bar-bg"><div class="bar-fill" style="width:92%"></div></div>
+            <span class="pct">92</span>
+          </div>
+          <div class="dna-row">
+            <span class="label">Acción RPG</span>
+            <div class="bar-bg"><div class="bar-fill" style="width:78%"></div></div>
+            <span class="pct">78</span>
+          </div>
+          <div class="dna-row">
+            <span class="label">Indie</span>
+            <div class="bar-bg"><div class="bar-fill" style="width:64%"></div></div>
+            <span class="pct">64</span>
+          </div>
+          <div class="dna-row">
+            <span class="label">Metroidvania</span>
+            <div class="bar-bg"><div class="bar-fill" style="width:51%"></div></div>
+            <span class="pct">51</span>
+          </div>
+          <div class="dna-row">
+            <span class="label">Roguelite</span>
+            <div class="bar-bg"><div class="bar-fill dim" style="width:28%"></div></div>
+            <span class="pct dim">28</span>
+          </div>
+          <div class="dna-row">
+            <span class="label">Shooter</span>
+            <div class="bar-bg"><div class="bar-fill dim" style="width:8%"></div></div>
+            <span class="pct dim">8</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- CONNECTED ACCOUNTS -->
+      <div class="side-card">
+        <h3>Cuentas vinculadas</h3>
+        <div class="conn">
+          <div class="conn-left">
+            <div class="conn-icon psn">PSN</div>
+            <div class="conn-info">
+              <p>PlayStation Network</p>
+              <span>joancalibur · sync 2h</span>
+            </div>
+          </div>
+          <span class="conn-state">Activa</span>
+        </div>
+        <div class="conn">
+          <div class="conn-left">
+            <div class="conn-icon steam">⛁</div>
+            <div class="conn-info">
+              <p>Steam</p>
+              <span>joancalibur_85 · sync 12m</span>
+            </div>
+          </div>
+          <span class="conn-state">Activa</span>
+        </div>
+        <div class="conn">
+          <div class="conn-left">
+            <div class="conn-icon xbox">XB</div>
+            <div class="conn-info">
+              <p>Xbox Live</p>
+              <span>Sin vincular</span>
+            </div>
+          </div>
+          <span class="conn-state off">+ Vincular</span>
+        </div>
+        <div class="conn">
+          <div class="conn-left">
+            <div class="conn-icon nintendo">N</div>
+            <div class="conn-info">
+              <p>Nintendo Switch</p>
+              <span>API no disponible</span>
+            </div>
+          </div>
+          <span class="conn-state off">Manual</span>
+        </div>
+      </div>
+
+      <!-- FRIENDS -->
+      <div class="side-card">
+        <h3>Amigos <small>14 / 142 ONLINE</small></h3>
+        <div class="friend">
+          <div class="friend-avatar v1"><div class="online"></div></div>
+          <div>
+            <div class="friend-name">marcoss_94</div>
+            <div class="friend-status playing">▶ Jugando Elden Ring</div>
+          </div>
+          <span class="friend-action">Invitar</span>
+        </div>
+        <div class="friend">
+          <div class="friend-avatar v2"><div class="online"></div></div>
+          <div>
+            <div class="friend-name">aitana.exe</div>
+            <div class="friend-status playing">▶ Jugando Silksong</div>
+          </div>
+          <span class="friend-action">Invitar</span>
+        </div>
+        <div class="friend">
+          <div class="friend-avatar v3"><div class="online"></div></div>
+          <div>
+            <div class="friend-name">paula_wields</div>
+            <div class="friend-status">En línea · disponible</div>
+          </div>
+          <span class="friend-action">Mensaje</span>
+        </div>
+        <div class="friend">
+          <div class="friend-avatar v4"><div class="online"></div></div>
+          <div>
+            <div class="friend-name">dr_ouroboros</div>
+            <div class="friend-status playing">▶ Jugando Hades II</div>
+          </div>
+          <span class="friend-action">Invitar</span>
+        </div>
+        <div class="friend">
+          <div class="friend-avatar v5"></div>
+          <div>
+            <div class="friend-name">nuria_runs_it</div>
+            <div class="friend-status">Hace 2h · offline</div>
+          </div>
+          <span class="friend-action">Mensaje</span>
+        </div>
+      </div>
+
+      <!-- RECAP -->
+      <div class="side-card recap">
+        <span class="recap-tag">⚡ TU AÑO EN PLATINO</span>
+        <h3 style="margin-bottom: 8px;">Recap 2025 listo</h3>
+        <p>184 juegos. 47 platinos. 4.231 horas. Hemos preparado un resumen visual de tu año. Compártelo o guárdalo.</p>
+        <button class="recap-btn">Ver mi recap →</button>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-mark">PLATINO°</div>
+  <p>De jugadores · para jugadores · desde 2026</p>
+</footer>
+
+<script>
+  // Tab interactions
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

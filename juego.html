@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLATINO — Tarnished's Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --bg-elev: #131316;
+    --bg-elev-2: #1C1C20;
+    --line: #2A2A30;
+    --text: #F5F2EB;
+    --text-dim: #8A8A92;
+    --text-mute: #5A5A62;
+    --accent: #DFFF1F;
+    --accent-dim: #A8C415;
+    --danger: #FF3D2E;
+    --gold: #FFB800;
+    --silver: #C0C5CE;
+    --bronze: #CD7F32;
+    --platinum: linear-gradient(135deg, #E8F4FF 0%, #B8D4F0 50%, #7FA8C9 100%);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    font-feature-settings: "ss01", "ss02";
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    z-index: 999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+  .display { font-family: 'Anton', sans-serif; letter-spacing: -0.01em; }
+
+  /* ==================== NAVBAR ==================== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 18px 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background: rgba(10, 10, 11, 0.6);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .logo {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.05em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    background: var(--accent);
+    color: var(--bg);
+    display: grid;
+    place-items: center;
+    font-size: 18px;
+    transform: rotate(-6deg);
+    border-radius: 4px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    transition: color 0.2s;
+    position: relative;
+  }
+
+  .nav-links a.active { color: var(--text); }
+  .nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -8px; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+
+  .search-box {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    padding: 8px 16px 8px 36px;
+    color: var(--text);
+    font-family: 'Manrope', sans-serif;
+    font-size: 13px;
+    width: 260px;
+    position: relative;
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238A8A92' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 14px center;
+  }
+  .search-box:focus { outline: none; border-color: var(--accent); }
+
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #FF3D2E, #DFFF1F);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--line);
+    cursor: pointer;
+  }
+
+  /* ==================== HERO ==================== */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    padding: 100px 40px 60px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    /* Stylized Elden Ring-inspired abstract background */
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(255, 184, 0, 0.25) 0%, transparent 45%),
+      radial-gradient(ellipse at 70% 60%, rgba(255, 61, 46, 0.18) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.9) 0%, transparent 60%),
+      linear-gradient(180deg, #1A0F08 0%, #0A0A0B 70%);
+    z-index: 0;
+  }
+
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, var(--bg) 100%);
+  }
+
+  /* SVG-like decorative artifact on hero */
+  .hero-artifact {
+    position: absolute;
+    right: -100px;
+    top: 80px;
+    width: 700px;
+    height: 700px;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+  }
+  .breadcrumb span { color: var(--accent); }
+
+  .hero-title {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(80px, 13vw, 200px);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    max-width: 950px;
+  }
+
+  .hero-title em {
+    font-style: normal;
+    color: var(--accent);
+    font-style: italic;
+    -webkit-text-stroke: 2px var(--accent);
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+
+  .meta-pill {
+    padding: 6px 14px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--text-dim);
+  }
+  .meta-pill.solid {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+
+  .meta-divider {
+    width: 4px; height: 4px;
+    border-radius: 50%;
+    background: var(--text-mute);
+  }
+
+  .hero-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-top: 60px;
+    max-width: 900px;
+  }
+
+  .stat {
+    padding: 24px 20px 24px 0;
+    border-right: 1px solid var(--line);
+  }
+  .stat:last-child { border-right: none; }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 8px;
+  }
+
+  .stat-value {
+    font-family: 'Anton', sans-serif;
+    font-size: 36px;
+    line-height: 1;
+  }
+  .stat-value small {
+    font-size: 16px;
+    color: var(--text-dim);
+    font-family: 'Manrope', sans-serif;
+    font-weight: 600;
+    margin-left: 4px;
+  }
+  .stat-value.accent { color: var(--accent); }
+
+  /* ==================== ACTION BAR ==================== */
+  .action-bar {
+    position: relative;
+    z-index: 3;
+    padding: 24px 40px;
+    background: var(--bg-elev);
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .action-tabs {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .tab {
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: transparent;
+    border: none;
+    color: var(--text-dim);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: inherit;
+  }
+  .tab:hover { color: var(--text); background: var(--bg-elev-2); }
+  .tab.active {
+    background: var(--text);
+    color: var(--bg);
+  }
+  .tab .count {
+    font-size: 11px;
+    margin-left: 6px;
+    opacity: 0.7;
+  }
+
+  .action-cta {
+    display: flex;
+    gap: 10px;
+  }
+
+  .btn {
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    border: 1px solid var(--line);
+    background: transparent;
+    color: var(--text);
+    font-family: inherit;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s;
+  }
+  .btn:hover { border-color: var(--text); }
+  .btn.primary {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  .btn.primary:hover {
+    background: #EFFF4D;
+    border-color: #EFFF4D;
+  }
+
+  /* ==================== MAIN ==================== */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 60px;
+  }
+
+  .section { margin-bottom: 80px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px;
+  }
+
+  .section-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 42px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .section-title-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-right: 12px;
+    vertical-align: super;
+  }
+
+  .section-link {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-bottom: 1px solid var(--text-mute);
+    padding-bottom: 2px;
+  }
+  .section-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* About section */
+  .about-text {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--text-dim);
+    max-width: 720px;
+    margin-bottom: 24px;
+  }
+  .about-text strong { color: var(--text); font-weight: 600; }
+
+  .source-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    padding: 6px 10px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+  }
+  .source-tag::before {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 8px var(--accent);
+  }
+
+  /* Trailer */
+  .trailer {
+    aspect-ratio: 16 / 9;
+    background:
+      linear-gradient(135deg, #2A1810 0%, #1A0A05 100%);
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    margin: 32px 0;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s;
+  }
+  .trailer:hover { transform: scale(1.01); }
+
+  .trailer::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 30% 50%, rgba(255, 184, 0, 0.3), transparent 60%),
+      radial-gradient(circle at 70% 50%, rgba(255, 61, 46, 0.2), transparent 60%);
+  }
+
+  .trailer-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px; height: 80px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 0 60px rgba(223, 255, 31, 0.4);
+    transition: transform 0.2s;
+  }
+  .trailer:hover .trailer-play { transform: translate(-50%, -50%) scale(1.08); }
+
+  .trailer-play::before {
+    content: '';
+    width: 0; height: 0;
+    border-left: 22px solid var(--bg);
+    border-top: 14px solid transparent;
+    border-bottom: 14px solid transparent;
+    margin-left: 6px;
+  }
+
+  .trailer-info {
+    position: absolute;
+    bottom: 20px; left: 24px;
+    color: var(--text);
+  }
+  .trailer-info strong {
+    display: block;
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+  .trailer-info span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  /* Achievements */
+  .achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .achievement {
+    padding: 20px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 56px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .achievement:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .achievement.unlocked::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 60px; height: 60px;
+    background: radial-gradient(circle at top right, rgba(223, 255, 31, 0.18), transparent 70%);
+    pointer-events: none;
+  }
+
+  .trophy {
+    width: 56px; height: 56px;
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  .trophy.platinum {
+    background: var(--platinum);
+    color: #1A2840;
+  }
+  .trophy.gold {
+    background: linear-gradient(135deg, #FFD24A, #FF9500);
+    color: #3A2200;
+  }
+  .trophy.silver {
+    background: linear-gradient(135deg, #E8EBF0, #9BA0AB);
+    color: #2A2D33;
+  }
+  .trophy.bronze {
+    background: linear-gradient(135deg, #E8995E, #8C4A1F);
+    color: #2A1408;
+  }
+  .trophy.locked {
+    background: var(--bg-elev-2);
+    color: var(--text-mute);
+    border: 1px dashed var(--line);
+  }
+
+  .achievement-info h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .achievement.locked .achievement-info h4 { color: var(--text-dim); }
+  .achievement-info p {
+    font-size: 12px;
+    color: var(--text-mute);
+    line-height: 1.4;
+  }
+
+  .rarity {
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .rarity-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .rarity-label {
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+  }
+  .achievement.locked .rarity-pct { color: var(--text-mute); }
+
+  /* Reviews — the gating UI */
+  .review-gate {
+    padding: 40px;
+    background:
+      linear-gradient(135deg, rgba(223, 255, 31, 0.04) 0%, transparent 60%),
+      var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    margin-bottom: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .review-gate::before {
+    content: '01';
+    position: absolute;
+    top: 24px; right: 28px;
+    font-family: 'Anton', sans-serif;
+    font-size: 100px;
+    color: var(--bg-elev-2);
+    line-height: 0.8;
+    pointer-events: none;
+  }
+
+  .gate-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+
+  .gate-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    max-width: 480px;
+    position: relative;
+  }
+  .gate-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .gate-text {
+    color: var(--text-dim);
+    font-size: 14px;
+    max-width: 540px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    position: relative;
+  }
+
+  .gate-progress {
+    height: 6px;
+    background: var(--bg-elev-2);
+    border-radius: 100px;
+    overflow: hidden;
+    margin-bottom: 8px;
+    max-width: 500px;
+    position: relative;
+  }
+  .gate-progress-bar {
+    width: 32%;
+    height: 100%;
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+  .gate-progress-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+  }
+
+  /* Review cards */
+  .review {
+    padding: 28px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+  }
+  .review:last-child { border-bottom: none; }
+
+  .reviewer-avatar {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #C0C5CE, #4A4D55);
+    flex-shrink: 0;
+  }
+  .reviewer-avatar.var-2 { background: linear-gradient(135deg, #FF3D2E, #8B1A0E); }
+
+  .reviewer-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .reviewer-name {
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .verified {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    background: rgba(223, 255, 31, 0.12);
+    color: var(--accent);
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .verified::before {
+    content: '✓';
+    font-family: 'Manrope';
+    font-weight: 800;
+  }
+  .reviewer-meta {
+    font-size: 12px;
+    color: var(--text-mute);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .review-rating {
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .stars {
+    display: flex;
+    gap: 2px;
+  }
+  .star {
+    width: 14px; height: 14px;
+    background: var(--accent);
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  }
+  .star.empty { background: var(--line); }
+  .review-headline {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    line-height: 1.1;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+  }
+  .review-body {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--text-dim);
+    margin-bottom: 14px;
+  }
+  .review-actions {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-mute);
+  }
+  .review-actions span {
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .review-actions span:hover { color: var(--text); }
+
+  /* ==================== SIDEBAR ==================== */
+  aside { position: relative; }
+
+  .sidebar-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-card h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+    letter-spacing: 0.005em;
+  }
+
+  /* Group card */
+  .group {
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .group:last-child { border-bottom: none; padding-bottom: 0; }
+  .group:hover .group-name { color: var(--accent); }
+
+  .group-icon {
+    width: 44px; height: 44px;
+    border-radius: 8px;
+    background: var(--bg-elev-2);
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+    color: var(--accent);
+  }
+  .group-icon.var-1 { background: linear-gradient(135deg, #FF3D2E, #2A0805); color: var(--text); }
+  .group-icon.var-2 { background: linear-gradient(135deg, #DFFF1F, #6A8000); color: var(--bg); }
+  .group-icon.var-3 { background: linear-gradient(135deg, #2A2A30, #131316); color: var(--accent); }
+
+  .group-info { min-width: 0; }
+  .group-name {
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+    transition: color 0.15s;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .group-meta {
+    font-size: 11px;
+    color: var(--text-mute);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .group-meta .live {
+    color: var(--accent);
+  }
+  .group-meta .live::before {
+    content: '●';
+    margin-right: 3px;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Guide */
+  .guide {
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line);
+    cursor: pointer;
+  }
+  .guide:last-child { border-bottom: none; padding-bottom: 0; }
+  .guide-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 6px;
+  }
+  .guide-title {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+  .guide:hover .guide-title { color: var(--accent); }
+  .guide-meta {
+    font-size: 11px;
+    color: var(--text-mute);
+    font-family: 'JetBrains Mono', monospace;
+    display: flex;
+    gap: 8px;
+  }
+  .guide-meta .dot::before { content: '•'; margin: 0 4px; }
+
+  /* Friends playing */
+  .friend-stack {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .friend-stack .avatar {
+    width: 32px; height: 32px;
+    border: 2px solid var(--bg-elev);
+    box-shadow: none;
+    margin-left: -8px;
+  }
+  .friend-stack .avatar:first-child { margin-left: 0; }
+  .friend-stack .avatar.v1 { background: linear-gradient(135deg, #FF3D2E, #FFB800); }
+  .friend-stack .avatar.v2 { background: linear-gradient(135deg, #DFFF1F, #5A8500); }
+  .friend-stack .avatar.v3 { background: linear-gradient(135deg, #C0C5CE, #4A4D55); }
+  .friend-stack .avatar.v4 { background: linear-gradient(135deg, #FFB800, #8B5E00); }
+
+  .friend-text {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+  .friend-text strong { color: var(--text); font-weight: 700; }
+
+  /* ==================== FOOTER ==================== */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 60px 40px 40px;
+    margin-top: 80px;
+    text-align: center;
+  }
+  .footer-mark {
+    font-family: 'Anton', sans-serif;
+    font-size: 120px;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--bg-elev);
+    margin-bottom: 20px;
+    user-select: none;
+  }
+  footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    main { grid-template-columns: 1fr; }
+    .achievements-grid { grid-template-columns: 1fr; }
+    .hero-stats { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+    .search-box { width: 160px; }
+  }
+  @media (max-width: 640px) {
+    nav, .action-bar, main, .hero { padding-left: 20px; padding-right: 20px; }
+    .hero-stats { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav>
+  <div class="logo">
+    <span class="logo-mark">P</span>
+    <span>PLATINO</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="juego.html" class="active">Juegos</a></li>
+    <li><a href="perfil.html">Mi perfil</a></li>
+    <li><a href="temporada.html">Temporada</a></li>
+    <li><a href="#">Comunidad</a></li>
+  </ul>
+  <div class="nav-right">
+    <input class="search-box" type="text" placeholder="Buscar un juego, jugador..." />
+    <div class="avatar"></div>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Decorative SVG artifact (golden rune circle, abstract) -->
+  <svg class="hero-artifact" viewBox="0 0 700 700" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <radialGradient id="glow" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#FFB800" stop-opacity="0.4"/>
+        <stop offset="60%" stop-color="#FF3D2E" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="#FF3D2E" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="350" cy="350" r="320" fill="url(#glow)"/>
+    <circle cx="350" cy="350" r="280" stroke="#FFB800" stroke-width="0.5" stroke-opacity="0.3" stroke-dasharray="2 6"/>
+    <circle cx="350" cy="350" r="220" stroke="#FFB800" stroke-width="0.5" stroke-opacity="0.4"/>
+    <circle cx="350" cy="350" r="160" stroke="#DFFF1F" stroke-width="0.5" stroke-opacity="0.3" stroke-dasharray="1 3"/>
+    <circle cx="350" cy="350" r="100" stroke="#FFB800" stroke-width="1" stroke-opacity="0.5"/>
+    <g stroke="#FFB800" stroke-width="0.5" stroke-opacity="0.6">
+      <line x1="350" y1="30" x2="350" y2="80"/>
+      <line x1="350" y1="620" x2="350" y2="670"/>
+      <line x1="30" y1="350" x2="80" y2="350"/>
+      <line x1="620" y1="350" x2="670" y2="350"/>
+    </g>
+    <text x="350" y="358" text-anchor="middle" fill="#FFB800" font-family="Anton" font-size="14" letter-spacing="4" opacity="0.7">ELDEN · LORD</text>
+  </svg>
+
+  <div class="hero-content">
+    <div class="breadcrumb">JUEGOS &nbsp;/&nbsp; ROL · ACCIÓN &nbsp;/&nbsp; <span>ELDEN RING</span></div>
+    <h1 class="hero-title">Elden<br>Ring<em>°</em></h1>
+    <div class="hero-meta">
+      <span class="meta-pill solid">25 FEB 2022</span>
+      <span class="meta-pill">FromSoftware</span>
+      <span class="meta-pill">Bandai Namco</span>
+      <span class="meta-divider"></span>
+      <span class="meta-pill">PS5</span>
+      <span class="meta-pill">Xbox Series</span>
+      <span class="meta-pill">PC</span>
+      <span class="meta-pill">PS4</span>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-label">⟶ Rating verificado</div>
+        <div class="stat-value accent">9.4<small>/10</small></div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">⟶ Jugadores activos</div>
+        <div class="stat-value">142K</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">⟶ Platinos en PLATINO</div>
+        <div class="stat-value">8.2K</div>
+      </div>
+      <div class="stat">
+        <div class="stat-label">⟶ Tu progreso</div>
+        <div class="stat-value">32<small>%</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== ACTION BAR ============== -->
+<div class="action-bar">
+  <div class="action-tabs">
+    <button class="tab active">Resumen</button>
+    <button class="tab">Trofeos<span class="count">42</span></button>
+    <button class="tab">Reseñas<span class="count">2.1K</span></button>
+    <button class="tab">Grupos<span class="count">89</span></button>
+    <button class="tab">Guías<span class="count">156</span></button>
+    <button class="tab">Multimedia</button>
+  </div>
+  <div class="action-cta">
+    <button class="btn">+ Lista</button>
+    <button class="btn primary">⚔ Buscar grupo</button>
+  </div>
+</div>
+
+<!-- ============== MAIN ============== -->
+<main>
+  <div>
+
+    <!-- ABOUT -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title"><span class="section-title-num">001</span>Sobre el juego</h2>
+        <span class="source-tag">Fuente: IGDB · sincronizado hace 2h</span>
+      </div>
+      <p class="about-text">
+        Elden Ring es un <strong>RPG de acción de mundo abierto</strong> desarrollado por FromSoftware bajo la dirección de Hidetaka Miyazaki, con worldbuilding del autor George R. R. Martin. El jugador asume el papel de un Sinluz, un exiliado convocado de vuelta a las Tierras Intermedias para reparar el Anillo de Elden y convertirse en el Lord Elden.
+      </p>
+      <p class="about-text">
+        Combina la fórmula de los Souls (combate metódico, dificultad exigente, lore enigmático) con un mundo abierto vasto, mazmorras opcionales, montura propia y un sistema de invocaciones de espíritus. Ganador del Game of the Year en The Game Awards 2022.
+      </p>
+
+      <div class="trailer">
+        <div class="trailer-play"></div>
+        <div class="trailer-info">
+          <strong>Tráiler de lanzamiento</strong>
+          <span>OFICIAL · 02:34 · YouTube</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACHIEVEMENTS -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title"><span class="section-title-num">002</span>Trofeos</h2>
+        <a href="#" class="section-link">Ver los 42 →</a>
+      </div>
+      <div class="achievements-grid">
+        <div class="achievement unlocked">
+          <div class="trophy platinum">★</div>
+          <div class="achievement-info">
+            <h4>Lord Elden</h4>
+            <p>Obtén todos los trofeos</p>
+          </div>
+          <div class="rarity">
+            <div class="rarity-pct">2.1%</div>
+            <div class="rarity-label">Ultra raro</div>
+          </div>
+        </div>
+
+        <div class="achievement unlocked">
+          <div class="trophy gold">G</div>
+          <div class="achievement-info">
+            <h4>El Señor Bestia</h4>
+            <p>Derrota a Maliketh, la Sombra Negra</p>
+          </div>
+          <div class="rarity">
+            <div class="rarity-pct">12.4%</div>
+            <div class="rarity-label">Raro</div>
+          </div>
+        </div>
+
+        <div class="achievement unlocked">
+          <div class="trophy silver">S</div>
+          <div class="achievement-info">
+            <h4>Reina del Pleno Sol</h4>
+            <p>Derrota a Malenia, Espada de Miquella</p>
+          </div>
+          <div class="rarity">
+            <div class="rarity-pct">8.7%</div>
+            <div class="rarity-label">Muy raro</div>
+          </div>
+        </div>
+
+        <div class="achievement locked">
+          <div class="trophy locked">B</div>
+          <div class="achievement-info">
+            <h4>El Caballero Bastardo Godrick</h4>
+            <p>Trofeo bloqueado · sigue jugando</p>
+          </div>
+          <div class="rarity">
+            <div class="rarity-pct">—</div>
+            <div class="rarity-label">42%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- REVIEWS -->
+    <section class="section">
+      <div class="section-head">
+        <h2 class="section-title"><span class="section-title-num">003</span>Reseñas verificadas</h2>
+        <a href="#" class="section-link">Ordenar: más útiles →</a>
+      </div>
+
+      <!-- THE KEY FEATURE: gating UI -->
+      <div class="review-gate">
+        <span class="gate-badge">⛓ Reseñas bloqueadas</span>
+        <h3 class="gate-title">De jugadores. Para jugadores. <em>Sin trampas.</em></h3>
+        <p class="gate-text">
+          Solo quienes han jugado de verdad pueden opinar. Necesitas <strong style="color: var(--text)">al menos 1 trofeo verificado</strong> para comentar, y haber obtenido el platino para escribir una reseña completa. Aquí no hay review-bombing.
+        </p>
+        <div class="gate-progress">
+          <div class="gate-progress-bar"></div>
+        </div>
+        <div class="gate-progress-text">TU PROGRESO: 14 / 42 TROFEOS · DESBLOQUEA RESEÑA COMPLETA AL CONSEGUIR EL PLATINO</div>
+      </div>
+
+      <article class="review">
+        <div class="reviewer-avatar"></div>
+        <div>
+          <div class="reviewer-head">
+            <span class="reviewer-name">SinluzDeNoche_92</span>
+            <span class="verified">Platino verificado</span>
+            <span class="reviewer-meta">· 187h jugadas · PS5</span>
+          </div>
+          <div class="review-rating">
+            <div class="stars">
+              <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div>
+            </div>
+            <span class="reviewer-meta">10/10</span>
+          </div>
+          <h4 class="review-headline">Una obra maestra que respeta al jugador</h4>
+          <p class="review-body">
+            Después de 187 horas y el platino, puedo decir que Elden Ring redefine el RPG de mundo abierto. Cada zona escondida, cada NPC, cada jefe opcional... todo está pensado. Malenia me costó 64 intentos pero ninguno se sintió injusto. Recomendadísimo si vienes de Sekiro o Bloodborne; si es tu primer Souls, ten paciencia con Margit.
+          </p>
+          <div class="review-actions">
+            <span>↑ 2,847 útil</span>
+            <span>💬 142 comentarios</span>
+            <span>⤴ Compartir</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="review">
+        <div class="reviewer-avatar var-2"></div>
+        <div>
+          <div class="reviewer-head">
+            <span class="reviewer-name">malenia_one_shot</span>
+            <span class="verified">Platino verificado</span>
+            <span class="reviewer-meta">· 92h jugadas · PC</span>
+          </div>
+          <div class="review-rating">
+            <div class="stars">
+              <div class="star"></div><div class="star"></div><div class="star"></div><div class="star"></div><div class="star empty"></div>
+            </div>
+            <span class="reviewer-meta">8/10</span>
+          </div>
+          <h4 class="review-headline">Brillante, pero la performance en PC fue dura al inicio</h4>
+          <p class="review-body">
+            El juego es increíble, no hay duda. Pero los stutters de los primeros parches mancharon mi experiencia inicial. Ahora ya está pulido. El DLC Shadow of the Erdtree justifica volver.
+          </p>
+          <div class="review-actions">
+            <span>↑ 1,203 útil</span>
+            <span>💬 67 comentarios</span>
+            <span>⤴ Compartir</span>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside>
+    <div class="sidebar-card">
+      <h3>Amigos jugando</h3>
+      <div class="friend-stack">
+        <div class="avatar v1"></div>
+        <div class="avatar v2"></div>
+        <div class="avatar v3"></div>
+        <div class="avatar v4"></div>
+      </div>
+      <p class="friend-text"><strong>Marc</strong>, <strong>Aitana</strong> y 6 más están jugando ahora mismo.</p>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Grupos activos</h3>
+      <div class="group">
+        <div class="group-icon var-1">M</div>
+        <div class="group-info">
+          <div class="group-name">Cazadores de Malenia ESP</div>
+          <div class="group-meta"><span class="live">142 EN VIVO</span> · 2.3K miembros</div>
+        </div>
+      </div>
+      <div class="group">
+        <div class="group-icon var-2">CO</div>
+        <div class="group-info">
+          <div class="group-name">Co-op Ranni Quest</div>
+          <div class="group-meta"><span class="live">38 EN VIVO</span> · 891 miembros</div>
+        </div>
+      </div>
+      <div class="group">
+        <div class="group-icon var-3">PVP</div>
+        <div class="group-info">
+          <div class="group-name">Invasores RL125</div>
+          <div class="group-meta">412 miembros</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card">
+      <h3>Guías colaborativas</h3>
+      <div class="guide">
+        <span class="guide-tag">★ Top semana</span>
+        <h4 class="guide-title">Guía completa del platino sin spoilers de la trama</h4>
+        <div class="guide-meta">
+          <span>23 colaboradores</span>
+          <span class="dot">12 min lectura</span>
+        </div>
+      </div>
+      <div class="guide">
+        <span class="guide-tag">⚔ Build</span>
+        <h4 class="guide-title">Mago intelecto puro: del nivel 1 al endgame</h4>
+        <div class="guide-meta">
+          <span>11 colaboradores</span>
+          <span class="dot">8 min lectura</span>
+        </div>
+      </div>
+      <div class="guide">
+        <span class="guide-tag">⚑ Secretos</span>
+        <h4 class="guide-title">Las 14 mazmorras que casi nadie encuentra</h4>
+        <div class="guide-meta">
+          <span>34 colaboradores</span>
+          <span class="dot">15 min lectura</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sidebar-card" style="background: linear-gradient(135deg, rgba(223, 255, 31, 0.06), transparent); border-color: rgba(223, 255, 31, 0.3);">
+      <h3 style="color: var(--accent);">¿Vinculado?</h3>
+      <p class="friend-text" style="margin-bottom: 16px;">Conecta tu cuenta de PSN, Steam o Xbox para sincronizar trofeos automáticamente y desbloquear funciones sociales.</p>
+      <button class="btn primary" style="width: 100%; justify-content: center;">Vincular cuentas</button>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <div class="footer-mark">PLATINO°</div>
+  <p>De jugadores · para jugadores · desde 2026</p>
+</footer>
+
+<script>
+  // Tab interactions
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

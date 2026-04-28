@@ -1,0 +1,2789 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLATINO — Temporada 03 · Las Tierras Sombrías</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --bg-elev: #131316;
+    --bg-elev-2: #1C1C20;
+    --line: #2A2A30;
+    --line-soft: #1F1F24;
+    --text: #F5F2EB;
+    --text-dim: #8A8A92;
+    --text-mute: #5A5A62;
+    --accent: #DFFF1F;
+    --accent-dim: #A8C415;
+    --danger: #FF3D2E;
+    --gold: #FFB800;
+    --silver: #C0C5CE;
+    --bronze: #CD7F32;
+    --mythic: #FF4DD8;
+    --legend: #4FE0FF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+    font-feature-settings: "ss01", "ss02";
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    z-index: 999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  .mono { font-family: 'JetBrains Mono', monospace; }
+
+  /* ============== NAV (mismo) ============== */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(20px) saturate(140%);
+    background: rgba(10, 10, 11, 0.72);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; }
+  .logo-mark { width: 28px; height: 28px; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-size: 18px; transform: rotate(-6deg); border-radius: 4px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; position: relative; }
+  .nav-links a.active { color: var(--text); }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -8px; left: 0; right: 0; height: 2px; background: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .avatar-nav { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #FF3D2E, #DFFF1F); border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--line); cursor: pointer; }
+
+  /* ============== HERO BANNER ============== */
+  .hero {
+    margin-top: 70px;
+    position: relative;
+    padding: 80px 40px 60px;
+    overflow: hidden;
+    min-height: 480px;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(255, 184, 0, 0.18), transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(255, 61, 46, 0.22), transparent 55%),
+      radial-gradient(ellipse at 50% 100%, var(--bg), transparent 60%),
+      linear-gradient(180deg, #1A0A12 0%, #0F0610 50%, var(--bg) 100%);
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image:
+      repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(223, 255, 31, 0.025) 60px, rgba(223, 255, 31, 0.025) 61px);
+  }
+  .hero::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 60%, var(--bg));
+  }
+
+  /* Decorative ornament SVG */
+  .hero-ornament {
+    position: absolute;
+    right: -80px; top: 20px;
+    width: 600px; height: 600px;
+    pointer-events: none;
+    opacity: 0.7;
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  .breadcrumb {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 24px;
+  }
+  .breadcrumb span { color: var(--accent); }
+
+  .season-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px;
+    background: rgba(223, 255, 31, 0.12);
+    border: 1px solid rgba(223, 255, 31, 0.4);
+    color: var(--accent);
+    border-radius: 100px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+  }
+  .season-tag::before {
+    content: '';
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent);
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  .hero-title {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(64px, 11vw, 160px);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    max-width: 950px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+    -webkit-text-stroke: 2px var(--accent);
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-title .small {
+    display: block;
+    font-size: 0.4em;
+    color: var(--text-dim);
+    margin-bottom: 12px;
+    -webkit-text-fill-color: var(--text-dim);
+    -webkit-text-stroke: 0;
+  }
+
+  .hero-subtitle {
+    font-size: 17px;
+    color: var(--text-dim);
+    max-width: 640px;
+    line-height: 1.5;
+    margin-bottom: 40px;
+  }
+
+  .hero-meta {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 24px 0;
+    max-width: 900px;
+  }
+  .hero-meta-block {
+    padding: 0 24px;
+    border-right: 1px solid var(--line);
+  }
+  .hero-meta-block:first-child { padding-left: 0; }
+  .hero-meta-block:last-child { border-right: none; }
+  .hero-meta-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .hero-meta-value {
+    font-family: 'Anton', sans-serif;
+    font-size: 32px;
+    line-height: 1;
+  }
+  .hero-meta-value.accent { color: var(--accent); }
+  .hero-meta-value small {
+    font-family: 'Manrope';
+    font-size: 14px;
+    color: var(--text-dim);
+    font-weight: 600;
+    margin-left: 4px;
+  }
+
+  /* ============== MAIN ============== */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 80px 40px;
+  }
+
+  .section { margin-bottom: 100px; }
+  .section:last-child { margin-bottom: 0; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 36px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 16px;
+  }
+  .section-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 48px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+  .section-title-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-right: 14px;
+    vertical-align: super;
+  }
+  .section-link {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-bottom: 1px solid var(--text-mute);
+    padding-bottom: 2px;
+  }
+  .section-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  .section-intro {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 640px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+  }
+
+  /* ============== STATUS PANEL (your rank) ============== */
+  .status-panel {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 0;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .status-rank {
+    background:
+      radial-gradient(circle at 50% 30%, rgba(255, 184, 0, 0.18), transparent 60%),
+      linear-gradient(180deg, #1F1610 0%, #0F0A05 100%);
+    padding: 36px 28px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    border-right: 1px solid var(--line);
+  }
+  .status-rank::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 50%;
+    width: 1px; height: 16px;
+    background: var(--gold);
+    transform: translateX(-50%);
+  }
+
+  .rank-emblem-large {
+    width: 140px; height: 140px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 24px rgba(255, 184, 0, 0.35));
+  }
+
+  .rank-tier {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .rank-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 38px;
+    line-height: 1;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 4px;
+  }
+  .rank-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 16px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .status-detail {
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .status-points {
+    margin-bottom: 28px;
+  }
+  .points-row {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+  }
+  .points-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--accent);
+  }
+  .points-unit {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--text-dim);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .points-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .progress-to-next {
+    margin-bottom: 24px;
+  }
+  .progress-label-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .progress-label-row .left { color: var(--text-dim); }
+  .progress-label-row .right { color: var(--accent); font-weight: 700; }
+  .progress-bar {
+    height: 10px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+    box-shadow: 0 0 16px rgba(223, 255, 31, 0.5);
+    border-radius: 100px;
+    width: 64%;
+    position: relative;
+  }
+  .progress-fill::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 2px;
+    background: var(--text);
+    box-shadow: 0 0 8px var(--text);
+  }
+
+  .next-rank-info {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.05em;
+    margin-top: 8px;
+  }
+  .next-rank-info strong { color: var(--text); font-weight: 700; }
+
+  .status-positions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+  .position-block {
+    padding-right: 20px;
+    border-right: 1px solid var(--line);
+  }
+  .position-block:last-child { border-right: none; padding-left: 20px; padding-right: 0; }
+  .position-block:nth-child(2) { padding-left: 20px; }
+  .position-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .position-value {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+  }
+  .position-value .hash { color: var(--text-mute); }
+  .position-value strong { color: var(--accent); }
+
+  /* ============== TIER LADDER ============== */
+  .tier-ladder {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 0;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px 16px;
+    position: relative;
+  }
+
+  .tier-ladder::before {
+    content: '';
+    position: absolute;
+    left: 60px; right: 60px;
+    top: 86px;
+    height: 2px;
+    background: linear-gradient(90deg,
+      var(--bronze) 0%,
+      var(--silver) 33%,
+      var(--gold) 50%,
+      var(--silver) 70%,
+      var(--mythic) 100%);
+    opacity: 0.3;
+    z-index: 0;
+  }
+
+  .tier {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    cursor: pointer;
+  }
+
+  .tier-emblem {
+    width: 64px; height: 64px;
+    margin: 0 auto 14px;
+    position: relative;
+    transition: transform 0.2s;
+  }
+  .tier:hover .tier-emblem { transform: scale(1.1); }
+
+  .tier.current .tier-emblem {
+    filter: drop-shadow(0 0 16px var(--gold));
+  }
+
+  .tier.locked .tier-emblem {
+    opacity: 0.3;
+    filter: grayscale(0.7);
+  }
+
+  .tier-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 4px;
+    color: var(--text-dim);
+  }
+  .tier.passed .tier-name,
+  .tier.current .tier-name { color: var(--text); }
+  .tier.current .tier-name { color: var(--gold); }
+
+  .tier-points {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .tier.current .tier-points { color: var(--accent); }
+
+  .tier-current-badge {
+    position: absolute;
+    top: -10px; left: 50%;
+    transform: translateX(-50%);
+    padding: 2px 8px;
+    background: var(--gold);
+    color: var(--bg);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    font-weight: 700;
+    border-radius: 100px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* ============== SEASON PATH (the unique element) ============== */
+  .path-wrap {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .path-wrap::before {
+    content: 'T·03';
+    position: absolute;
+    bottom: -30px; right: 30px;
+    font-family: 'Anton', sans-serif;
+    font-size: 200px;
+    line-height: 0.85;
+    color: rgba(255, 255, 255, 0.02);
+    pointer-events: none;
+  }
+
+  .path-svg {
+    width: 100%;
+    height: 200px;
+    margin: 24px 0 32px;
+  }
+
+  .path-milestones {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-top: 28px;
+  }
+  .milestone {
+    padding: 18px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    position: relative;
+  }
+  .milestone.completed {
+    border-color: var(--accent);
+    background: linear-gradient(135deg, rgba(223, 255, 31, 0.08), transparent);
+  }
+  .milestone.current {
+    border-color: var(--gold);
+    background: linear-gradient(135deg, rgba(255, 184, 0, 0.08), transparent);
+  }
+  .milestone-num {
+    position: absolute;
+    top: 14px; right: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+  }
+  .milestone-status {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 3px 7px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    font-weight: 700;
+  }
+  .milestone.completed .milestone-status { background: var(--accent); color: var(--bg); }
+  .milestone.current .milestone-status { background: var(--gold); color: var(--bg); }
+  .milestone.locked .milestone-status { background: var(--bg-elev); color: var(--text-mute); border: 1px solid var(--line); }
+
+  .milestone-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 17px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .milestone.locked .milestone-name { color: var(--text-mute); }
+
+  .milestone-reward {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  /* ============== CHALLENGES ============== */
+  .challenges-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .challenge {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 18px;
+    align-items: start;
+  }
+  .challenge.featured {
+    background:
+      radial-gradient(circle at top right, rgba(255, 184, 0, 0.1), transparent 60%),
+      var(--bg-elev);
+    border-color: rgba(255, 184, 0, 0.3);
+  }
+
+  .challenge-icon {
+    width: 56px; height: 56px;
+    border-radius: 12px;
+    background: var(--bg-elev-2);
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line);
+  }
+  .challenge.featured .challenge-icon {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--bg);
+  }
+
+  .challenge-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    gap: 12px;
+  }
+  .challenge-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+  }
+  .challenge-pp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .challenge-pp.gold { color: var(--gold); }
+
+  .challenge-desc {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-bottom: 14px;
+  }
+
+  .challenge-progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .challenge-progress-row strong { color: var(--accent); }
+
+  .challenge-bar {
+    height: 5px;
+    background: var(--bg-elev-2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .challenge-bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+  }
+  .challenge.featured .challenge-bar-fill { background: var(--gold); }
+
+  /* ============== INSIGNIAS / BADGES ============== */
+  .badges-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 12px;
+  }
+
+  .badge {
+    aspect-ratio: 1;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .badge:hover { transform: translateY(-3px); border-color: var(--accent); }
+
+  .badge.tier-bronze::before,
+  .badge.tier-silver::before,
+  .badge.tier-gold::before,
+  .badge.tier-platinum::before,
+  .badge.tier-mythic::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.7;
+  }
+  .badge.tier-bronze::before { background: radial-gradient(circle at 50% 30%, rgba(205, 127, 50, 0.15), transparent 60%); }
+  .badge.tier-silver::before { background: radial-gradient(circle at 50% 30%, rgba(192, 197, 206, 0.15), transparent 60%); }
+  .badge.tier-gold::before { background: radial-gradient(circle at 50% 30%, rgba(255, 184, 0, 0.18), transparent 60%); }
+  .badge.tier-platinum::before { background: radial-gradient(circle at 50% 30%, rgba(180, 220, 255, 0.18), transparent 60%); }
+  .badge.tier-mythic::before { background: radial-gradient(circle at 50% 30%, rgba(255, 77, 216, 0.2), transparent 60%); }
+
+  .badge-icon {
+    width: 56px; height: 56px;
+    position: relative;
+    z-index: 1;
+  }
+  .badge.locked .badge-icon { opacity: 0.25; filter: grayscale(1); }
+
+  .badge-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 12px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-top: 8px;
+    position: relative;
+    z-index: 1;
+  }
+  .badge.locked .badge-name { color: var(--text-mute); }
+
+  .badge-tier-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .badge.tier-bronze .badge-tier-label { color: var(--bronze); }
+  .badge.tier-silver .badge-tier-label { color: var(--silver); }
+  .badge.tier-gold .badge-tier-label { color: var(--gold); }
+  .badge.tier-platinum .badge-tier-label { color: var(--legend); }
+  .badge.tier-mythic .badge-tier-label { color: var(--mythic); }
+  .badge.locked .badge-tier-label { color: var(--text-mute); }
+
+  /* ============== LEADERBOARD ============== */
+  .leaderboard-controls {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .lb-tab {
+    padding: 8px 16px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-dim);
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+  .lb-tab:hover { color: var(--text); }
+  .lb-tab.active {
+    background: var(--text);
+    color: var(--bg);
+    border-color: var(--text);
+  }
+
+  .podium {
+    display: grid;
+    grid-template-columns: 1fr 1.15fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+    align-items: end;
+  }
+
+  .podium-card {
+    padding: 28px 20px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .podium-card.gold {
+    background:
+      radial-gradient(ellipse at top, rgba(255, 184, 0, 0.18), transparent 60%),
+      var(--bg-elev);
+    border-color: var(--gold);
+    padding-top: 36px;
+    padding-bottom: 36px;
+  }
+  .podium-card.gold::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--gold);
+  }
+  .podium-card.silver {
+    background:
+      radial-gradient(ellipse at top, rgba(192, 197, 206, 0.12), transparent 60%),
+      var(--bg-elev);
+    border-color: var(--silver);
+  }
+  .podium-card.silver::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--silver);
+  }
+  .podium-card.bronze {
+    background:
+      radial-gradient(ellipse at top, rgba(205, 127, 50, 0.15), transparent 60%),
+      var(--bg-elev);
+    border-color: var(--bronze);
+  }
+  .podium-card.bronze::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: var(--bronze);
+  }
+
+  .podium-rank {
+    font-family: 'Anton', sans-serif;
+    font-size: 64px;
+    line-height: 0.9;
+    color: var(--text-mute);
+    margin-bottom: 12px;
+  }
+  .podium-card.gold .podium-rank { color: var(--gold); font-size: 80px; }
+  .podium-card.silver .podium-rank { color: var(--silver); }
+  .podium-card.bronze .podium-rank { color: var(--bronze); }
+
+  .podium-avatar {
+    width: 70px; height: 70px;
+    border-radius: 50%;
+    margin: 0 auto 14px;
+    border: 3px solid var(--bg);
+    box-shadow: 0 0 0 2px var(--gold);
+  }
+  .podium-card.silver .podium-avatar { box-shadow: 0 0 0 2px var(--silver); }
+  .podium-card.bronze .podium-avatar { box-shadow: 0 0 0 2px var(--bronze); }
+  .podium-card.gold .podium-avatar { width: 84px; height: 84px; }
+
+  .podium-avatar.v1 { background: linear-gradient(135deg, #FFB800, #8B5E00); }
+  .podium-avatar.v2 { background: linear-gradient(135deg, #FF3D2E, #8B1A0E); }
+  .podium-avatar.v3 { background: linear-gradient(135deg, #DFFF1F, #5A8500); }
+
+  .podium-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 4px;
+  }
+  .podium-card.gold .podium-name { font-size: 28px; }
+
+  .podium-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .podium-pp {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    color: var(--accent);
+    line-height: 1;
+  }
+  .podium-pp small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-mute);
+    margin-left: 4px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+  }
+
+  /* Leaderboard list */
+  .lb-list {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .lb-row {
+    display: grid;
+    grid-template-columns: 60px 1fr 110px 110px 110px;
+    gap: 16px;
+    padding: 16px 24px;
+    align-items: center;
+    border-bottom: 1px solid var(--line-soft);
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .lb-row:hover { background: var(--bg-elev-2); }
+  .lb-row:last-child { border-bottom: none; }
+  .lb-row.you {
+    background: linear-gradient(90deg, rgba(223, 255, 31, 0.05), transparent);
+    border-left: 3px solid var(--accent);
+    padding-left: 21px;
+  }
+  .lb-row.you:hover { background: rgba(223, 255, 31, 0.08); }
+
+  .lb-pos {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    color: var(--text-dim);
+  }
+  .lb-row.you .lb-pos { color: var(--accent); }
+
+  .lb-pos .arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    margin-left: 4px;
+    vertical-align: super;
+  }
+  .lb-pos .arrow.up { color: var(--accent-dim); }
+  .lb-pos .arrow.down { color: var(--danger); }
+
+  .lb-player {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+    align-items: center;
+    min-width: 0;
+  }
+  .lb-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .lb-avatar.va { background: linear-gradient(135deg, #FF6B35, #2A0F08); }
+  .lb-avatar.vb { background: linear-gradient(135deg, #4A6B2A, #0A1505); }
+  .lb-avatar.vc { background: linear-gradient(135deg, #6B4A8B, #1A0F2A); }
+  .lb-avatar.vd { background: linear-gradient(135deg, #FFB7C5, #6B4A8B); }
+  .lb-avatar.ve { background: linear-gradient(135deg, #C0C5CE, #4A4D55); }
+  .lb-avatar.vf { background: linear-gradient(135deg, #FF3D2E, #DFFF1F); }
+  .lb-avatar.vg { background: linear-gradient(135deg, #4FE0FF, #1A4F8B); }
+
+  .lb-name-row {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    min-width: 0;
+  }
+  .lb-name {
+    font-weight: 700;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .lb-mini-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .lb-mini-rank.mito { background: var(--mythic); color: var(--bg); }
+  .lb-mini-rank.leyenda { background: var(--legend); color: var(--bg); }
+  .lb-mini-rank.maestro { background: var(--gold); color: var(--bg); }
+  .lb-mini-rank.veterano { background: var(--silver); color: var(--bg); }
+
+  .lb-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .lb-stat {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text);
+    text-align: right;
+  }
+  .lb-stat.accent { color: var(--accent); font-weight: 700; }
+  .lb-stat small {
+    display: block;
+    font-size: 9px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 2px;
+    font-weight: 400;
+  }
+
+  /* ============== REWARDS PREVIEW ============== */
+  .rewards-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .reward {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 24px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .reward.unlocked { border-color: var(--accent); }
+  .reward.unlocked::before {
+    content: '✓ DESBLOQUEADO';
+    position: absolute;
+    top: 14px; right: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--accent);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+  }
+  .reward.locked { opacity: 0.55; }
+
+  .reward-visual {
+    width: 100px; height: 100px;
+    margin: 8px auto 16px;
+    position: relative;
+  }
+
+  .reward-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 6px;
+  }
+  .reward.locked .reward-tag { color: var(--text-mute); }
+
+  .reward-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    letter-spacing: 0.005em;
+  }
+
+  .reward-req {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  /* ============== IMPACT SECTION ============== */
+  .section-link-static {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .impact-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .impact-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .impact-card-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .impact-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    font-weight: 700;
+  }
+
+  .impact-trend {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* REPUTATION METER */
+  .rep-meter {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 24px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  .rep-status {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .rep-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+  }
+
+  .rep-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .rep-row {
+    display: grid;
+    grid-template-columns: 130px 1fr 32px;
+    gap: 14px;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+  }
+  .rep-row-label {
+    color: var(--text-dim);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .rep-row-bar {
+    height: 6px;
+    background: var(--bg-elev-2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .rep-row-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 100px;
+  }
+  .rep-row-val {
+    text-align: right;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* PP SOURCES DONUT */
+  .sources-chart {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .sources-svg-wrap {
+    position: relative;
+    width: 200px; height: 200px;
+  }
+  .sources-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+  }
+  .sources-center-num {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    line-height: 1;
+    color: var(--text);
+  }
+  .sources-center-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+  .sources-legend {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .src-row {
+    display: grid;
+    grid-template-columns: 12px 1fr auto;
+    gap: 10px;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--line-soft);
+  }
+  .src-row:last-child { border-bottom: none; }
+  .src-dot {
+    width: 10px; height: 10px;
+    border-radius: 2px;
+  }
+  .src-row span:nth-child(2) {
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .src-row strong {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  /* TOP CONTRIBUTIONS */
+  .impact-subtitle {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 16px;
+    color: var(--text-dim);
+  }
+  .top-contributions {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  .contribution-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+  .contribution-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .contrib-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    padding: 3px 8px;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .contrib-tag.review { background: rgba(223, 255, 31, 0.15); color: var(--accent); }
+  .contrib-tag.guide { background: rgba(255, 184, 0, 0.15); color: var(--gold); }
+  .contrib-tag.comment { background: rgba(79, 224, 255, 0.15); color: var(--legend); }
+
+  .contribution-card h4 {
+    font-family: 'Anton', sans-serif;
+    font-size: 17px;
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 8px;
+  }
+  .contrib-game {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .contrib-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+  }
+  .cs-block {
+    border-right: 1px solid var(--line);
+    padding-right: 8px;
+  }
+  .cs-block:last-child { border-right: none; padding-left: 8px; padding-right: 0; }
+  .cs-block:nth-child(2) { padding-left: 8px; }
+  .cs-block strong {
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+    color: var(--accent);
+    line-height: 1;
+    display: block;
+    margin-bottom: 4px;
+  }
+  .cs-block small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  /* EARNING RULES */
+  .earning-rules {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 32px;
+  }
+  .earning-rules h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 20px;
+  }
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+  .rule-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    margin-bottom: 14px;
+    font-weight: 700;
+  }
+  .rule-col ul {
+    list-style: none;
+  }
+  .rule-col li {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-soft);
+    font-size: 13px;
+  }
+  .rule-col li:last-child { border-bottom: none; }
+  .rule-col li span {
+    color: var(--text-dim);
+  }
+  .rule-col li strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 700;
+    white-space: nowrap;
+    margin-left: 12px;
+  }
+  .rules-footer {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 12px;
+    color: var(--text-mute);
+    line-height: 1.5;
+    font-style: italic;
+  }
+
+  /* AWARDED GUIDES SECTION */
+  .awards-grid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 16px;
+  }
+  .award-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .award-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent);
+  }
+
+  .award-card.featured {
+    grid-row: span 2;
+    display: flex;
+    flex-direction: column;
+    background:
+      linear-gradient(135deg, rgba(255, 184, 0, 0.08), transparent 60%),
+      var(--bg-elev);
+    border-color: rgba(255, 184, 0, 0.3);
+  }
+  .award-card.featured:hover { border-color: var(--gold); }
+
+  .award-image {
+    aspect-ratio: 16 / 9;
+    background:
+      radial-gradient(circle at 30% 40%, rgba(180, 100, 220, 0.4), transparent 50%),
+      radial-gradient(circle at 70% 60%, rgba(120, 80, 180, 0.5), transparent 60%),
+      linear-gradient(135deg, #1F0F2A, #0A0510);
+    position: relative;
+  }
+  .award-card.featured .award-image {
+    aspect-ratio: 16 / 7;
+  }
+  .award-image::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 50%, rgba(0,0,0,0.7));
+  }
+  .award-image-2 {
+    background:
+      radial-gradient(circle at 50% 50%, rgba(255, 107, 53, 0.4), transparent 55%),
+      linear-gradient(135deg, #2A0F08, #0A0408);
+  }
+  .award-image-3 {
+    background:
+      radial-gradient(circle at 30% 40%, rgba(120, 0, 30, 0.5), transparent 55%),
+      linear-gradient(135deg, #1F0508, #0A0204);
+  }
+
+  .award-content {
+    padding: 24px 28px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .award-card:not(.featured) .award-content {
+    padding: 18px 20px;
+  }
+
+  .award-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .award-tag.main {
+    color: var(--bg);
+    background: var(--gold);
+    padding: 4px 10px;
+    border-radius: 4px;
+  }
+  .award-tag.silver { color: var(--silver); }
+  .award-tag.platinum { color: var(--legend); }
+
+  .award-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 28px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 6px;
+  }
+  .award-card:not(.featured) .award-title,
+  .award-card:not(.featured) h4 {
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 6px;
+  }
+
+  .award-game {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.1em;
+    margin-bottom: 16px;
+  }
+  .award-card:not(.featured) .award-game {
+    margin-bottom: 12px;
+    font-size: 10px;
+  }
+
+  .award-desc {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.55;
+    margin-bottom: 24px;
+    flex: 1;
+  }
+
+  .award-stats-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .award-stats-row strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .award-stats-row .pp {
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .award-pp {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    font-weight: 700;
+    padding: 4px 8px;
+    background: rgba(255, 184, 0, 0.12);
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+
+  /* Responsive */
+  @media (max-width: 1100px) {
+    .impact-grid { grid-template-columns: 1fr; }
+    .top-contributions { grid-template-columns: 1fr; }
+    .rules-grid { grid-template-columns: 1fr; gap: 24px; }
+    .awards-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .award-card.featured { grid-row: span 1; }
+    .sources-chart { grid-template-columns: 1fr; gap: 20px; justify-items: center; }
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 60px 40px 40px;
+    margin-top: 80px;
+    text-align: center;
+  }
+  .footer-mark {
+    font-family: 'Anton', sans-serif;
+    font-size: 120px;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--bg-elev);
+    margin-bottom: 20px;
+    user-select: none;
+  }
+  footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1100px) {
+    .status-panel { grid-template-columns: 1fr; }
+    .status-rank { border-right: none; border-bottom: 1px solid var(--line); }
+    .tier-ladder { grid-template-columns: repeat(4, 1fr); gap: 24px 0; }
+    .tier-ladder::before { display: none; }
+    .path-milestones { grid-template-columns: repeat(2, 1fr); }
+    .badges-grid { grid-template-columns: repeat(4, 1fr); }
+    .rewards-grid { grid-template-columns: repeat(2, 1fr); }
+    .lb-row { grid-template-columns: 50px 1fr 90px; gap: 12px; }
+    .lb-row .completados, .lb-row .platinos { display: none; }
+  }
+  @media (max-width: 700px) {
+    nav, main, .hero { padding-left: 20px; padding-right: 20px; }
+    .nav-links { display: none; }
+    .challenges-grid { grid-template-columns: 1fr; }
+    .badges-grid { grid-template-columns: repeat(3, 1fr); }
+    .podium { grid-template-columns: 1fr; }
+    .hero-meta { grid-template-columns: 1fr 1fr; gap: 16px 0; }
+    .hero-meta-block:nth-child(2) { border-right: none; }
+    .tier-ladder { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav>
+  <div class="logo">
+    <span class="logo-mark">P</span>
+    <span>PLATINO</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="juego.html">Juegos</a></li>
+    <li><a href="perfil.html">Mi perfil</a></li>
+    <li><a href="temporada.html" class="active">Temporada</a></li>
+    <li><a href="#">Comunidad</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="avatar-nav"></div>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <!-- Decorative ornament -->
+  <svg class="hero-ornament" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <radialGradient id="heroGlow" cx="50%" cy="50%">
+        <stop offset="0%" stop-color="#FFB800" stop-opacity="0.5"/>
+        <stop offset="60%" stop-color="#FF3D2E" stop-opacity="0.1"/>
+        <stop offset="100%" stop-color="#FF3D2E" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="300" cy="300" r="280" fill="url(#heroGlow)"/>
+    <circle cx="300" cy="300" r="240" stroke="#FFB800" stroke-width="0.5" stroke-opacity="0.4"/>
+    <circle cx="300" cy="300" r="180" stroke="#FFB800" stroke-width="0.5" stroke-opacity="0.3" stroke-dasharray="2 6"/>
+    <circle cx="300" cy="300" r="120" stroke="#DFFF1F" stroke-width="0.6" stroke-opacity="0.4"/>
+    <!-- Sigil -->
+    <g transform="translate(300, 300)" stroke="#FFB800" stroke-width="1" fill="none" opacity="0.7">
+      <polygon points="0,-80 70,-25 45,60 -45,60 -70,-25"/>
+      <polygon points="0,-50 45,-15 28,38 -28,38 -45,-15" stroke="#DFFF1F"/>
+      <circle cx="0" cy="0" r="20" stroke="#DFFF1F"/>
+      <line x1="0" y1="-100" x2="0" y2="-80"/>
+      <line x1="0" y1="60" x2="0" y2="80"/>
+    </g>
+  </svg>
+
+  <div class="hero-content">
+    <div class="breadcrumb">SISTEMA DE PROGRESIÓN &nbsp;/&nbsp; <span>TEMPORADA ACTIVA</span></div>
+    <span class="season-tag">⟶ Temporada 03 · activa</span>
+    <h1 class="hero-title">
+      <span class="small">TEMPORADA 03</span>
+      Las Tierras<br>Sombrías<em>°</em>
+    </h1>
+    <p class="hero-subtitle">
+      Una temporada dedicada a los soulslike y los mundos abiertos exigentes. Completa retos temáticos, gana puntos PROEZA y desbloquea el título exclusivo <strong style="color:var(--text);">"Sinluz"</strong> que se añadirá a tu rango durante toda la temporada.
+    </p>
+
+    <div class="hero-meta">
+      <div class="hero-meta-block">
+        <div class="hero-meta-label">⟶ Tiempo restante</div>
+        <div class="hero-meta-value">42<small>días</small></div>
+      </div>
+      <div class="hero-meta-block">
+        <div class="hero-meta-label">⟶ Tu posición</div>
+        <div class="hero-meta-value accent">#247</div>
+      </div>
+      <div class="hero-meta-block">
+        <div class="hero-meta-label">⟶ Participantes</div>
+        <div class="hero-meta-value">48.2K</div>
+      </div>
+      <div class="hero-meta-block">
+        <div class="hero-meta-label">⟶ Tu PP en T03</div>
+        <div class="hero-meta-value">8.420</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+
+  <!-- ============== STATUS PANEL ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">001</span>Tu rango actual</h2>
+      <a href="#" class="section-link">Cómo se calculan los PP →</a>
+    </div>
+
+    <div class="status-panel">
+      <div class="status-rank">
+        <!-- VETERANO emblem (tier 4) -->
+        <svg class="rank-emblem-large" viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="goldGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FFE08A"/>
+              <stop offset="50%" stop-color="#FFB800"/>
+              <stop offset="100%" stop-color="#8B5E00"/>
+            </linearGradient>
+          </defs>
+          <!-- Shield base -->
+          <path d="M70 12 L120 30 L120 70 Q120 110 70 130 Q20 110 20 70 L20 30 Z" fill="url(#goldGrad)" opacity="0.15" stroke="url(#goldGrad)" stroke-width="2"/>
+          <path d="M70 22 L110 36 L110 70 Q110 102 70 118 Q30 102 30 70 L30 36 Z" fill="none" stroke="#FFB800" stroke-width="1" opacity="0.6"/>
+          <!-- Crossed swords -->
+          <line x1="42" y1="48" x2="98" y2="100" stroke="#FFE08A" stroke-width="3"/>
+          <line x1="98" y1="48" x2="42" y2="100" stroke="#FFE08A" stroke-width="3"/>
+          <!-- Center gem -->
+          <circle cx="70" cy="74" r="14" fill="#0A0A0B" stroke="#FFB800" stroke-width="1.5"/>
+          <circle cx="70" cy="74" r="7" fill="#FFB800"/>
+          <!-- Tier markers (4 dots for 4th tier) -->
+          <circle cx="50" cy="36" r="2.5" fill="#FFB800"/>
+          <circle cx="62" cy="32" r="2.5" fill="#FFB800"/>
+          <circle cx="78" cy="32" r="2.5" fill="#FFB800"/>
+          <circle cx="90" cy="36" r="2.5" fill="#FFB800"/>
+        </svg>
+        <div class="rank-tier">⟶ RANGO 4 DE 7</div>
+        <h3 class="rank-name">Veterano</h3>
+        <p class="rank-title">Sinluz · Temporada 03</p>
+      </div>
+
+      <div class="status-detail">
+        <div class="status-points">
+          <div class="points-row">
+            <span class="points-num">12.840</span>
+            <span class="points-unit">PP</span>
+          </div>
+          <span class="points-label">Puntos Proeza acumulados · permanentes</span>
+        </div>
+
+        <div class="progress-to-next">
+          <div class="progress-label-row">
+            <span class="left">Veterano · Maestro</span>
+            <span class="right">64% · 7.160 PP restantes</span>
+          </div>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <p class="next-rank-info">A <strong>20.000 PP</strong> alcanzas el rango <strong style="color:var(--gold);">MAESTRO</strong>. Solo el 8% de la comunidad lo ha conseguido.</p>
+        </div>
+
+        <div class="status-positions">
+          <div class="position-block">
+            <div class="position-label">⟶ Global</div>
+            <div class="position-value"><span class="hash">#</span><strong>3.847</strong></div>
+          </div>
+          <div class="position-block">
+            <div class="position-label">⟶ España</div>
+            <div class="position-value"><span class="hash">#</span><strong>247</strong></div>
+          </div>
+          <div class="position-block">
+            <div class="position-label">⟶ Top soulslike</div>
+            <div class="position-value"><span class="hash">#</span><strong>89</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== TIER LADDER ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">002</span>Los 7 rangos</h2>
+      <a href="#" class="section-link">Ver detalle de cada rango →</a>
+    </div>
+    <p class="section-intro">Tu rango es <strong style="color:var(--text);">permanente</strong>: una vez lo alcanzas, no lo pierdes. Cada temporada añade un título temático sobre él (ahora "Sinluz"). Los rangos se ganan acumulando PP por logros raros, platinos, reseñas útiles y guías colaborativas.</p>
+
+    <div class="tier-ladder">
+      <!-- Tier 1: INICIADO -->
+      <div class="tier passed">
+        <svg class="tier-emblem" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="20" fill="none" stroke="#CD7F32" stroke-width="2"/>
+          <circle cx="32" cy="32" r="6" fill="#CD7F32"/>
+        </svg>
+        <div class="tier-name">Iniciado</div>
+        <div class="tier-points">0 PP</div>
+      </div>
+      <!-- Tier 2: NOVATO -->
+      <div class="tier passed">
+        <svg class="tier-emblem" viewBox="0 0 64 64">
+          <polygon points="32,12 52,46 12,46" fill="none" stroke="#CD7F32" stroke-width="2"/>
+          <polygon points="32,22 44,42 20,42" fill="#CD7F32" opacity="0.6"/>
+        </svg>
+        <div class="tier-name">Novato</div>
+        <div class="tier-points">500 PP</div>
+      </div>
+      <!-- Tier 3: CAZADOR -->
+      <div class="tier passed">
+        <svg class="tier-emblem" viewBox="0 0 64 64">
+          <polygon points="32,8 56,22 56,42 32,56 8,42 8,22" fill="none" stroke="#C0C5CE" stroke-width="2"/>
+          <polygon points="32,18 46,26 46,38 32,46 18,38 18,26" fill="none" stroke="#C0C5CE" stroke-width="1"/>
+          <path d="M28 26 L36 32 L28 38 Z" fill="#C0C5CE"/>
+        </svg>
+        <div class="tier-name">Cazador</div>
+        <div class="tier-points">2.500 PP</div>
+      </div>
+      <!-- Tier 4: VETERANO (current) -->
+      <div class="tier current">
+        <span class="tier-current-badge">★ ACTUAL</span>
+        <svg class="tier-emblem" viewBox="0 0 64 64">
+          <path d="M32 6 L54 14 L54 32 Q54 50 32 58 Q10 50 10 32 L10 14 Z" fill="rgba(255,184,0,0.15)" stroke="#FFB800" stroke-width="2"/>
+          <line x1="20" y1="22" x2="44" y2="46" stroke="#FFE08A" stroke-width="2"/>
+          <line x1="44" y1="22" x2="20" y2="46" stroke="#FFE08A" stroke-width="2"/>
+          <circle cx="32" cy="34" r="6" fill="#0A0A0B" stroke="#FFB800" stroke-width="1.5"/>
+        </svg>
+        <div class="tier-name">Veterano</div>
+        <div class="tier-points">7.500 PP</div>
+      </div>
+      <!-- Tier 5: MAESTRO -->
+      <div class="tier locked">
+        <svg class="tier-emblem" viewBox="0 0 64 64">
+          <polygon points="32,4 38,24 58,24 42,38 48,58 32,46 16,58 22,38 6,24 26,24" fill="none" stroke="#FFB800" stroke-width="2"/>
+          <polygon points="32,16 35,26 45,26 37,32 40,42 32,36 24,42 27,32 19,26 29,26" fill="#FFB800" opacity="0.6"/>
+        </svg>
+        <div class="tier-name">Maestro</div>
+        <div class="tier-points">20.000 PP</div>
+      </div>
+      <!-- Tier 6: LEYENDA -->
+      <div class="tier locked">
+        <svg class="tier-emblem" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="14" fill="none" stroke="#4FE0FF" stroke-width="1.5"/>
+          <g stroke="#4FE0FF" stroke-width="1.5">
+            <line x1="32" y1="6" x2="32" y2="14"/>
+            <line x1="32" y1="50" x2="32" y2="58"/>
+            <line x1="6" y1="32" x2="14" y2="32"/>
+            <line x1="50" y1="32" x2="58" y2="32"/>
+            <line x1="14" y1="14" x2="20" y2="20"/>
+            <line x1="44" y1="44" x2="50" y2="50"/>
+            <line x1="50" y1="14" x2="44" y2="20"/>
+            <line x1="20" y1="44" x2="14" y2="50"/>
+          </g>
+          <circle cx="32" cy="32" r="6" fill="#4FE0FF"/>
+        </svg>
+        <div class="tier-name">Leyenda</div>
+        <div class="tier-points">50.000 PP</div>
+      </div>
+      <!-- Tier 7: MITO -->
+      <div class="tier locked">
+        <svg class="tier-emblem" viewBox="0 0 64 64">
+          <defs>
+            <linearGradient id="mythicGrad" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FF4DD8"/>
+              <stop offset="50%" stop-color="#DFFF1F"/>
+              <stop offset="100%" stop-color="#4FE0FF"/>
+            </linearGradient>
+          </defs>
+          <polygon points="32,2 38,18 56,18 42,28 48,46 32,36 16,46 22,28 8,18 26,18" fill="none" stroke="url(#mythicGrad)" stroke-width="2"/>
+          <polygon points="32,16 36,28 48,30 38,38 42,52 32,44 22,52 26,38 16,30 28,28" fill="url(#mythicGrad)" opacity="0.4"/>
+          <circle cx="32" cy="32" r="4" fill="url(#mythicGrad)"/>
+        </svg>
+        <div class="tier-name">Mito</div>
+        <div class="tier-points">100.000 PP</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEASON PATH ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">003</span>Camino de la temporada</h2>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-mute); letter-spacing: 0.08em;">3 / 5 HITOS · 60% COMPLETADO</span>
+    </div>
+    <p class="section-intro">Cada temporada propone una ruta con 5 hitos clave, conectados narrativamente. Cada hito desbloqueado te da PP, una insignia exclusiva y elementos cosméticos para tu Player Card.</p>
+
+    <div class="path-wrap">
+      <!-- The journey path SVG -->
+      <svg class="path-svg" viewBox="0 0 1200 200" preserveAspectRatio="none">
+        <defs>
+          <linearGradient id="pathGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#DFFF1F" stop-opacity="0.6"/>
+            <stop offset="60%" stop-color="#FFB800" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#2A2A30" stop-opacity="0.3"/>
+          </linearGradient>
+        </defs>
+        <!-- Path -->
+        <path d="M 60 100 Q 200 30, 340 100 T 620 100 T 900 100 T 1140 100"
+              stroke="url(#pathGrad)" stroke-width="3" fill="none" stroke-dasharray="6 4"/>
+        <!-- Milestone 1 - completed -->
+        <circle cx="60" cy="100" r="14" fill="#DFFF1F" stroke="#0A0A0B" stroke-width="3"/>
+        <circle cx="60" cy="100" r="6" fill="#0A0A0B"/>
+        <text x="60" y="160" text-anchor="middle" font-family="Anton" font-size="14" fill="#F5F2EB" letter-spacing="1">HITO 01</text>
+        <!-- Milestone 2 - completed -->
+        <circle cx="330" cy="100" r="14" fill="#DFFF1F" stroke="#0A0A0B" stroke-width="3"/>
+        <circle cx="330" cy="100" r="6" fill="#0A0A0B"/>
+        <text x="330" y="160" text-anchor="middle" font-family="Anton" font-size="14" fill="#F5F2EB" letter-spacing="1">HITO 02</text>
+        <!-- Milestone 3 - current -->
+        <circle cx="600" cy="100" r="20" fill="#FFB800" stroke="#0A0A0B" stroke-width="3"/>
+        <circle cx="600" cy="100" r="20" fill="none" stroke="#FFB800" stroke-width="1.5" opacity="0.5">
+          <animate attributeName="r" values="20;30;20" dur="2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite"/>
+        </circle>
+        <text x="600" y="106" text-anchor="middle" font-family="Anton" font-size="16" fill="#0A0A0B" letter-spacing="1">★</text>
+        <text x="600" y="160" text-anchor="middle" font-family="Anton" font-size="14" fill="#FFB800" letter-spacing="1">HITO 03 · AHORA</text>
+        <!-- Milestone 4 - locked -->
+        <circle cx="870" cy="100" r="12" fill="#1C1C20" stroke="#5A5A62" stroke-width="2"/>
+        <text x="870" y="160" text-anchor="middle" font-family="Anton" font-size="14" fill="#5A5A62" letter-spacing="1">HITO 04</text>
+        <!-- Milestone 5 - finale -->
+        <circle cx="1140" cy="100" r="16" fill="#1C1C20" stroke="#FF4DD8" stroke-width="2" stroke-dasharray="3 2"/>
+        <text x="1140" y="106" text-anchor="middle" font-family="Anton" font-size="14" fill="#FF4DD8">✦</text>
+        <text x="1140" y="160" text-anchor="middle" font-family="Anton" font-size="14" fill="#FF4DD8" letter-spacing="1">FINAL</text>
+      </svg>
+
+      <div class="path-milestones">
+        <div class="milestone completed">
+          <span class="milestone-num">01</span>
+          <span class="milestone-status">✓ Completado</span>
+          <h4 class="milestone-name">Tierras de los Mansos</h4>
+          <p class="milestone-reward">+500 PP · Insignia "Caminante"</p>
+        </div>
+        <div class="milestone completed">
+          <span class="milestone-num">02</span>
+          <span class="milestone-status">✓ Completado</span>
+          <h4 class="milestone-name">Bosque Sellado</h4>
+          <p class="milestone-reward">+800 PP · Marco de avatar dorado</p>
+        </div>
+        <div class="milestone current">
+          <span class="milestone-num">03</span>
+          <span class="milestone-status">⟶ En curso</span>
+          <h4 class="milestone-name">Capital Real</h4>
+          <p class="milestone-reward">+1.200 PP · Banner "Sinluz"</p>
+        </div>
+        <div class="milestone locked">
+          <span class="milestone-num">04</span>
+          <span class="milestone-status">⛓ Bloqueado</span>
+          <h4 class="milestone-name">Cima Llameante</h4>
+          <p class="milestone-reward">+1.800 PP · Insignia "Maliketh"</p>
+        </div>
+        <div class="milestone locked">
+          <span class="milestone-num">05</span>
+          <span class="milestone-status">⛓ Final</span>
+          <h4 class="milestone-name">Lord Elden</h4>
+          <p class="milestone-reward">+3.000 PP · Título exclusivo · Card animada</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== IMPACT IN COMMUNITY ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">004</span>Tu impacto en la comunidad</h2>
+      <span class="section-link-static">PP NO SOLO POR JUGAR · TAMBIÉN POR APORTAR</span>
+    </div>
+    <p class="section-intro">Aquí no se gana status solo cazando trofeos. Las reseñas verificadas, los comentarios útiles y las contribuciones a guías también suman PP. Cuanto mejor valore la comunidad lo que aportas, más puntos generas: <strong style="color:var(--text);">la calidad multiplica</strong>.</p>
+
+    <div class="impact-grid">
+      <!-- REPUTATION CARD -->
+      <div class="impact-card">
+        <div class="impact-card-head">
+          <span class="impact-tag">⟶ TU REPUTACIÓN</span>
+          <span class="impact-trend">+12 ESTE MES</span>
+        </div>
+
+        <div class="rep-meter">
+          <svg viewBox="0 0 200 200" width="180" height="180">
+            <defs>
+              <linearGradient id="repGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#A8C415"/>
+                <stop offset="100%" stop-color="#DFFF1F"/>
+              </linearGradient>
+            </defs>
+            <circle cx="100" cy="100" r="80" fill="none" stroke="#1C1C20" stroke-width="14"/>
+            <circle cx="100" cy="100" r="80" fill="none" stroke="url(#repGrad)" stroke-width="14"
+                    stroke-dasharray="502.4" stroke-dashoffset="65.3"
+                    transform="rotate(-90 100 100)" stroke-linecap="round"/>
+            <text x="100" y="98" text-anchor="middle" font-family="Anton" font-size="60" fill="#F5F2EB" letter-spacing="-1">87</text>
+            <text x="100" y="122" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#8A8A92" letter-spacing="3">/ 100</text>
+          </svg>
+          <div>
+            <p class="rep-status">Voz de confianza</p>
+            <p class="rep-pct">Top 14% de toda la comunidad</p>
+          </div>
+        </div>
+
+        <div class="rep-breakdown">
+          <div class="rep-row">
+            <span class="rep-row-label">Calidad reseñas</span>
+            <div class="rep-row-bar"><div class="rep-row-fill" style="width:92%"></div></div>
+            <span class="rep-row-val">92</span>
+          </div>
+          <div class="rep-row">
+            <span class="rep-row-label">Utilidad</span>
+            <div class="rep-row-bar"><div class="rep-row-fill" style="width:88%"></div></div>
+            <span class="rep-row-val">88</span>
+          </div>
+          <div class="rep-row">
+            <span class="rep-row-label">Diversidad</span>
+            <div class="rep-row-bar"><div class="rep-row-fill" style="width:84%"></div></div>
+            <span class="rep-row-val">84</span>
+          </div>
+          <div class="rep-row">
+            <span class="rep-row-label">Frecuencia</span>
+            <div class="rep-row-bar"><div class="rep-row-fill" style="width:76%"></div></div>
+            <span class="rep-row-val">76</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- PP SOURCES CARD -->
+      <div class="impact-card">
+        <div class="impact-card-head">
+          <span class="impact-tag">⟶ FUENTES DE PP</span>
+          <span class="impact-trend">12.840 PP TOTALES</span>
+        </div>
+
+        <div class="sources-chart">
+          <div class="sources-svg-wrap">
+            <svg viewBox="0 0 200 200" width="200" height="200">
+              <!-- Background ring -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#1C1C20" stroke-width="22"/>
+              <!-- Logros 42% (184.8) -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#DFFF1F" stroke-width="22"
+                      stroke-dasharray="184.8 440" stroke-dashoffset="0"
+                      transform="rotate(-90 100 100)"/>
+              <!-- Platinos 26% (114.4), offset -184.8 -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#FFB800" stroke-width="22"
+                      stroke-dasharray="114.4 440" stroke-dashoffset="-184.8"
+                      transform="rotate(-90 100 100)"/>
+              <!-- Reseñas 14% (61.6), offset -299.2 -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#FF3D2E" stroke-width="22"
+                      stroke-dasharray="61.6 440" stroke-dashoffset="-299.2"
+                      transform="rotate(-90 100 100)"/>
+              <!-- Comentarios 9% (39.6), offset -360.8 -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#4FE0FF" stroke-width="22"
+                      stroke-dasharray="39.6 440" stroke-dashoffset="-360.8"
+                      transform="rotate(-90 100 100)"/>
+              <!-- Guías 6% (26.4), offset -400.4 -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#FF4DD8" stroke-width="22"
+                      stroke-dasharray="26.4 440" stroke-dashoffset="-400.4"
+                      transform="rotate(-90 100 100)"/>
+              <!-- Otros 3% (13.2), offset -426.8 -->
+              <circle cx="100" cy="100" r="70" fill="none" stroke="#5A5A62" stroke-width="22"
+                      stroke-dasharray="13.2 440" stroke-dashoffset="-426.8"
+                      transform="rotate(-90 100 100)"/>
+            </svg>
+            <div class="sources-center">
+              <div class="sources-center-num">12.840</div>
+              <div class="sources-center-label">PP TOTAL</div>
+            </div>
+          </div>
+          <div class="sources-legend">
+            <div class="src-row"><span class="src-dot" style="background:#DFFF1F"></span><span>Logros</span><strong>42%</strong></div>
+            <div class="src-row"><span class="src-dot" style="background:#FFB800"></span><span>Platinos</span><strong>26%</strong></div>
+            <div class="src-row"><span class="src-dot" style="background:#FF3D2E"></span><span>Reseñas</span><strong>14%</strong></div>
+            <div class="src-row"><span class="src-dot" style="background:#4FE0FF"></span><span>Comentarios</span><strong>9%</strong></div>
+            <div class="src-row"><span class="src-dot" style="background:#FF4DD8"></span><span>Guías</span><strong>6%</strong></div>
+            <div class="src-row"><span class="src-dot" style="background:#5A5A62"></span><span>Temporada</span><strong>3%</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOP CONTRIBUTIONS -->
+    <h3 class="impact-subtitle">⟶ Tus aportaciones más valoradas</h3>
+    <div class="top-contributions">
+      <div class="contribution-card">
+        <span class="contrib-tag review">★ RESEÑA TOP</span>
+        <h4>"Una obra maestra que respeta al jugador"</h4>
+        <p class="contrib-game">ELDEN RING · MAYO 2026</p>
+        <div class="contrib-stats">
+          <div class="cs-block"><strong>2.847</strong><small>Útiles</small></div>
+          <div class="cs-block"><strong>+1.250</strong><small>PP</small></div>
+          <div class="cs-block"><strong>98%</strong><small>Positivos</small></div>
+        </div>
+      </div>
+      <div class="contribution-card">
+        <span class="contrib-tag guide">★ GUÍA TOP</span>
+        <h4>Build mago intelecto puro</h4>
+        <p class="contrib-game">ELDEN RING · CONTRIBUIDOR</p>
+        <div class="contrib-stats">
+          <div class="cs-block"><strong>11</strong><small>Ediciones</small></div>
+          <div class="cs-block"><strong>+850</strong><small>PP</small></div>
+          <div class="cs-block"><strong>4.8★</strong><small>Rating</small></div>
+        </div>
+      </div>
+      <div class="contribution-card">
+        <span class="contrib-tag comment">★ COMENTARIO TOP</span>
+        <h4>"Saltarse a Margit es viable, te explico..."</h4>
+        <p class="contrib-game">EN GUÍA "PRIMER SOULS"</p>
+        <div class="contrib-stats">
+          <div class="cs-block"><strong>412</strong><small>Útiles</small></div>
+          <div class="cs-block"><strong>+180</strong><small>PP</small></div>
+          <div class="cs-block"><strong>67</strong><small>Respuestas</small></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EARNING RULES -->
+    <div class="earning-rules">
+      <h3>Cómo se ganan los puntos</h3>
+      <p style="font-size:13px;color:var(--text-dim);line-height:1.5;margin-bottom:8px;">Tabla pública de PP. Cero "moneda premium", cero atajos comprables: aquí solo se sube jugando, aportando y siendo útil.</p>
+      <div class="rules-grid">
+        <div class="rule-col">
+          <h4>⟶ POR JUGAR</h4>
+          <ul>
+            <li><span>Logro común</span><strong>+50 PP</strong></li>
+            <li><span>Logro raro (&lt;10%)</span><strong>+200 PP</strong></li>
+            <li><span>Logro ultra raro (&lt;5%)</span><strong>+500 PP</strong></li>
+            <li><span>Logro legendario (&lt;1%)</span><strong>+1.000 PP</strong></li>
+            <li><span>Platino estándar</span><strong>+2.000 PP</strong></li>
+            <li><span>Platino raro (&lt;10%)</span><strong>+3.000 PP</strong></li>
+          </ul>
+        </div>
+        <div class="rule-col">
+          <h4>⟶ POR APORTAR</h4>
+          <ul>
+            <li><span>Reseña verificada</span><strong>+150 PP</strong></li>
+            <li><span>Reseña con 100+ útiles</span><strong>+500 extra</strong></li>
+            <li><span>Comentario útil</span><strong>+20 PP</strong></li>
+            <li><span>Comentario top (&gt;50 votos)</span><strong>+200 extra</strong></li>
+            <li><span>Edición aceptada en guía</span><strong>+300 PP</strong></li>
+            <li><span>Tu guía → "Destacada"</span><strong>+2.500 PP</strong></li>
+            <li><span>Tu guía → "Guía del mes"</span><strong>+5.000 PP</strong></li>
+          </ul>
+        </div>
+        <div class="rule-col">
+          <h4>⟶ POR LA TEMPORADA</h4>
+          <ul>
+            <li><span>Hito de temporada</span><strong>+500–3.000</strong></li>
+            <li><span>Reto semanal completado</span><strong>+200–800</strong></li>
+            <li><span>Top 100 fin temporada</span><strong>+5.000 PP</strong></li>
+            <li><span>Top 10 fin temporada</span><strong>+15.000 PP</strong></li>
+            <li><span>Mentor verificado</span><strong>+250/sesión</strong></li>
+            <li><span>Reto comunitario global</span><strong>variable</strong></li>
+          </ul>
+        </div>
+      </div>
+      <p class="rules-footer">⚠ Tope diario: máx. 500 PP solo por comentarios y máx. 1.000 PP solo por reseñas. Esto previene el spam y prioriza calidad sobre cantidad. Las contribuciones que sean valoradas negativamente por la comunidad pueden restar PP.</p>
+    </div>
+  </section>
+
+  <!-- ============== ACTIVE CHALLENGES ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">005</span>Retos activos</h2>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-mute); letter-spacing: 0.08em;">SE RENUEVAN CADA SEMANA</span>
+    </div>
+
+    <div class="challenges-grid">
+      <div class="challenge featured">
+        <div class="challenge-icon">
+          <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
+            <path d="M14 2 L18 10 L26 11 L20 17 L22 26 L14 21 L6 26 L8 17 L2 11 L10 10 Z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <div class="challenge-head">
+            <h4 class="challenge-name">Cazador de raros</h4>
+            <span class="challenge-pp gold">+800 PP</span>
+          </div>
+          <p class="challenge-desc">Consigue 5 trofeos con menos del 5% de rareza global este mes.</p>
+          <div class="challenge-progress-row">
+            <span>Progreso</span>
+            <strong>3 / 5</strong>
+          </div>
+          <div class="challenge-bar"><div class="challenge-bar-fill" style="width:60%"></div></div>
+        </div>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-icon">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 4 L24 8 L24 17 Q24 22 14 26 Q4 22 4 17 L4 8 Z"/>
+            <path d="M10 14 L13 17 L19 11"/>
+          </svg>
+        </div>
+        <div>
+          <div class="challenge-head">
+            <h4 class="challenge-name">Platino de la semana</h4>
+            <span class="challenge-pp">+500 PP</span>
+          </div>
+          <p class="challenge-desc">Consigue cualquier platino esta semana. Si es de un soulslike, +200 PP extra.</p>
+          <div class="challenge-progress-row">
+            <span>Progreso</span>
+            <strong>0 / 1</strong>
+          </div>
+          <div class="challenge-bar"><div class="challenge-bar-fill" style="width:0%"></div></div>
+        </div>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-icon">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 7 L25 7 M3 14 L25 14 M3 21 L18 21"/>
+          </svg>
+        </div>
+        <div>
+          <div class="challenge-head">
+            <h4 class="challenge-name">Reseñador honesto</h4>
+            <span class="challenge-pp">+350 PP</span>
+          </div>
+          <p class="challenge-desc">Escribe 3 reseñas verificadas de juegos completados. Útiles → bonus extra.</p>
+          <div class="challenge-progress-row">
+            <span>Progreso</span>
+            <strong>2 / 3</strong>
+          </div>
+          <div class="challenge-bar"><div class="challenge-bar-fill" style="width:67%"></div></div>
+        </div>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-icon">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="9" cy="9" r="4"/>
+            <circle cx="19" cy="9" r="4"/>
+            <path d="M3 23 Q3 17 9 17 Q15 17 15 23 M13 23 Q13 17 19 17 Q25 17 25 23"/>
+          </svg>
+        </div>
+        <div>
+          <div class="challenge-head">
+            <h4 class="challenge-name">Compañero de tierras</h4>
+            <span class="challenge-pp">+400 PP</span>
+          </div>
+          <p class="challenge-desc">Únete a 1 grupo activo y participa en una sesión de co-op verificada.</p>
+          <div class="challenge-progress-row">
+            <span>Progreso</span>
+            <strong>1 / 1 ✓</strong>
+          </div>
+          <div class="challenge-bar"><div class="challenge-bar-fill" style="width:100%"></div></div>
+        </div>
+      </div>
+
+      <div class="challenge">
+        <div class="challenge-icon">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 11c0 7-7 11-7 11s-7-4-7-11a7 7 0 0 1 14 0z"/>
+            <circle cx="14" cy="11" r="3"/>
+          </svg>
+        </div>
+        <div>
+          <div class="challenge-head">
+            <h4 class="challenge-name">Voz de la comunidad</h4>
+            <span class="challenge-pp">+450 PP</span>
+          </div>
+          <p class="challenge-desc">Consigue que 3 de tus comentarios obtengan +20 votos útiles esta semana. Bonus si aciertas con un platino.</p>
+          <div class="challenge-progress-row">
+            <span>Progreso</span>
+            <strong>2 / 3</strong>
+          </div>
+          <div class="challenge-bar"><div class="challenge-bar-fill" style="width:67%"></div></div>
+        </div>
+      </div>
+
+      <div class="challenge featured">
+        <div class="challenge-icon">
+          <svg width="26" height="26" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M14 2 v8 M10 6 l4 4 4 -4"/>
+            <rect x="6" y="14" width="16" height="10" rx="2"/>
+            <path d="M10 18 h8"/>
+          </svg>
+        </div>
+        <div>
+          <div class="challenge-head">
+            <h4 class="challenge-name">Cartógrafo</h4>
+            <span class="challenge-pp gold">+1.200 PP</span>
+          </div>
+          <p class="challenge-desc">Contribuye con 5 ediciones aceptadas a guías colaborativas. Si una de las guías recibe el sello "Destacada", +500 PP extra.</p>
+          <div class="challenge-progress-row">
+            <span>Progreso</span>
+            <strong>2 / 5</strong>
+          </div>
+          <div class="challenge-bar"><div class="challenge-bar-fill" style="width:40%"></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== INSIGNIAS ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">006</span>Vitrina de insignias</h2>
+      <a href="#" class="section-link">Ver las 84 insignias →</a>
+    </div>
+    <p class="section-intro">Las insignias son <strong style="color:var(--text);">permanentes</strong> y muchas tienen niveles bronce → plata → oro → platino → mítico. Aparecen en tu Player Card y en tu perfil. Las míticas son las más buscadas: solo unos cientos de jugadores en todo el mundo las tienen.</p>
+
+    <div class="badges-grid">
+      <!-- Platinador GOLD -->
+      <div class="badge tier-gold">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="22" fill="none" stroke="#FFB800" stroke-width="2"/>
+          <path d="M28 12 L34 22 L46 24 L37 32 L40 44 L28 38 L16 44 L19 32 L10 24 L22 22 Z" fill="#FFB800" opacity="0.7"/>
+          <text x="28" y="32" text-anchor="middle" font-family="Anton" font-size="10" fill="#0A0A0B">50</text>
+        </svg>
+        <div class="badge-name">Platinador</div>
+        <div class="badge-tier-label">★ ORO · 47/50</div>
+      </div>
+
+      <!-- Souls Master GOLD -->
+      <div class="badge tier-gold">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="20" fill="rgba(255,184,0,0.1)" stroke="#FFB800" stroke-width="2"/>
+          <line x1="18" y1="18" x2="38" y2="38" stroke="#FFB800" stroke-width="2"/>
+          <line x1="38" y1="18" x2="18" y2="38" stroke="#FFB800" stroke-width="2"/>
+          <circle cx="28" cy="28" r="5" fill="#FFB800"/>
+        </svg>
+        <div class="badge-name">Souls Master</div>
+        <div class="badge-tier-label">★ ORO</div>
+      </div>
+
+      <!-- Cazador de raros SILVER -->
+      <div class="badge tier-silver">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <polygon points="28,8 48,20 48,36 28,48 8,36 8,20" fill="rgba(192,197,206,0.15)" stroke="#C0C5CE" stroke-width="2"/>
+          <path d="M22 24 L28 30 L34 22" stroke="#C0C5CE" stroke-width="2" fill="none"/>
+          <text x="28" y="42" text-anchor="middle" font-family="JetBrains Mono" font-size="6" fill="#C0C5CE" letter-spacing="1">&lt;5%</text>
+        </svg>
+        <div class="badge-name">Cazador raros</div>
+        <div class="badge-tier-label">★ PLATA</div>
+      </div>
+
+      <!-- Crítico SILVER -->
+      <div class="badge tier-silver">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <rect x="12" y="10" width="32" height="36" rx="2" fill="none" stroke="#C0C5CE" stroke-width="2"/>
+          <line x1="18" y1="20" x2="38" y2="20" stroke="#C0C5CE" stroke-width="1.5"/>
+          <line x1="18" y1="28" x2="38" y2="28" stroke="#C0C5CE" stroke-width="1.5"/>
+          <line x1="18" y1="36" x2="32" y2="36" stroke="#C0C5CE" stroke-width="1.5"/>
+        </svg>
+        <div class="badge-name">Crítico</div>
+        <div class="badge-tier-label">★ PLATA</div>
+      </div>
+
+      <!-- Indie devoto BRONZE -->
+      <div class="badge tier-bronze">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <path d="M28 8 L42 20 L36 42 L20 42 L14 20 Z" fill="rgba(205,127,50,0.15)" stroke="#CD7F32" stroke-width="2"/>
+          <circle cx="28" cy="26" r="5" fill="#CD7F32"/>
+          <path d="M22 32 L28 38 L34 32" stroke="#CD7F32" stroke-width="2" fill="none"/>
+        </svg>
+        <div class="badge-name">Indie devoto</div>
+        <div class="badge-tier-label">★ BRONCE</div>
+      </div>
+
+      <!-- Maratoniano BRONZE -->
+      <div class="badge tier-bronze">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <circle cx="28" cy="28" r="20" fill="none" stroke="#CD7F32" stroke-width="2"/>
+          <path d="M28 14 L28 28 L38 33" stroke="#CD7F32" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <circle cx="28" cy="28" r="3" fill="#CD7F32"/>
+        </svg>
+        <div class="badge-name">Maratoniano</div>
+        <div class="badge-tier-label">★ BRONCE</div>
+      </div>
+
+      <!-- Erudito BRONZE -->
+      <div class="badge tier-bronze">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <path d="M10 16 Q10 12 14 12 L42 12 Q46 12 46 16 L46 42 Q46 46 42 46 L14 46 Q10 46 10 42 Z" fill="none" stroke="#CD7F32" stroke-width="2"/>
+          <line x1="28" y1="12" x2="28" y2="46" stroke="#CD7F32" stroke-width="2"/>
+          <line x1="16" y1="22" x2="22" y2="22" stroke="#CD7F32" stroke-width="1.5"/>
+          <line x1="16" y1="28" x2="22" y2="28" stroke="#CD7F32" stroke-width="1.5"/>
+          <line x1="34" y1="22" x2="40" y2="22" stroke="#CD7F32" stroke-width="1.5"/>
+          <line x1="34" y1="28" x2="40" y2="28" stroke="#CD7F32" stroke-width="1.5"/>
+        </svg>
+        <div class="badge-name">Erudito</div>
+        <div class="badge-tier-label">★ BRONCE</div>
+      </div>
+
+      <!-- Multiplataforma GOLD -->
+      <div class="badge tier-gold">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <rect x="10" y="14" width="36" height="22" rx="2" fill="none" stroke="#FFB800" stroke-width="2"/>
+          <line x1="22" y1="36" x2="22" y2="42" stroke="#FFB800" stroke-width="2"/>
+          <line x1="34" y1="36" x2="34" y2="42" stroke="#FFB800" stroke-width="2"/>
+          <line x1="18" y1="42" x2="38" y2="42" stroke="#FFB800" stroke-width="2"/>
+          <text x="28" y="29" text-anchor="middle" font-family="Anton" font-size="11" fill="#FFB800">3</text>
+        </svg>
+        <div class="badge-name">Multiplataforma</div>
+        <div class="badge-tier-label">★ ORO · 3/4</div>
+      </div>
+
+      <!-- Voz Sabia SILVER (NEW - contributor) -->
+      <div class="badge tier-silver">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <path d="M10 14 Q10 10 14 10 L42 10 Q46 10 46 14 L46 32 Q46 36 42 36 L24 36 L16 44 L16 36 L14 36 Q10 36 10 32 Z" fill="rgba(192,197,206,0.1)" stroke="#C0C5CE" stroke-width="2"/>
+          <circle cx="22" cy="23" r="2" fill="#C0C5CE"/>
+          <circle cx="28" cy="23" r="2" fill="#C0C5CE"/>
+          <circle cx="34" cy="23" r="2" fill="#C0C5CE"/>
+        </svg>
+        <div class="badge-name">Voz Sabia</div>
+        <div class="badge-tier-label">★ PLATA · 100+</div>
+      </div>
+
+      <!-- Cartógrafo GOLD (NEW - contributor) -->
+      <div class="badge tier-gold">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <path d="M10 14 L20 10 L36 16 L46 12 L46 42 L36 46 L20 40 L10 44 Z" fill="rgba(255,184,0,0.1)" stroke="#FFB800" stroke-width="2"/>
+          <line x1="20" y1="10" x2="20" y2="40" stroke="#FFB800" stroke-width="1.5"/>
+          <line x1="36" y1="16" x2="36" y2="46" stroke="#FFB800" stroke-width="1.5"/>
+          <circle cx="28" cy="26" r="2.5" fill="#FFB800"/>
+        </svg>
+        <div class="badge-name">Cartógrafo</div>
+        <div class="badge-tier-label">★ ORO · 7 GUÍAS</div>
+      </div>
+
+      <!-- Mentor SILVER (NEW - contributor) -->
+      <div class="badge tier-silver">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <circle cx="20" cy="22" r="6" fill="rgba(192,197,206,0.15)" stroke="#C0C5CE" stroke-width="2"/>
+          <circle cx="36" cy="22" r="4" fill="rgba(192,197,206,0.1)" stroke="#C0C5CE" stroke-width="1.5"/>
+          <path d="M10 44 Q10 32 20 32 Q30 32 30 44" fill="none" stroke="#C0C5CE" stroke-width="2"/>
+          <path d="M30 44 Q30 36 36 36 Q42 36 42 44" fill="none" stroke="#C0C5CE" stroke-width="1.5"/>
+        </svg>
+        <div class="badge-name">Mentor</div>
+        <div class="badge-tier-label">★ PLATA · 50+</div>
+      </div>
+
+      <!-- Editor del Mes GOLD (NEW - awarded) -->
+      <div class="badge tier-gold">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <path d="M28 6 L34 22 L50 22 L37 32 L42 48 L28 38 L14 48 L19 32 L6 22 L22 22 Z" fill="rgba(255,184,0,0.15)" stroke="#FFB800" stroke-width="2"/>
+          <text x="28" y="32" text-anchor="middle" font-family="Anton" font-size="12" fill="#FFB800">ED</text>
+        </svg>
+        <div class="badge-name">Editor del mes</div>
+        <div class="badge-tier-label">★ ORO · X1</div>
+      </div>
+
+      <!-- LOCKED: Speedrunner -->
+      <div class="badge locked">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <polygon points="28,8 36,20 32,20 38,42 18,42 24,20 20,20" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <div class="badge-name">Speedrunner</div>
+        <div class="badge-tier-label">⛓ BLOQUEADO</div>
+      </div>
+
+      <!-- LOCKED: Pesadilla MITICA -->
+      <div class="badge locked tier-mythic">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <polygon points="28,4 34,18 48,20 38,30 42,46 28,38 14,46 18,30 8,20 22,18" fill="none" stroke="#FF4DD8" stroke-width="1.5"/>
+          <circle cx="28" cy="28" r="4" fill="#FF4DD8" opacity="0.3"/>
+        </svg>
+        <div class="badge-name">Pesadilla</div>
+        <div class="badge-tier-label">⛓ MÍTICA</div>
+      </div>
+
+      <!-- LOCKED: Coleccionista -->
+      <div class="badge locked">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <rect x="12" y="20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="30" y="20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="12" y="38" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/>
+          <rect x="30" y="38" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        <div class="badge-name">Coleccionista</div>
+        <div class="badge-tier-label">⛓ BLOQUEADO</div>
+      </div>
+
+      <!-- LOCKED: Centenario -->
+      <div class="badge locked tier-platinum">
+        <svg class="badge-icon" viewBox="0 0 56 56">
+          <text x="28" y="35" text-anchor="middle" font-family="Anton" font-size="20" fill="#4FE0FF">100</text>
+          <circle cx="28" cy="28" r="22" fill="none" stroke="#4FE0FF" stroke-width="1.5"/>
+        </svg>
+        <div class="badge-name">Centenario</div>
+        <div class="badge-tier-label">⛓ 47/100</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== AWARDED GUIDES ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">007</span>Guías premiadas</h2>
+      <a href="#" class="section-link">Ver el hall of fame →</a>
+    </div>
+    <p class="section-intro">La comunidad vota cada mes la mejor guía colaborativa. Las premiadas se quedan grabadas en este hall of fame y otorgan grandes cantidades de PP a sus autores y editores. La <strong style="color:var(--text);">Guía del mes</strong> es el equivalente editorial a un platino: PP masivos, insignia exclusiva y visibilidad permanente en la home.</p>
+
+    <div class="awards-grid">
+      <!-- FEATURED: Guide of the Month -->
+      <div class="award-card featured">
+        <div class="award-image">
+          <!-- decorative -->
+        </div>
+        <div class="award-content">
+          <span class="award-tag main">★ GUÍA DEL MES · ABRIL 2026</span>
+          <h3 class="award-title">Build mago intelecto puro: del nivel 1 al endgame</h3>
+          <p class="award-game">ELDEN RING · GUÍA · POR PAULA_WIELDS + 23 COLABORADORES</p>
+          <p class="award-desc">Una guía exhaustiva para una de las builds más demandadas. Desde estadísticas iniciales hasta optimización endgame, cubre cada hechizo, cada talismán y cada hito de progresión con ejemplos visuales y video-clips de la comunidad. La guía con más votos útiles del mes.</p>
+          <div class="award-stats-row">
+            <span><strong>11.4K</strong> vistas</span>
+            <span><strong>894</strong> votos útiles</span>
+            <span><strong>4.9★</strong> rating</span>
+            <span class="pp">+5.000 PP a la autora · +400 PP a cada colaborador</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Featured guide -->
+      <div class="award-card">
+        <div class="award-image award-image-2"></div>
+        <div class="award-content">
+          <span class="award-tag silver">★ GUÍA DESTACADA</span>
+          <h4>Las 14 mazmorras secretas que casi nadie encuentra</h4>
+          <p class="award-game">ELDEN RING · POR EXPLORADOR_TLE</p>
+          <span class="award-pp">+2.500 PP</span>
+        </div>
+      </div>
+
+      <!-- Hall of Fame guide -->
+      <div class="award-card">
+        <div class="award-image award-image-3"></div>
+        <div class="award-content">
+          <span class="award-tag platinum">★ HALL OF FAME · LEGENDARIA</span>
+          <h4>Bloodborne completionist: ruta sin spoilers</h4>
+          <p class="award-game">BLOODBORNE · POR HUNTER_DREAMS</p>
+          <span class="award-pp">+8.000 PP TOTAL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== LEADERBOARD ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">008</span>Clasificación</h2>
+      <a href="#" class="section-link">Ver top 1000 →</a>
+    </div>
+
+    <div class="leaderboard-controls">
+      <button class="lb-tab">Global</button>
+      <button class="lb-tab active">España</button>
+      <button class="lb-tab">Cataluña</button>
+      <button class="lb-tab">Amigos</button>
+      <button class="lb-tab">Soulslike</button>
+      <button class="lb-tab">Top contribuidores</button>
+      <button class="lb-tab">Esta temporada</button>
+      <button class="lb-tab">Histórico</button>
+    </div>
+
+    <!-- TOP 3 PODIUM -->
+    <div class="podium">
+      <div class="podium-card silver">
+        <div class="podium-rank">02</div>
+        <div class="podium-avatar v2"></div>
+        <h3 class="podium-name">elden_lord_es</h3>
+        <p class="podium-title">Sinluz Mito · Madrid</p>
+        <div class="podium-pp">187.420<small>PP</small></div>
+      </div>
+      <div class="podium-card gold">
+        <div class="podium-rank">01</div>
+        <div class="podium-avatar v1"></div>
+        <h3 class="podium-name">tarnished_queen</h3>
+        <p class="podium-title">Sinluz Mito · Valencia</p>
+        <div class="podium-pp">214.890<small>PP</small></div>
+      </div>
+      <div class="podium-card bronze">
+        <div class="podium-rank">03</div>
+        <div class="podium-avatar v3"></div>
+        <h3 class="podium-name">malenia.vibes</h3>
+        <p class="podium-title">Sinluz Leyenda · Bilbao</p>
+        <div class="podium-pp">142.380<small>PP</small></div>
+      </div>
+    </div>
+
+    <!-- LEADERBOARD LIST -->
+    <div class="lb-list">
+      <div class="lb-row">
+        <span class="lb-pos">04 <span class="arrow up">▲2</span></span>
+        <div class="lb-player">
+          <div class="lb-avatar va"></div>
+          <div>
+            <div class="lb-name-row"><span class="lb-name">souls_devorador</span><span class="lb-mini-rank leyenda">LEYENDA</span></div>
+            <div class="lb-title">Sinluz Leyenda · Sevilla</div>
+          </div>
+        </div>
+        <div class="lb-stat accent">98.450<small>PP TEMPORADA</small></div>
+        <div class="lb-stat completados">312<small>completados</small></div>
+        <div class="lb-stat platinos">87<small>platinos</small></div>
+      </div>
+
+      <div class="lb-row">
+        <span class="lb-pos">05 <span class="arrow down">▼1</span></span>
+        <div class="lb-player">
+          <div class="lb-avatar vb"></div>
+          <div>
+            <div class="lb-name-row"><span class="lb-name">paula_wields</span><span class="lb-mini-rank leyenda">LEYENDA</span></div>
+            <div class="lb-title">Sinluz Leyenda · Granada</div>
+          </div>
+        </div>
+        <div class="lb-stat accent">92.180<small>PP TEMPORADA</small></div>
+        <div class="lb-stat completados">298<small>completados</small></div>
+        <div class="lb-stat platinos">78<small>platinos</small></div>
+      </div>
+
+      <div class="lb-row">
+        <span class="lb-pos">06 <span class="arrow up">▲5</span></span>
+        <div class="lb-player">
+          <div class="lb-avatar vc"></div>
+          <div>
+            <div class="lb-name-row"><span class="lb-name">dr_ouroboros</span><span class="lb-mini-rank maestro">MAESTRO</span></div>
+            <div class="lb-title">Sinluz Maestro · Zaragoza</div>
+          </div>
+        </div>
+        <div class="lb-stat accent">71.420<small>PP TEMPORADA</small></div>
+        <div class="lb-stat completados">231<small>completados</small></div>
+        <div class="lb-stat platinos">62<small>platinos</small></div>
+      </div>
+
+      <div class="lb-row">
+        <span class="lb-pos">07 <span class="arrow up">▲1</span></span>
+        <div class="lb-player">
+          <div class="lb-avatar vd"></div>
+          <div>
+            <div class="lb-name-row"><span class="lb-name">marcoss_94</span><span class="lb-mini-rank maestro">MAESTRO</span></div>
+            <div class="lb-title">Sinluz Maestro · Barcelona</div>
+          </div>
+        </div>
+        <div class="lb-stat accent">58.940<small>PP TEMPORADA</small></div>
+        <div class="lb-stat completados">189<small>completados</small></div>
+        <div class="lb-stat platinos">54<small>platinos</small></div>
+      </div>
+
+      <div class="lb-row">
+        <span class="lb-pos">08 <span class="arrow down">▼3</span></span>
+        <div class="lb-player">
+          <div class="lb-avatar ve"></div>
+          <div>
+            <div class="lb-name-row"><span class="lb-name">hollow_aitana</span><span class="lb-mini-rank maestro">MAESTRO</span></div>
+            <div class="lb-title">Sinluz Maestro · Málaga</div>
+          </div>
+        </div>
+        <div class="lb-stat accent">52.180<small>PP TEMPORADA</small></div>
+        <div class="lb-stat completados">214<small>completados</small></div>
+        <div class="lb-stat platinos">51<small>platinos</small></div>
+      </div>
+
+      <!-- ELLIPSIS -->
+      <div class="lb-row" style="opacity: 0.4; cursor: default; justify-content: center;">
+        <span style="grid-column: 1 / -1; text-align: center; font-family: 'JetBrains Mono', monospace; font-size: 11px; letter-spacing: 0.2em; color: var(--text-mute);">· · ·</span>
+      </div>
+
+      <!-- USER ROW -->
+      <div class="lb-row you">
+        <span class="lb-pos">247 <span class="arrow up">▲12</span></span>
+        <div class="lb-player">
+          <div class="lb-avatar vf"></div>
+          <div>
+            <div class="lb-name-row"><span class="lb-name">joancalibur (TÚ)</span><span class="lb-mini-rank veterano">VETERANO</span></div>
+            <div class="lb-title">Sinluz Veterano · Terrassa</div>
+          </div>
+        </div>
+        <div class="lb-stat accent">8.420<small>PP TEMPORADA</small></div>
+        <div class="lb-stat completados">184<small>completados</small></div>
+        <div class="lb-stat platinos">47<small>platinos</small></div>
+      </div>
+
+      <div class="lb-row">
+        <span class="lb-pos">248 <span class="arrow down">▼1</span></span>
+        <div class="lb-player">
+          <div class="lb-avatar vg"></div>
+          <div>
+            <div class="lb-name-row"><span class="lb-name">silksong_runner</span><span class="lb-mini-rank veterano">VETERANO</span></div>
+            <div class="lb-title">Sinluz Veterano · Valladolid</div>
+          </div>
+        </div>
+        <div class="lb-stat accent">8.290<small>PP TEMPORADA</small></div>
+        <div class="lb-stat completados">156<small>completados</small></div>
+        <div class="lb-stat platinos">42<small>platinos</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============== SEASON REWARDS ============== -->
+  <section class="section">
+    <div class="section-head">
+      <h2 class="section-title"><span class="section-title-num">009</span>Recompensas de la temporada</h2>
+      <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-mute); letter-spacing: 0.08em;">100% COSMÉTICAS · NUNCA DE PAGO</span>
+    </div>
+    <p class="section-intro">Todas las recompensas son <strong style="color:var(--text);">cosméticas y permanentes</strong>. Una vez ganadas, te las quedas para siempre. Cuando termine T03, las podrás seguir usando para mostrar que estuviste aquí.</p>
+
+    <div class="rewards-grid">
+      <div class="reward unlocked">
+        <svg class="reward-visual" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="44" fill="none" stroke="#DFFF1F" stroke-width="2"/>
+          <circle cx="50" cy="50" r="36" fill="none" stroke="#DFFF1F" stroke-width="1" opacity="0.5" stroke-dasharray="2 4"/>
+          <text x="50" y="58" text-anchor="middle" font-family="Anton" font-size="22" fill="#DFFF1F">JC</text>
+        </svg>
+        <div class="reward-tag">Marco de avatar</div>
+        <h4 class="reward-name">Aro Sinluz</h4>
+        <p class="reward-req">Hito 02 · obtenido</p>
+      </div>
+
+      <div class="reward unlocked">
+        <svg class="reward-visual" viewBox="0 0 100 100">
+          <rect x="10" y="20" width="80" height="60" rx="4" fill="rgba(255,184,0,0.1)" stroke="#FFB800" stroke-width="2"/>
+          <text x="50" y="56" text-anchor="middle" font-family="Anton" font-size="16" fill="#FFB800">SINLUZ</text>
+        </svg>
+        <div class="reward-tag">Título</div>
+        <h4 class="reward-name">"Sinluz" prefix</h4>
+        <p class="reward-req">Por participar · obtenido</p>
+      </div>
+
+      <div class="reward locked">
+        <svg class="reward-visual" viewBox="0 0 100 100">
+          <rect x="20" y="30" width="60" height="40" rx="6" fill="rgba(255,184,0,0.05)" stroke="#FFB800" stroke-width="2" stroke-dasharray="4 3"/>
+          <text x="50" y="56" text-anchor="middle" font-family="Anton" font-size="14" fill="#FFB800">CARD</text>
+        </svg>
+        <div class="reward-tag">Player Card</div>
+        <h4 class="reward-name">Card "Capital Real"</h4>
+        <p class="reward-req">Completa hito 03</p>
+      </div>
+
+      <div class="reward locked">
+        <svg class="reward-visual" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="rwG" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#FF4DD8"/>
+              <stop offset="50%" stop-color="#DFFF1F"/>
+              <stop offset="100%" stop-color="#4FE0FF"/>
+            </linearGradient>
+          </defs>
+          <polygon points="50,12 60,38 88,40 66,56 74,84 50,68 26,84 34,56 12,40 40,38" fill="none" stroke="url(#rwG)" stroke-width="2"/>
+        </svg>
+        <div class="reward-tag">Insignia única</div>
+        <h4 class="reward-name">"Lord Elden T03"</h4>
+        <p class="reward-req">Termina la temporada</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="footer-mark">PLATINO°</div>
+  <p>De jugadores · para jugadores · desde 2026</p>
+</footer>
+
+<script>
+  document.querySelectorAll('.lb-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.lb-tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

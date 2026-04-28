@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PLATINO — Inicio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --bg-elev: #131316;
+    --bg-elev-2: #1C1C20;
+    --line: #2A2A30;
+    --line-soft: #1F1F24;
+    --text: #F5F2EB;
+    --text-dim: #8A8A92;
+    --text-mute: #5A5A62;
+    --accent: #DFFF1F;
+    --accent-dim: #A8C415;
+    --danger: #FF3D2E;
+    --gold: #FFB800;
+    --silver: #C0C5CE;
+    --legend: #4FE0FF;
+    --mythic: #FF4DD8;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: overlay;
+    z-index: 999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    padding: 18px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    backdrop-filter: blur(20px) saturate(140%);
+    background: rgba(10, 10, 11, 0.72);
+    border-bottom: 1px solid var(--line);
+  }
+  .logo { font-family: 'Anton', sans-serif; font-size: 28px; letter-spacing: 0.05em; display: flex; align-items: center; gap: 8px; }
+  .logo-mark { width: 28px; height: 28px; background: var(--accent); color: var(--bg); display: grid; place-items: center; font-size: 18px; transform: rotate(-6deg); border-radius: 4px; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a { color: var(--text-dim); text-decoration: none; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; position: relative; transition: color 0.2s; }
+  .nav-links a.active { color: var(--text); }
+  .nav-links a.active::after { content: ''; position: absolute; bottom: -8px; left: 0; right: 0; height: 2px; background: var(--accent); }
+  .nav-links a:hover { color: var(--text); }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .search-box {
+    background: var(--bg-elev); border: 1px solid var(--line); border-radius: 100px;
+    padding: 8px 16px 8px 36px; color: var(--text); font-family: inherit; font-size: 13px;
+    width: 240px;
+    background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%238A8A92' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: 14px center;
+  }
+  .nav-icon {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--bg-elev); border: 1px solid var(--line);
+    display: grid; place-items: center; cursor: pointer;
+    color: var(--text-dim); position: relative;
+  }
+  .nav-icon:hover { color: var(--text); border-color: var(--text); }
+  .nav-icon .dot { position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; background: var(--accent); border-radius: 50%; border: 2px solid var(--bg); }
+  .avatar-nav {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #FF3D2E, #DFFF1F);
+    border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--line);
+    cursor: pointer;
+  }
+
+  /* HERO STATUS STRIP */
+  .hero-strip {
+    margin-top: 70px;
+    padding: 60px 40px 40px;
+    background:
+      radial-gradient(ellipse at 30% 30%, rgba(255, 184, 0, 0.12), transparent 50%),
+      radial-gradient(ellipse at 80% 70%, rgba(255, 61, 46, 0.15), transparent 55%),
+      linear-gradient(180deg, #1A0A12 0%, #0F0610 60%, var(--bg) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-strip::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: repeating-linear-gradient(135deg, transparent, transparent 60px, rgba(223, 255, 31, 0.025) 60px, rgba(223, 255, 31, 0.025) 61px);
+  }
+  .hero-strip::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 60%, var(--bg));
+  }
+
+  .hero-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
+    align-items: end;
+  }
+
+  .greeting {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+  .greeting span { color: var(--accent); }
+
+  .hero-title {
+    font-family: 'Anton', sans-serif;
+    font-size: clamp(56px, 8vw, 120px);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+    -webkit-text-stroke: 2px var(--accent);
+    -webkit-text-fill-color: transparent;
+  }
+  .hero-subtitle {
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 580px;
+    line-height: 1.5;
+  }
+
+  .quick-status {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: rgba(19, 19, 22, 0.6);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 20px 0;
+    min-width: 480px;
+  }
+  .qs-block {
+    padding: 0 22px;
+    border-right: 1px solid var(--line);
+    text-align: left;
+  }
+  .qs-block:last-child { border-right: none; }
+  .qs-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    color: var(--text-mute);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .qs-value {
+    font-family: 'Anton', sans-serif;
+    font-size: 26px;
+    line-height: 1;
+  }
+  .qs-value.accent { color: var(--accent); }
+  .qs-value small {
+    font-family: 'Manrope';
+    font-size: 12px;
+    color: var(--text-dim);
+    font-weight: 600;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    display: grid;
+    grid-template-columns: 1fr 360px;
+    gap: 48px;
+  }
+
+  /* SECTIONS */
+  .feed-section { margin-bottom: 60px; }
+  .feed-section:last-child { margin-bottom: 0; }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+    padding-bottom: 14px;
+  }
+  .section-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 30px;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+  }
+  .section-title-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    margin-right: 12px;
+    vertical-align: super;
+  }
+  .section-link {
+    font-size: 12px;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    text-decoration: none;
+    border-bottom: 1px solid var(--text-mute);
+    padding-bottom: 2px;
+  }
+  .section-link:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* FEATURED BANNER */
+  .featured-banner {
+    background:
+      radial-gradient(circle at 30% 50%, rgba(74, 107, 42, 0.5), transparent 55%),
+      radial-gradient(circle at 70% 50%, rgba(42, 74, 26, 0.7), transparent 60%),
+      linear-gradient(135deg, #0A1505, #060A03);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  .featured-banner:hover { transform: translateY(-2px); }
+  .featured-banner::before {
+    content: '';
+    position: absolute;
+    top: -50%; right: -10%;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(223, 255, 31, 0.1), transparent 60%);
+    pointer-events: none;
+  }
+
+  .fb-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--accent);
+    letter-spacing: 0.18em;
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .fb-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 38px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    max-width: 580px;
+  }
+  .fb-text {
+    font-size: 14px;
+    color: var(--text-dim);
+    max-width: 540px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+  }
+  .fb-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--accent);
+    color: var(--bg);
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .fb-cta:hover { background: #EFFF4D; }
+
+  /* FEED ITEMS */
+  .feed-item {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px 24px;
+    margin-bottom: 16px;
+    display: grid;
+    grid-template-columns: 44px 1fr;
+    gap: 16px;
+    align-items: start;
+    transition: border-color 0.15s;
+  }
+  .feed-item:hover { border-color: var(--text-mute); }
+
+  .feed-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .feed-avatar.system {
+    background: var(--accent);
+    color: var(--bg);
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 18px;
+  }
+  .feed-avatar.va { background: linear-gradient(135deg, #DFFF1F, #5A8500); }
+  .feed-avatar.vb { background: linear-gradient(135deg, #FF3D2E, #FFB800); }
+  .feed-avatar.vc { background: linear-gradient(135deg, #6B4A8B, #1A0F2A); }
+  .feed-avatar.vd { background: linear-gradient(135deg, #C0C5CE, #4A4D55); }
+  .feed-avatar.ve { background: linear-gradient(135deg, #FFB7C5, #6B4A8B); }
+
+  .feed-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 8px;
+    flex-wrap: wrap;
+  }
+  .feed-name {
+    font-weight: 700;
+    font-size: 14px;
+  }
+  .feed-rank {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    padding: 2px 7px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 700;
+  }
+  .feed-rank.veterano { background: var(--silver); color: var(--bg); }
+  .feed-rank.maestro { background: var(--gold); color: var(--bg); }
+  .feed-rank.leyenda { background: var(--legend); color: var(--bg); }
+  .feed-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .feed-text {
+    font-size: 14px;
+    color: var(--text-dim);
+    line-height: 1.55;
+    margin-bottom: 12px;
+  }
+  .feed-text strong { color: var(--text); font-weight: 700; }
+  .feed-text .game { color: var(--accent); font-weight: 600; }
+
+  /* Trophy attachment */
+  .feed-trophy {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+  }
+  .ft-icon {
+    width: 36px; height: 36px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 14px;
+  }
+  .ft-icon.platinum {
+    background: linear-gradient(135deg, #E8F4FF, #7FA8C9);
+    color: #1A2840;
+  }
+  .ft-icon.gold {
+    background: linear-gradient(135deg, #FFD24A, #FF9500);
+    color: #3A2200;
+  }
+  .ft-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .ft-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 2px;
+  }
+  .ft-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .ft-pp {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--accent);
+    font-weight: 700;
+  }
+
+  /* Game preview attachment in feed */
+  .feed-game-preview {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 14px;
+    background: var(--bg-elev-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+    align-items: center;
+  }
+  .fgp-cover {
+    width: 80px; height: 60px;
+    border-radius: 6px;
+  }
+  .fgp-cover.silksong {
+    background:
+      radial-gradient(circle at 60% 30%, #4A6B2A, transparent 55%),
+      radial-gradient(circle at 30% 70%, #2A4A1A, transparent 65%),
+      linear-gradient(135deg, #0A1505, #060A03);
+  }
+  .fgp-cover.elden {
+    background:
+      radial-gradient(circle at 30% 40%, #FFB800, transparent 50%),
+      radial-gradient(circle at 70% 60%, #FF3D2E, transparent 60%),
+      linear-gradient(135deg, #1A0808, #0A0404);
+  }
+  .fgp-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 16px;
+    line-height: 1.05;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .fgp-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.06em;
+  }
+
+  .feed-actions {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: var(--text-mute);
+    margin-top: 6px;
+  }
+  .feed-actions span {
+    cursor: pointer;
+    transition: color 0.15s;
+  }
+  .feed-actions span:hover { color: var(--text); }
+
+  /* SIDEBAR */
+  aside { position: relative; }
+
+  .side-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 22px;
+    margin-bottom: 18px;
+  }
+  .side-card h3 {
+    font-family: 'Anton', sans-serif;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .side-card h3 small {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    font-weight: 400;
+    letter-spacing: 0.08em;
+  }
+
+  /* TRENDING GAMES */
+  .trending-game {
+    display: grid;
+    grid-template-columns: 28px 56px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--line-soft);
+    cursor: pointer;
+  }
+  .trending-game:last-child { border-bottom: none; padding-bottom: 0; }
+  .trending-game:hover .tg-name { color: var(--accent); }
+
+  .tg-rank {
+    font-family: 'Anton', sans-serif;
+    font-size: 24px;
+    color: var(--text-mute);
+    line-height: 1;
+  }
+  .tg-cover {
+    width: 56px; height: 42px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .tg-cover.silksong { background: radial-gradient(circle, #4A6B2A, #0A1505); }
+  .tg-cover.stellar { background: radial-gradient(circle at 40%, #FFB7C5, #1A0F2A); }
+  .tg-cover.elden { background: radial-gradient(circle at 30%, #FFB800, #1A0808); }
+  .tg-cover.crow { background: linear-gradient(135deg, #2A0810, #0A0408); }
+  .tg-cover.hades { background: radial-gradient(circle, #FF6B35, #2A0F08); }
+
+  .tg-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    transition: color 0.15s;
+  }
+  .tg-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+  }
+  .tg-meta .up { color: var(--accent); }
+  .tg-meta .down { color: var(--danger); }
+
+  /* GROUPS */
+  .group-mini {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line-soft);
+    cursor: pointer;
+  }
+  .group-mini:last-child { border-bottom: none; padding-bottom: 0; }
+  .group-mini:hover .gm-name { color: var(--accent); }
+
+  .gm-icon {
+    width: 36px; height: 36px;
+    border-radius: 6px;
+    display: grid;
+    place-items: center;
+    font-family: 'Anton', sans-serif;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .gm-icon.v1 { background: linear-gradient(135deg, #FF3D2E, #2A0805); color: var(--text); }
+  .gm-icon.v2 { background: linear-gradient(135deg, #DFFF1F, #6A8000); color: var(--bg); }
+  .gm-icon.v3 { background: linear-gradient(135deg, #4A6B2A, #0A1505); color: var(--accent); }
+
+  .gm-name {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 3px;
+    transition: color 0.15s;
+  }
+  .gm-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    letter-spacing: 0.04em;
+  }
+  .gm-meta .live {
+    color: var(--accent);
+  }
+  .gm-meta .live::before {
+    content: '●';
+    margin-right: 3px;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* SEASON MINI */
+  .season-mini {
+    background: 
+      radial-gradient(circle at top right, rgba(255, 184, 0, 0.1), transparent 60%),
+      var(--bg-elev);
+    border: 1px solid rgba(255, 184, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+  }
+  .season-mini::before {
+    content: 'T·03';
+    position: absolute;
+    top: -10px; right: 20px;
+    font-family: 'Anton', sans-serif;
+    font-size: 90px;
+    line-height: 0.8;
+    color: rgba(255, 184, 0, 0.06);
+  }
+
+  .sm-tag {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .sm-name {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    line-height: 1.1;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .sm-progress {
+    margin-bottom: 14px;
+  }
+  .sm-progress-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .sm-progress-row strong { color: var(--gold); font-weight: 700; }
+  .sm-bar {
+    height: 5px;
+    background: var(--bg-elev-2);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .sm-bar-fill {
+    height: 100%;
+    background: var(--gold);
+    border-radius: 100px;
+  }
+
+  .sm-cta {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: var(--gold);
+    color: var(--bg);
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+  .sm-cta:hover { background: #FFD24A; }
+
+  /* QUICK NAV CARDS */
+  .quick-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .qn-card {
+    padding: 18px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    transition: all 0.2s;
+    display: block;
+  }
+  .qn-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .qn-icon {
+    font-family: 'Anton', sans-serif;
+    font-size: 22px;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .qn-title {
+    font-family: 'Anton', sans-serif;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.005em;
+    margin-bottom: 4px;
+  }
+  .qn-desc {
+    font-size: 11px;
+    color: var(--text-dim);
+    line-height: 1.4;
+  }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 60px 40px 40px;
+    margin-top: 80px;
+    text-align: center;
+  }
+  .footer-mark {
+    font-family: 'Anton', sans-serif;
+    font-size: 120px;
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    color: var(--bg-elev);
+    margin-bottom: 20px;
+    user-select: none;
+  }
+  footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--text-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 1100px) {
+    main { grid-template-columns: 1fr; }
+    .hero-content { grid-template-columns: 1fr; gap: 24px; }
+    .quick-status { min-width: 0; }
+  }
+  @media (max-width: 700px) {
+    nav, main, .hero-strip { padding-left: 20px; padding-right: 20px; }
+    .nav-links { display: none; }
+    .search-box { width: 130px; }
+    .quick-status { grid-template-columns: 1fr 1fr; }
+    .qs-block { padding: 8px 16px; border-bottom: 1px solid var(--line); }
+    .qs-block:nth-child(2) { border-right: none; }
+    .quick-nav { grid-template-columns: 1fr; }
+    .featured-banner { padding: 24px; }
+    .fb-title { font-size: 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav>
+  <div class="logo">
+    <span class="logo-mark">P</span>
+    <span>PLATINO</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Inicio</a></li>
+    <li><a href="juego.html">Juegos</a></li>
+    <li><a href="perfil.html">Mi perfil</a></li>
+    <li><a href="temporada.html">Temporada</a></li>
+    <li><a href="#">Comunidad</a></li>
+  </ul>
+  <div class="nav-right">
+    <input class="search-box" type="text" placeholder="Buscar..." />
+    <div class="nav-icon" title="Mensajes">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span class="dot"></span>
+    </div>
+    <div class="nav-icon" title="Notificaciones">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+      <span class="dot"></span>
+    </div>
+    <div class="avatar-nav"></div>
+  </div>
+</nav>
+
+<!-- ============== HERO STRIP ============== -->
+<section class="hero-strip">
+  <div class="hero-content">
+    <div>
+      <p class="greeting">⟶ MARTES 28 ABR · <span>14 DE TUS AMIGOS EN LÍNEA</span></p>
+      <h1 class="hero-title">Buenos<br>días, Joan<em>°</em></h1>
+      <p class="hero-subtitle">Hoy hay <strong style="color:var(--text);">3 retos a punto de cerrar</strong>, una guía nueva sobre Silksong y tu amiga Aitana acaba de conseguir un platino raro. Empieza por aquí.</p>
+    </div>
+    <div class="quick-status">
+      <div class="qs-block">
+        <div class="qs-label">⟶ Rango</div>
+        <div class="qs-value">VET<small> · L4</small></div>
+      </div>
+      <div class="qs-block">
+        <div class="qs-label">⟶ PP totales</div>
+        <div class="qs-value accent">12.840</div>
+      </div>
+      <div class="qs-block">
+        <div class="qs-label">⟶ Posición ES</div>
+        <div class="qs-value">#247</div>
+      </div>
+      <div class="qs-block">
+        <div class="qs-label">⟶ Racha</div>
+        <div class="qs-value accent">21<small>d</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main>
+  <!-- ============== FEED ============== -->
+  <div>
+
+    <!-- Quick nav cards -->
+    <div class="quick-nav">
+      <a href="perfil.html" class="qn-card">
+        <div class="qn-icon">→</div>
+        <h4 class="qn-title">Mi perfil</h4>
+        <p class="qn-desc">47 platinos · 184 completados · Player Card</p>
+      </a>
+      <a href="temporada.html" class="qn-card">
+        <div class="qn-icon">★</div>
+        <h4 class="qn-title">Temporada activa</h4>
+        <p class="qn-desc">Las Tierras Sombrías · 42 días restantes</p>
+      </a>
+    </div>
+
+    <!-- FEATURED BANNER -->
+    <div class="feed-section">
+      <div class="section-head">
+        <h2 class="section-title"><span class="section-title-num">001</span>Destacado para ti</h2>
+        <a href="#" class="section-link">Ver más →</a>
+      </div>
+
+      <a href="juego.html" class="featured-banner" style="display:block;text-decoration:none;color:inherit;">
+        <span class="fb-tag">⟶ HOY · LANZAMIENTO ESPERADO</span>
+        <h3 class="fb-title">Hollow Knight: Silksong ya está disponible</h3>
+        <p class="fb-text">Tras ocho años de espera, Team Cherry lanza la secuela. Vincula Steam o tu PSN para sincronizar tus logros desde el día 1 y ser de los primeros en escribir una reseña verificada.</p>
+        <span class="fb-cta">Ver perfil del juego →</span>
+      </a>
+    </div>
+
+    <!-- ACTIVITY FEED -->
+    <div class="feed-section">
+      <div class="section-head">
+        <h2 class="section-title"><span class="section-title-num">002</span>Actividad</h2>
+        <a href="#" class="section-link">Filtrar →</a>
+      </div>
+
+      <article class="feed-item">
+        <div class="feed-avatar va"></div>
+        <div>
+          <div class="feed-meta">
+            <span class="feed-name">aitana.exe</span>
+            <span class="feed-rank maestro">MAESTRO</span>
+            <span class="feed-time">HACE 12 MIN</span>
+          </div>
+          <p class="feed-text">Acaba de conseguir un trofeo ultra-raro en <span class="game">Hollow Knight: Silksong</span>. ¡Una de las primeras en hacerlo!</p>
+          <div class="feed-trophy">
+            <div class="ft-icon gold">G</div>
+            <div class="ft-info">
+              <div class="ft-name">El Camino de la Aguja</div>
+              <div class="ft-meta">3.2% · trofeo dorado</div>
+            </div>
+            <div class="ft-pp">+500 PP</div>
+          </div>
+          <div class="feed-actions">
+            <span>↑ 47 felicitaciones</span>
+            <span>💬 12 comentarios</span>
+            <span>↗ Compartir</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="feed-item">
+        <div class="feed-avatar system">P°</div>
+        <div>
+          <div class="feed-meta">
+            <span class="feed-name">PLATINO Editorial</span>
+            <span class="feed-rank" style="background:var(--accent);color:var(--bg);">SISTEMA</span>
+            <span class="feed-time">HACE 3 H</span>
+          </div>
+          <p class="feed-text">La <strong>Guía del Mes · Abril</strong> ya está elegida. Ganadora: <strong>"Build mago intelecto puro"</strong> de paula_wields, con 894 votos útiles. Su autora recibe <strong>+5.000 PP</strong> y la insignia oro <strong>Editor del Mes</strong>.</p>
+          <div class="feed-game-preview">
+            <div class="fgp-cover elden"></div>
+            <div>
+              <h4 class="fgp-title">Build mago intelecto puro</h4>
+              <p class="fgp-meta">ELDEN RING · GUÍA · 23 COLABORADORES · 11.4K VISTAS</p>
+            </div>
+          </div>
+          <div class="feed-actions">
+            <span>↑ 287 votos</span>
+            <span>💬 34 comentarios</span>
+            <span>↗ Leer la guía</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="feed-item">
+        <div class="feed-avatar vb"></div>
+        <div>
+          <div class="feed-meta">
+            <span class="feed-name">marcoss_94</span>
+            <span class="feed-rank maestro">MAESTRO</span>
+            <span class="feed-time">HACE 5 H</span>
+          </div>
+          <p class="feed-text">Publicó una reseña verificada de <span class="game">Stellar Blade</span> tras conseguir el platino: <strong>"Combate impecable, historia floja, pero merece la pena."</strong> Valoración: 8/10.</p>
+          <div class="feed-actions">
+            <span>↑ 89 útil</span>
+            <span>💬 23 comentarios</span>
+            <span>↗ Leer reseña</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="feed-item">
+        <div class="feed-avatar vc"></div>
+        <div>
+          <div class="feed-meta">
+            <span class="feed-name">paula_wields</span>
+            <span class="feed-rank leyenda">LEYENDA</span>
+            <span class="feed-time">HACE 8 H</span>
+          </div>
+          <p class="feed-text">Te ha invitado al grupo <strong>Cazadores de Malenia ESP</strong>. Hay 142 jugadores en línea ahora mismo buscando co-op para el DLC de Elden Ring.</p>
+          <div class="feed-actions">
+            <span style="color:var(--accent);font-weight:700;">→ Aceptar</span>
+            <span>Rechazar</span>
+            <span>Ver el grupo</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="feed-item">
+        <div class="feed-avatar vd"></div>
+        <div>
+          <div class="feed-meta">
+            <span class="feed-name">dr_ouroboros</span>
+            <span class="feed-rank maestro">MAESTRO</span>
+            <span class="feed-time">AYER</span>
+          </div>
+          <p class="feed-text">Consiguió el <strong>platino</strong> en <span class="game">Hades II</span>. Solo 4.2% de jugadores lo tienen.</p>
+          <div class="feed-trophy">
+            <div class="ft-icon platinum">★</div>
+            <div class="ft-info">
+              <div class="ft-name">Verdadero Olímpico</div>
+              <div class="ft-meta">PLATINO · 4.2% raro</div>
+            </div>
+            <div class="ft-pp">+3.000 PP</div>
+          </div>
+          <div class="feed-actions">
+            <span>↑ 124 felicitaciones</span>
+            <span>💬 18 comentarios</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="feed-item">
+        <div class="feed-avatar ve"></div>
+        <div>
+          <div class="feed-meta">
+            <span class="feed-name">nuria_runs_it</span>
+            <span class="feed-rank veterano">VETERANO</span>
+            <span class="feed-time">AYER</span>
+          </div>
+          <p class="feed-text">Editó la guía colaborativa <strong>"Las 14 mazmorras secretas que casi nadie encuentra"</strong> con 3 nuevas entradas verificadas por la comunidad. Ganó <strong>+900 PP</strong> por sus aportaciones.</p>
+          <div class="feed-actions">
+            <span>↑ 56 útil</span>
+            <span>💬 9 comentarios</span>
+            <span>↗ Ver la guía</span>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+
+  <!-- ============== SIDEBAR ============== -->
+  <aside>
+    <!-- SEASON MINI -->
+    <div class="side-card season-mini">
+      <span class="sm-tag">⟶ TEMPORADA 03</span>
+      <h3 class="sm-name" style="margin-bottom:14px;">Las Tierras<br>Sombrías</h3>
+      <div class="sm-progress">
+        <div class="sm-progress-row">
+          <span>Hito 03 · Capital Real</span>
+          <strong>60%</strong>
+        </div>
+        <div class="sm-bar"><div class="sm-bar-fill" style="width:60%"></div></div>
+      </div>
+      <p style="font-size:12px;color:var(--text-dim);line-height:1.5;">42 días restantes. Estás en <strong style="color:var(--text);">posición #247 ES</strong>. Sube 50 puestos más para el reward final.</p>
+      <a href="temporada.html" class="sm-cta">Ver temporada →</a>
+    </div>
+
+    <!-- TRENDING GAMES -->
+    <div class="side-card">
+      <h3>Top de la semana <small>EN ESPAÑA</small></h3>
+      <div class="trending-game">
+        <div class="tg-rank">01</div>
+        <div class="tg-cover silksong"></div>
+        <div>
+          <div class="tg-name">Hollow Knight: Silksong</div>
+          <div class="tg-meta"><span class="up">▲ NUEVO</span> · 142K jugando</div>
+        </div>
+      </div>
+      <div class="trending-game">
+        <div class="tg-rank">02</div>
+        <div class="tg-cover stellar"></div>
+        <div>
+          <div class="tg-name">Stellar Blade</div>
+          <div class="tg-meta"><span class="up">▲ 1</span> · 89K jugando</div>
+        </div>
+      </div>
+      <div class="trending-game">
+        <div class="tg-rank">03</div>
+        <div class="tg-cover elden"></div>
+        <div>
+          <div class="tg-name">Elden Ring + DLC</div>
+          <div class="tg-meta"><span class="down">▼ 2</span> · 67K jugando</div>
+        </div>
+      </div>
+      <div class="trending-game">
+        <div class="tg-rank">04</div>
+        <div class="tg-cover crow"></div>
+        <div>
+          <div class="tg-name">Crow Country</div>
+          <div class="tg-meta"><span class="up">▲ 5</span> · 12K jugando</div>
+        </div>
+      </div>
+      <div class="trending-game">
+        <div class="tg-rank">05</div>
+        <div class="tg-cover hades"></div>
+        <div>
+          <div class="tg-name">Hades II</div>
+          <div class="tg-meta">— · 38K jugando</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVE GROUPS -->
+    <div class="side-card">
+      <h3>Grupos activos <small>TUS INTERESES</small></h3>
+      <div class="group-mini">
+        <div class="gm-icon v1">M</div>
+        <div>
+          <div class="gm-name">Cazadores de Malenia ESP</div>
+          <div class="gm-meta"><span class="live">142 EN VIVO</span></div>
+        </div>
+      </div>
+      <div class="group-mini">
+        <div class="gm-icon v2">CO</div>
+        <div>
+          <div class="gm-name">Co-op Ranni Quest</div>
+          <div class="gm-meta"><span class="live">38 EN VIVO</span> · co-op</div>
+        </div>
+      </div>
+      <div class="group-mini">
+        <div class="gm-icon v3">SK</div>
+        <div>
+          <div class="gm-name">Silksong Day One ESP</div>
+          <div class="gm-meta"><span class="live">412 EN VIVO</span> · NUEVO</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+<footer>
+  <div class="footer-mark">PLATINO°</div>
+  <p>De jugadores · para jugadores · desde 2026</p>
+</footer>
+</body>
+</html>
